@@ -1,0 +1,188 @@
+/**
+ * =========================================
+ * FLIP CARD STYLES - REWRITTEN
+ * =========================================
+ */
+
+/* ============= CSS VARIABLES FOR THEMING ============= */
+:root {
+    --bg-primary: #FFFFFF;
+    --bg-secondary: rgba(245, 247, 252, 0.98);
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --shadow-primary: rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode {
+    --bg-primary: rgba(30, 30, 30, 0.95);
+    --bg-secondary: rgba(40, 40, 40, 0.9);
+    --text-primary: #E5E5E5;
+    --text-secondary: #B0B0B0;
+    --shadow-primary: rgba(0, 0, 0, 0.9);
+}
+
+/* ============= CARD WRAPPER ============= */
+.card-wrapper {
+    position: fixed;
+    z-index: 20;
+    cursor: grab;
+    user-select: none;
+    width: 400px;
+    height: 550px;
+    resize: both;
+    overflow: auto;
+    min-width: 300px;
+    min-height: 400px;
+}
+
+.card-wrapper.dragging {
+    cursor: grabbing;
+}
+
+/* ============= FLIP CARD 3D ============= */
+.flip-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.flip-card.flipped {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 30px;
+    box-shadow: 0 25px 60px var(--shadow-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.flip-card-front {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    color: var(--text-primary);
+    transition: all 0.4s ease;
+}
+
+body.dark-mode .flip-card-front {
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.flip-card-back {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transform: rotateY(180deg);
+}
+
+body.dark-mode .flip-card-back {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    backdrop-filter: blur(10px);
+}
+
+/* ============= FLIP ZONES ============= */
+.flip-zone {
+    position: absolute;
+    top: 0;
+    width: 15%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    border-radius: 30px;
+}
+
+.flip-zone-left {
+    left: 0;
+    border-radius: 30px 0 0 30px;
+}
+
+.flip-zone-right {
+    right: 0;
+    border-radius: 0 30px 30px 0;
+}
+
+.flip-card-back .flip-zone {
+    opacity: 0;
+}
+
+/* ============= BUTTONS ============= */
+.lock-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #FF6B6B;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lock-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+}
+
+.lock-btn.locked {
+    background: #1DB954;
+}
+
+body.dark-mode .lock-btn {
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.5);
+}
+
+/* Dark Mode Button (Bottom Right) */
+.dark-mode-btn {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(100, 149, 237, 0.1);
+    border: 2px solid rgba(100, 149, 237, 0.3);
+    color: #6495ED;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.dark-mode-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(100, 149, 237, 0.3);
+}
+
+body.dark-mode .dark-mode-btn {
+    background: rgba(255, 200, 87, 0.15);
+    border-color: rgba(255, 215, 0, 0.4);
+    color: #FFD700;
+}
+
+body.dark-mode .dark-mode-btn:hover {
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+}

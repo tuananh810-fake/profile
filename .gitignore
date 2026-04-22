@@ -1,0 +1,7 @@
+.chrome-test-profile-full/
+.chrome-test-profile-full-2/
+.chrome-test-profile-fullheight/
+.server-test.err.log
+.server-test.out.log
+server-test.log
+.dom-test.html

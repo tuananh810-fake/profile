@@ -1,0 +1,321 @@
+.clock-widget {
+    --clock-widget-width: 360px;
+    --clock-widget-height: 340px;
+    --clock-audio-level: 0;
+    --clock-audio-pulse: 0;
+    position: absolute;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    width: min(22rem, calc(100vw - 2rem));
+    z-index: 4;
+    color: var(--text-primary);
+}
+
+.clock-widget.is-floating {
+    left: 0;
+    top: 0;
+    right: auto;
+    bottom: auto;
+    width: var(--clock-widget-width);
+    height: var(--clock-widget-height);
+    max-width: calc(100vw - 1.5rem);
+    max-height: calc(100vh - 2rem);
+}
+
+.clock-widget-shell {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 0.85rem;
+    width: 100%;
+    height: 100%;
+    transform: translateY(calc(var(--clock-audio-pulse) * -0.16rem)) scale(calc(1 + (var(--clock-audio-level) * 0.018)));
+    transform-origin: center;
+    transition: transform 180ms ease;
+}
+
+.clock-widget.is-dragging .clock-widget-shell,
+.clock-widget.is-resizing .clock-widget-shell {
+    transform: none;
+}
+
+.clock-topbar,
+.clock-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(20px);
+    transition: box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.clock-topbar {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 0.85rem;
+    min-height: 3.35rem;
+    padding: 0.8rem 1rem;
+    border-radius: 1.25rem;
+    background:
+        linear-gradient(180deg, rgba(247, 251, 255, 0.88), rgba(216, 228, 244, 0.58)),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.2), transparent 55%);
+    color: rgba(10, 24, 46, 0.94);
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+}
+
+.clock-widget.is-dragging .clock-topbar {
+    cursor: grabbing;
+}
+
+.clock-topbar-date,
+.clock-topbar-time {
+    font-family: "Space Grotesk", "Outfit", sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.clock-topbar-divider {
+    width: 1px;
+    height: 1.55rem;
+    background: rgba(10, 24, 46, 0.3);
+}
+
+.clock-card {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto;
+    gap: 0.95rem;
+    min-height: 0;
+    padding: 1.1rem;
+    border-radius: 1.85rem;
+    background:
+        linear-gradient(180deg, rgba(245, 250, 255, 0.16), rgba(196, 214, 236, 0.08)),
+        linear-gradient(160deg, rgba(24, 32, 58, 0.48), rgba(11, 18, 38, 0.74));
+    box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.24),
+        0 0 calc(1.2rem + (var(--clock-audio-level) * 1.5rem)) rgba(120, 202, 255, calc(0.08 + (var(--clock-audio-level) * 0.12))),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.clock-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 15% 18%, rgba(255, 255, 255, 0.16), transparent 24%),
+        radial-gradient(circle at 82% 24%, rgba(110, 215, 255, 0.14), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 32%);
+    pointer-events: none;
+}
+
+.clock-card-header,
+.clock-note,
+.clock-display,
+.clock-mode-tabs,
+.clock-actions,
+.clock-dots {
+    position: relative;
+    z-index: 1;
+}
+
+.clock-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.clock-card-copy {
+    display: grid;
+    gap: 0.18rem;
+}
+
+.clock-kicker {
+    margin: 0;
+    color: rgba(202, 228, 255, 0.72);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+}
+
+.clock-title {
+    margin: 0;
+    font-size: 1.1rem;
+    letter-spacing: -0.05em;
+}
+
+.clock-state {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.2rem 0.72rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(236, 244, 255, 0.84);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.clock-note {
+    margin: 0;
+    color: rgba(208, 226, 249, 0.74);
+    font-size: 0.84rem;
+}
+
+.clock-display {
+    margin: 0;
+    align-self: center;
+    text-align: center;
+    font-family: "Space Grotesk", "Outfit", sans-serif;
+    font-size: clamp(3.2rem, 10vw, 5.8rem);
+    line-height: 0.94;
+    letter-spacing: -0.08em;
+    text-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.24),
+        0 0 calc(0.8rem + (var(--clock-audio-pulse) * 1.2rem)) rgba(160, 226, 255, calc(var(--clock-audio-level) * 0.14));
+}
+
+.clock-mode-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+}
+
+.clock-mode-btn,
+.clock-action-btn {
+    min-height: 2.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.clock-mode-btn {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(228, 238, 252, 0.84);
+    font-size: 0.84rem;
+}
+
+.clock-mode-btn:hover,
+.clock-action-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(120, 204, 255, 0.24);
+}
+
+.clock-mode-btn.is-active {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(227, 238, 248, 0.84));
+    color: rgba(10, 24, 46, 0.94);
+    box-shadow: 0 0 1rem rgba(114, 198, 255, 0.18);
+}
+
+.clock-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
+}
+
+.clock-action-btn {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(238, 245, 255, 0.94);
+}
+
+.clock-action-btn--primary {
+    background: linear-gradient(180deg, rgba(247, 251, 255, 0.96), rgba(220, 231, 244, 0.92));
+    color: rgba(10, 24, 46, 0.96);
+    font-weight: 700;
+}
+
+.clock-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+}
+
+.clock-dot {
+    width: 0.72rem;
+    height: 0.72rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.26);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    transition: transform 180ms ease, background 180ms ease;
+}
+
+.clock-dot.is-active {
+    transform: scale(1.08);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 0 1rem rgba(128, 211, 255, 0.3);
+}
+
+.clock-widget.is-running .clock-card {
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.26),
+        0 0 1.7rem rgba(120, 202, 255, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.clock-resize-handle {
+    position: absolute;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 0;
+    touch-action: none;
+    z-index: 3;
+}
+
+.clock-resize-handle--east {
+    top: 1rem;
+    right: -0.55rem;
+    width: 1.4rem;
+    height: calc(100% - 2rem);
+    cursor: ew-resize;
+}
+
+.clock-resize-handle--south {
+    left: 1rem;
+    bottom: -0.55rem;
+    width: calc(100% - 2rem);
+    height: 1.4rem;
+    cursor: ns-resize;
+}
+
+.clock-resize-handle--corner {
+    right: -0.55rem;
+    bottom: -0.55rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    cursor: nwse-resize;
+}
+
+.app-shell.is-lyrics-focus .clock-widget {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .clock-card {
+        padding: 1rem;
+    }
+
+    .clock-topbar {
+        grid-template-columns: 1fr;
+        justify-items: start;
+    }
+
+    .clock-topbar-divider {
+        display: none;
+    }
+
+    .clock-mode-tabs,
+    .clock-actions {
+        grid-template-columns: 1fr;
+    }
+}

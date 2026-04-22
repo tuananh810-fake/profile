@@ -1,0 +1,8 @@
+{
+  "name": "neon-artist-profile",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "start:lan": "set HOST=0.0.0.0&& node server.js"
+  }
+}

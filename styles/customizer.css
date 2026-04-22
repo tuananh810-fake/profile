@@ -1,0 +1,269 @@
+.customizer-panel {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 9;
+    width: min(25rem, calc(100vw - 2rem));
+}
+
+.customizer-panel[hidden] {
+    display: none;
+}
+
+.customizer-shell {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 1.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+        linear-gradient(180deg, rgba(10, 12, 20, 0.88), rgba(12, 10, 18, 0.94)),
+        radial-gradient(circle at 100% 0%, rgba(255, 154, 109, 0.12), transparent 26%),
+        radial-gradient(circle at 0% 100%, rgba(183, 118, 255, 0.12), transparent 26%);
+    backdrop-filter: blur(18px) saturate(135%);
+    box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.customizer-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.customizer-kicker {
+    margin: 0;
+    color: rgba(255, 214, 174, 0.74);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.customizer-title {
+    margin: 0.2rem 0 0;
+    font-size: 1.2rem;
+    letter-spacing: -0.04em;
+}
+
+.customizer-close,
+.customizer-tab,
+.customizer-button {
+    min-height: 2.1rem;
+    padding: 0.3rem 0.78rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(244, 241, 236, 0.92);
+    cursor: pointer;
+    transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.customizer-close:hover,
+.customizer-tab:hover,
+.customizer-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 193, 143, 0.22);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.customizer-tabs {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.customizer-tab.is-active,
+.customizer-button--primary {
+    background: linear-gradient(180deg, rgba(255, 211, 158, 0.24), rgba(220, 97, 153, 0.22));
+    border-color: rgba(255, 205, 165, 0.28);
+    color: rgba(255, 249, 242, 0.98);
+    box-shadow: 0 0 1rem rgba(255, 160, 118, 0.12);
+}
+
+.customizer-section {
+    display: none;
+    gap: 0.9rem;
+}
+
+.customizer-section.is-active {
+    display: grid;
+}
+
+.customizer-note {
+    margin: 0;
+    color: rgba(219, 212, 205, 0.66);
+    font-size: 0.86rem;
+    line-height: 1.55;
+}
+
+.customizer-field,
+.customizer-block {
+    display: grid;
+    gap: 0.42rem;
+}
+
+.customizer-edit-grid {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.customizer-slider-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.customizer-field--range {
+    padding: 0.78rem 0.85rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.customizer-field--select .customizer-input {
+    min-height: 2.8rem;
+}
+
+.customizer-label {
+    color: rgba(222, 214, 206, 0.74);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.customizer-input {
+    width: 100%;
+    min-height: 2.7rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(248, 244, 240, 0.92);
+    padding: 0.55rem 0.8rem;
+}
+
+.customizer-input--file {
+    padding-block: 0.68rem;
+}
+
+.customizer-textarea {
+    min-height: 7rem;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.customizer-value {
+    color: rgba(247, 243, 238, 0.92);
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.customizer-range {
+    width: 100%;
+    accent-color: #7ed8ff;
+}
+
+.customizer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.customizer-background-stack {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.customizer-background-option {
+    display: none;
+    gap: 0.85rem;
+    padding: 0.95rem 1rem;
+    border-radius: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.customizer-background-option.is-active {
+    display: grid;
+}
+
+.customizer-classic-panel {
+    display: grid;
+    gap: 0.8rem;
+    padding: 0.9rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.customizer-classic-panel[hidden] {
+    display: none;
+}
+
+.customizer-color-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.customizer-field--color {
+    align-content: start;
+}
+
+.customizer-color-input {
+    width: 100%;
+    min-height: 3rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.3rem;
+    cursor: pointer;
+}
+
+.customizer-button {
+    min-width: 0;
+}
+
+.customizer-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(245, 241, 237, 0.9);
+}
+
+.customizer-toggle input {
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: #f6b06d;
+}
+
+.app-shell.is-copy-hidden .shell-copy {
+    display: none;
+}
+
+.app-shell.is-lyrics-hidden .lyrics-overlay {
+    display: none;
+}
+
+.app-shell.is-music-hidden .music-dock {
+    display: none;
+}
+
+.app-shell.is-clock-hidden .clock-widget {
+    display: none;
+}
+
+.app-shell.is-profile-hidden .card-stage {
+    display: none;
+}
+
+.app-shell.is-creative-hidden .creative-widget {
+    display: none;
+}

@@ -1,0 +1,289 @@
+@media (max-width: 1100px) {
+    .shell-copy {
+        width: min(var(--copy-panel-width), calc(100vw - 2rem));
+    }
+
+    .card-stage {
+        width: 100%;
+        min-height: min(68vh, 48rem);
+    }
+
+    .music-dock {
+        width: min(34rem, 100%);
+    }
+
+    .clock-widget {
+        width: min(22rem, calc(100vw - 2rem));
+    }
+
+    .creative-widget {
+        width: min(var(--creative-width), calc(100vw - 2rem));
+    }
+
+    .lyrics-overlay {
+        left: 50%;
+        bottom: 4.6rem;
+        width: min(var(--lyrics-width), calc(100vw - 1rem));
+        margin: 0;
+    }
+
+    .focus-player {
+        top: 1rem;
+        right: 1rem;
+        width: min(22rem, calc(100vw - 2rem));
+    }
+
+    .customizer-panel {
+        top: 1rem;
+        right: 1rem;
+        width: min(23rem, calc(100vw - 2rem));
+    }
+
+    .lyrics-settings {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    body {
+        overflow: auto;
+    }
+
+    .app-shell {
+        min-height: auto;
+    }
+
+    .shell-stage {
+        min-height: auto;
+        padding-top: 0.5rem;
+    }
+
+    .shell-copy {
+        width: min(var(--copy-panel-width), calc(100vw - 1.2rem));
+    }
+
+    .shell-wordmark-top {
+        left: 1rem;
+        top: 4.5rem;
+    }
+
+    .shell-wordmark-bottom {
+        right: 0.75rem;
+        bottom: 6rem;
+    }
+
+    .shell-footer,
+    .shell-hud {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .footer-rail {
+        width: 100%;
+    }
+
+    .shell-status {
+        text-align: left;
+    }
+
+    .card-stage {
+        min-height: 34rem;
+        width: 100%;
+    }
+
+    .music-dock {
+        width: 100%;
+    }
+
+    .clock-widget {
+        width: min(calc(100vw - 2rem), 22rem);
+    }
+
+    .creative-widget {
+        width: min(var(--creative-width), calc(100vw - 1.2rem));
+    }
+
+    .lyrics-overlay {
+        width: min(var(--lyrics-width), calc(100vw - 0.85rem));
+        bottom: 8.9rem;
+    }
+
+    .lyrics-header {
+        align-items: flex-start;
+    }
+
+    .lyrics-header-meta {
+        justify-content: flex-start;
+    }
+
+    .lyrics-settings {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .customizer-slider-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .customizer-color-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .focus-player {
+        top: auto;
+        right: 50%;
+        bottom: 1rem;
+        width: min(calc(100vw - 2rem), 30rem);
+        transform: translate(50%, 0.8rem);
+    }
+
+    .customizer-panel {
+        top: 1rem;
+        right: 50%;
+        width: min(calc(100vw - 2rem), 30rem);
+        transform: translateX(50%);
+    }
+
+    .app-shell.is-lyrics-focus .focus-player {
+        transform: translate(50%, 0);
+    }
+
+    .card-root {
+        max-width: calc(100vw - 2rem);
+        max-height: calc(100vh - 8rem);
+    }
+
+    .profile-card {
+        border-radius: 1.7rem;
+    }
+
+    .portrait-frame {
+        inset: 4.4rem 0.75rem 0.75rem;
+        border-radius: 1.45rem;
+    }
+
+    .music-now-playing {
+        grid-template-columns: 1fr;
+    }
+
+    .music-controls {
+        flex-wrap: wrap;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .shell-stage,
+    .shell-hud,
+    .shell-footer {
+        padding-inline: 1rem;
+    }
+
+    .shell-title {
+        font-size: clamp(2.2rem, 12vw, 3rem);
+    }
+
+    .shell-badges {
+        justify-content: center;
+    }
+
+    .shell-copy {
+        width: min(var(--copy-panel-width), calc(100vw - 1rem));
+    }
+
+    .music-header {
+        flex-wrap: wrap;
+    }
+
+    .clock-widget {
+        width: calc(100vw - 2rem);
+    }
+
+    .background-control-group,
+    .background-mode-switch,
+    .background-scene-switch,
+    .background-effect-switch,
+    .footer-rail {
+        width: 100%;
+    }
+
+    .background-control-group {
+        justify-content: center;
+    }
+
+    .scene-label {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .card-brand-row {
+        flex-wrap: wrap;
+    }
+
+    .profile-bio {
+        font-size: 0.88rem;
+    }
+
+    .lyrics-overlay {
+        bottom: 9.7rem;
+        width: min(var(--lyrics-width), calc(100vw - 0.75rem));
+    }
+
+    .lyrics-header {
+        flex-direction: column;
+        gap: 0.7rem;
+    }
+
+    .lyrics-header-meta,
+    .lyrics-controls {
+        width: 100%;
+    }
+
+    .lyrics-controls {
+        justify-content: flex-start;
+    }
+
+    .lyrics-settings {
+        grid-template-columns: 1fr;
+    }
+
+    .lyrics-setting--segmented-double {
+        grid-column: span 1;
+    }
+
+    .creative-widget {
+        width: min(var(--creative-width), calc(100vw - 1rem));
+    }
+
+    .lyrics-resize-handle {
+        width: 1.45rem;
+        height: 1.45rem;
+    }
+
+    .focus-player {
+        width: calc(100vw - 2rem);
+    }
+
+    .focus-player {
+        grid-template-columns: 1fr;
+    }
+
+    .customizer-panel {
+        width: calc(100vw - 2rem);
+    }
+
+    .customizer-header {
+        flex-direction: column;
+    }
+
+    .customizer-tabs,
+    .customizer-actions,
+    .customizer-color-grid {
+        width: 100%;
+    }
+
+    .customizer-tab,
+    .customizer-button {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+}

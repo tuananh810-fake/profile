@@ -1,0 +1,442 @@
+:root {
+    color-scheme: dark;
+    --shell-bg: #050816;
+    --shell-bg-soft: #0b1530;
+    --surface: rgba(9, 16, 34, 0.72);
+    --surface-strong: rgba(12, 22, 45, 0.88);
+    --line: rgba(118, 162, 255, 0.18);
+    --text-primary: #f7f9ff;
+    --text-secondary: rgba(233, 241, 255, 0.74);
+    --text-dim: rgba(194, 210, 239, 0.52);
+    --accent: #68b9ff;
+    --accent-strong: #2f7dff;
+    --accent-soft: rgba(104, 185, 255, 0.18);
+    --glow-main: rgba(74, 168, 255, 0.52);
+    --glow-soft: rgba(26, 106, 255, 0.16);
+    --shadow-heavy: 0 38px 120px rgba(0, 0, 0, 0.56);
+    --shell-radius: 2rem;
+    --viewport-height: 100vh;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    min-height: var(--viewport-height);
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 18% 18%, rgba(45, 125, 255, 0.22), transparent 24rem),
+        radial-gradient(circle at 82% 14%, rgba(47, 125, 255, 0.18), transparent 18rem),
+        linear-gradient(160deg, #02040c 0%, #07112a 42%, #030711 100%);
+    color: var(--text-primary);
+    font-family: "Outfit", "Segoe UI", sans-serif;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    border: 0;
+}
+
+.app-shell {
+    position: relative;
+    min-height: var(--viewport-height);
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.shell-grid,
+.shell-noise,
+.shell-glow,
+.shell-wordmark {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.shell-grid {
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(circle at center, black 48%, transparent 90%);
+    opacity: 0.3;
+}
+
+.shell-noise {
+    opacity: 0.18;
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0 1px, transparent 1px),
+        radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px),
+        radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px);
+    background-size: 160px 160px;
+}
+
+.shell-glow {
+    filter: blur(36px);
+}
+
+.shell-glow-a {
+    inset: auto auto 18% -10%;
+    width: 34rem;
+    height: 34rem;
+    border-radius: 50%;
+    background: rgba(0, 84, 255, 0.2);
+}
+
+.shell-glow-b {
+    inset: -12% -8% auto auto;
+    width: 26rem;
+    height: 26rem;
+    border-radius: 50%;
+    background: rgba(87, 184, 255, 0.18);
+}
+
+.shell-wordmark {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(4.25rem, 12vw, 10rem);
+    font-weight: 700;
+    letter-spacing: -0.08em;
+    line-height: 0.82;
+    color: rgba(66, 101, 182, 0.08);
+    text-transform: uppercase;
+    white-space: pre-line;
+    user-select: none;
+}
+
+.shell-wordmark-top {
+    inset: 2rem auto auto 4.5rem;
+}
+
+.shell-wordmark-bottom {
+    inset: auto 2rem 1.5rem auto;
+    text-align: right;
+}
+
+.shell-hud,
+.shell-footer {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: clamp(1.25rem, 2vw, 2rem);
+}
+
+.shell-hud {
+    padding-top: 1.35rem;
+}
+
+.shell-footer {
+    padding-bottom: 1.35rem;
+    gap: 1rem;
+}
+
+.footer-rail {
+    justify-content: flex-start;
+}
+
+.hud-pill,
+.hud-button,
+.shell-badge {
+    border: 1px solid var(--line);
+    background: rgba(9, 18, 42, 0.52);
+    backdrop-filter: blur(14px);
+    color: var(--text-secondary);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.hud-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.25rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.hud-pill::before {
+    content: "";
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0.8rem var(--glow-main);
+}
+
+.hud-pill--ghost::before {
+    opacity: 0.5;
+}
+
+.shell-stage {
+    position: relative;
+    z-index: 3;
+    min-height: calc(var(--viewport-height) - 8.5rem);
+    padding: clamp(1.5rem, 3vw, 2.4rem);
+}
+
+.shell-copy {
+    --copy-panel-width: 430px;
+    --copy-audio-level: 0;
+    --copy-audio-pulse: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: min(var(--copy-panel-width), calc(100vw - 2rem));
+    z-index: 4;
+    touch-action: none;
+}
+
+.shell-copy-panel {
+    position: relative;
+    display: grid;
+    gap: 0.95rem;
+    padding: 0.9rem 0.95rem 1rem;
+    border-radius: 2rem;
+    background:
+        linear-gradient(180deg, rgba(9, 18, 42, 0.06), rgba(9, 18, 42, 0.02)),
+        radial-gradient(circle at 16% 24%, rgba(104, 185, 255, 0.08), transparent 28%);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 0 calc(2rem + (var(--copy-audio-level) * 1.6rem)) rgba(67, 147, 255, calc(0.06 + (var(--copy-audio-level) * 0.08)));
+    transform: translateY(calc(var(--copy-audio-pulse) * -0.16rem)) scale(calc(1 + (var(--copy-audio-level) * 0.018)));
+    transform-origin: center;
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.shell-copy.is-dragging .shell-copy-panel,
+.shell-copy.is-resizing .shell-copy-panel {
+    transform: none;
+}
+
+.shell-copy-header,
+.shell-copy-editor,
+.shell-badges {
+    position: relative;
+    z-index: 1;
+}
+
+.shell-copy-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    cursor: grab;
+    user-select: none;
+}
+
+.shell-copy.is-dragging .shell-copy-header {
+    cursor: grabbing;
+}
+
+.shell-copy-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.22rem 0.78rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-dim);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.shell-copy-editor {
+    display: grid;
+    gap: 0.95rem;
+}
+
+.shell-copy [contenteditable="true"] {
+    outline: none;
+    cursor: text;
+}
+
+.shell-copy [contenteditable="true"]:focus {
+    text-shadow: 0 0 1.4rem rgba(98, 183, 255, 0.18);
+}
+
+.shell-copy-resize {
+    position: absolute;
+    top: 0.85rem;
+    right: -0.6rem;
+    width: 1.45rem;
+    height: calc(100% - 1.7rem);
+    border: 0;
+    background: transparent;
+    opacity: 0;
+    cursor: ew-resize;
+    touch-action: none;
+}
+
+.shell-copy-resize::after {
+    content: "";
+    position: absolute;
+    inset: 0.15rem 0.35rem;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(76, 163, 255, 0.12), rgba(76, 163, 255, 0.34));
+    opacity: 0;
+    transition: opacity 160ms ease;
+}
+
+.shell-copy:hover .shell-copy-resize::after,
+.shell-copy.is-resizing .shell-copy-resize::after {
+    opacity: 1;
+}
+
+.shell-kicker {
+    margin: 0;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.shell-title {
+    margin: 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(2.8rem, 5vw, 4.8rem);
+    line-height: 0.95;
+    letter-spacing: -0.07em;
+    text-shadow: 0 0 calc(1rem + (var(--copy-audio-level) * 1.2rem)) rgba(121, 199, 255, calc(0.04 + (var(--copy-audio-level) * 0.14)));
+}
+
+.shell-lead {
+    margin: 0;
+    color: var(--text-secondary);
+    max-width: none;
+    line-height: 1.7;
+    font-size: 1rem;
+    text-shadow: 0 0 calc(0.55rem + (var(--copy-audio-level) * 0.85rem)) rgba(121, 199, 255, calc(var(--copy-audio-level) * 0.08));
+}
+
+.shell-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.shell-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.1rem;
+    padding: 0.2rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+}
+
+.card-stage {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    border-radius: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.hud-button {
+    min-height: 2.75rem;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.hud-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(129, 180, 255, 0.28);
+    background: rgba(12, 25, 52, 0.76);
+}
+
+.shell-status {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    text-align: right;
+}
+
+.app-shell.is-lyrics-focus .shell-hud,
+.app-shell.is-lyrics-focus .shell-footer,
+.app-shell.is-lyrics-focus .shell-copy,
+.app-shell.is-lyrics-focus .card-stage,
+.app-shell.is-lyrics-focus .music-dock,
+.app-shell.is-lyrics-focus .clock-widget,
+.app-shell.is-lyrics-focus .creative-widget,
+.app-shell.is-lyrics-focus .shell-wordmark,
+.app-shell.is-lyrics-focus .shell-grid,
+.app-shell.is-lyrics-focus .shell-noise,
+.app-shell.is-lyrics-focus .shell-glow {
+    display: none;
+}
+
+.app-shell.is-lyrics-focus .shell-stage {
+    display: block;
+    min-height: 0;
+    padding: 0;
+}
+
+.app-shell.is-compact-height .shell-hud {
+    padding-top: 1rem;
+}
+
+.app-shell.is-compact-height .shell-footer {
+    padding-bottom: 1rem;
+}
+
+.app-shell.is-compact-height .shell-stage {
+    min-height: calc(var(--viewport-height) - 7rem);
+    padding-block: 1rem;
+}
+
+.app-shell.is-compact-height .shell-copy-panel {
+    gap: 0.72rem;
+    padding: 0.8rem 0.86rem 0.92rem;
+}
+
+.app-shell.is-compact-height .shell-kicker {
+    font-size: 0.74rem;
+}
+
+.app-shell.is-compact-height .shell-title {
+    font-size: clamp(2.35rem, 6.2vh, 3.9rem);
+}
+
+.app-shell.is-compact-height .shell-lead {
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.app-shell.is-compact-height .shell-badges {
+    gap: 0.5rem;
+}
+
+.app-shell.is-compact-height .shell-badge {
+    min-height: 1.9rem;
+    padding: 0.15rem 0.68rem;
+    font-size: 0.76rem;
+}

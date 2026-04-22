@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Artist Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Caveat:wght@500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Spectral:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/base.css">
+    <link rel="stylesheet" href="./styles/background.css">
+    <link rel="stylesheet" href="./styles/profile.css">
+    <link rel="stylesheet" href="./styles/musicplayer.css">
+    <link rel="stylesheet" href="./styles/clock.css">
+    <link rel="stylesheet" href="./styles/lyrics.css">
+    <link rel="stylesheet" href="./styles/creative-widget.css">
+    <link rel="stylesheet" href="./styles/customizer.css">
+    <link rel="stylesheet" href="./styles/responsive.css">
+</head>
+<body>
+    <div class="app-shell" id="appShell" data-background-mode="video" data-effect-preset="liquid">
+        <div class="background-engine" id="backgroundEngine" aria-hidden="true">
+            <div class="background-layer background-layer--video">
+                <video class="background-video" id="backgroundVideo" muted loop playsinline preload="metadata"></video>
+                <div class="background-video-vignette"></div>
+            </div>
+
+            <div class="background-layer background-layer--image">
+                <img class="background-image" id="backgroundImage" alt="">
+                <div class="background-image-vignette"></div>
+            </div>
+
+            <div class="background-layer background-layer--effects">
+                <div class="effects-aurora-veil effects-aurora-veil--a" aria-hidden="true"></div>
+                <div class="effects-aurora-veil effects-aurora-veil--b" aria-hidden="true"></div>
+                <div class="effects-aurora-veil effects-aurora-veil--c" aria-hidden="true"></div>
+                <canvas class="effects-fluid-canvas" id="effectsFluidCanvas"></canvas>
+                <canvas class="effects-canvas" id="effectsCanvas"></canvas>
+                <div class="effects-stroke-layer" id="effectsStrokeLayer" aria-hidden="true"></div>
+                <div class="effects-glass-panel effects-glass-panel--a" aria-hidden="true"></div>
+                <div class="effects-glass-panel effects-glass-panel--b" aria-hidden="true"></div>
+                <div class="effects-glass-panel effects-glass-panel--c" aria-hidden="true"></div>
+                <div class="effects-orb effects-orb--a"></div>
+                <div class="effects-orb effects-orb--b"></div>
+                <div class="effects-orb effects-orb--c"></div>
+            </div>
+
+            <div class="background-shade"></div>
+        </div>
+
+        <div class="shell-grid" aria-hidden="true"></div>
+        <div class="shell-noise" aria-hidden="true"></div>
+        <div class="shell-glow shell-glow-a" aria-hidden="true"></div>
+        <div class="shell-glow shell-glow-b" aria-hidden="true"></div>
+        <div class="shell-wordmark shell-wordmark-top" id="shellWordmarkTop" aria-hidden="true"></div>
+        <div class="shell-wordmark shell-wordmark-bottom" id="shellWordmarkBottom" aria-hidden="true"></div>
+
+        <section class="lyrics-overlay" id="lyricsOverlay" aria-label="Synced lyrics overlay">
+            <div class="lyrics-shell">
+                <div class="lyrics-header" id="lyricsDragHandle">
+                    <div class="lyrics-header-copy">
+                        <span class="lyrics-drag-chip">Lyrics</span>
+                    </div>
+
+                    <div class="lyrics-header-meta">
+                        <div class="lyrics-controls" aria-label="Lyrics controls">
+                            <button class="lyrics-control-btn lyrics-control-btn--accent" id="lyricsTuneBtn" type="button" aria-expanded="false">Tune</button>
+                            <button class="lyrics-control-btn" id="lyricsBoxBtn" type="button" aria-pressed="true">Box</button>
+                            <button class="lyrics-control-btn" id="lyricsPureBtn" type="button" aria-pressed="false">Pure</button>
+                            <button class="lyrics-control-btn" id="lyricsKineticBtn" type="button" aria-pressed="false">Kinetic</button>
+                            <button class="lyrics-control-btn" id="lyricsResetBtn" type="button">Reset</button>
+                            <button class="lyrics-control-btn lyrics-control-btn--focus" id="lyricsFocusBtn" type="button" aria-pressed="false">Focus</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lyrics-settings" id="lyricsSettings" hidden>
+                    <label class="lyrics-setting" for="lyricsScaleRange">
+                        <span class="lyrics-setting-label">Size</span>
+                        <output class="lyrics-setting-value" id="lyricsScaleValue">100%</output>
+                        <input class="lyrics-setting-input" id="lyricsScaleRange" type="range" min="60" max="240" step="1" value="100">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsWidthRange">
+                        <span class="lyrics-setting-label">Width</span>
+                        <output class="lyrics-setting-value" id="lyricsWidthValue">740px</output>
+                        <input class="lyrics-setting-input" id="lyricsWidthRange" type="range" min="360" max="1220" step="4" value="740">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsHeightRange">
+                        <span class="lyrics-setting-label">Height</span>
+                        <output class="lyrics-setting-value" id="lyricsHeightValue">260px</output>
+                        <input class="lyrics-setting-input" id="lyricsHeightRange" type="range" min="220" max="920" step="4" value="260">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsBoxHazeRange">
+                        <span class="lyrics-setting-label">Box Haze</span>
+                        <output class="lyrics-setting-value" id="lyricsBoxHazeValue">58%</output>
+                        <input class="lyrics-setting-input" id="lyricsBoxHazeRange" type="range" min="0" max="100" step="1" value="58">
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--select" for="lyricsFontSelect">
+                        <span class="lyrics-setting-label">Font</span>
+                        <select class="lyrics-font-select" id="lyricsFontSelect"></select>
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsKineticWordsRange">
+                        <span class="lyrics-setting-label">Words / Line</span>
+                        <output class="lyrics-setting-value" id="lyricsKineticWordsValue">5</output>
+                        <input class="lyrics-setting-input" id="lyricsKineticWordsRange" type="range" min="3" max="8" step="1" value="5">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsKineticCharsRange">
+                        <span class="lyrics-setting-label">Chars / Line</span>
+                        <output class="lyrics-setting-value" id="lyricsKineticCharsValue">20</output>
+                        <input class="lyrics-setting-input" id="lyricsKineticCharsRange" type="range" min="10" max="36" step="1" value="20">
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--select" for="lyricsAlignSelect" id="lyricsAlignSetting">
+                        <span class="lyrics-setting-label">Text Align</span>
+                        <select class="lyrics-font-select" id="lyricsAlignSelect" aria-label="Lyrics text alignment">
+                            <option value="left">Left</option>
+                            <option value="center">Center</option>
+                            <option value="right">Right</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="lyrics-body" id="lyricsBody">
+                    <p class="lyrics-line lyrics-line--previous" id="lyricsPrevious"></p>
+                    <p class="lyrics-line lyrics-line--current" id="lyricsCurrent"></p>
+                    <p class="lyrics-line lyrics-line--next" id="lyricsNext"></p>
+                </div>
+
+                <button class="lyrics-resize-handle lyrics-resize-handle--nw" id="lyricsResizeNw" type="button" data-resize="nw" aria-label="Resize lyrics overlay from top left"></button>
+                <button class="lyrics-resize-handle lyrics-resize-handle--ne" id="lyricsResizeNe" type="button" data-resize="ne" aria-label="Resize lyrics overlay from top right"></button>
+                <button class="lyrics-resize-handle lyrics-resize-handle--sw" id="lyricsResizeSw" type="button" data-resize="sw" aria-label="Resize lyrics overlay from bottom left"></button>
+                <button class="lyrics-resize-handle lyrics-resize-handle--se" id="lyricsResizeSe" type="button" data-resize="se" aria-label="Resize lyrics overlay from bottom right"></button>
+            </div>
+        </section>
+        <button class="lyrics-ui-chip" id="lyricsPureRevealBtn" type="button" hidden>Show lyric UI</button>
+
+        <section class="focus-player" id="focusPlayer" aria-label="Now playing frame">
+            <div class="focus-player-artwork-shell">
+                <img class="focus-player-artwork" id="focusPlayerArtwork" alt="Now playing artwork">
+                <div class="focus-player-artwork-fallback" id="focusPlayerArtworkFallback" aria-hidden="true"></div>
+            </div>
+
+            <div class="focus-player-copy">
+                <div class="focus-player-row">
+                    <p class="focus-player-kicker">now playing</p>
+                    <span class="focus-player-state" id="focusPlayerState">idle</span>
+                </div>
+
+                <p class="focus-player-title" id="focusPlayerTitle"></p>
+                <p class="focus-player-artist" id="focusPlayerArtist"></p>
+
+                <div class="focus-player-progress-track" aria-hidden="true">
+                    <span class="focus-player-progress-fill" id="focusPlayerProgressFill"></span>
+                </div>
+
+                <div class="focus-player-time-row">
+                    <span id="focusPlayerCurrentTime">0:00</span>
+                    <span id="focusPlayerDuration">0:00</span>
+                </div>
+
+                <div class="focus-player-controls">
+                    <button class="focus-player-btn" id="focusPrevBtn" type="button">Prev</button>
+                    <button class="focus-player-btn focus-player-btn--primary" id="focusPlayBtn" type="button">Play</button>
+                    <button class="focus-player-btn" id="focusNextBtn" type="button">Next</button>
+                </div>
+            </div>
+        </section>
+
+        <aside class="customizer-panel" id="customizerPanel" aria-label="Customization panel" hidden>
+            <div class="customizer-shell">
+                <div class="customizer-header">
+                    <div>
+                        <p class="customizer-kicker">Customizer</p>
+                        <h2 class="customizer-title">Tune the profile</h2>
+                    </div>
+                    <button class="customizer-close" id="customizerCloseBtn" type="button" aria-label="Close customizer">Close</button>
+                </div>
+
+                <div class="customizer-tabs" id="customizerTabs" aria-label="Customizer tabs">
+                    <button class="customizer-tab is-active" type="button" data-tab="music">Music</button>
+                    <button class="customizer-tab" type="button" data-tab="background">Background</button>
+                    <button class="customizer-tab" type="button" data-tab="layout">Layout</button>
+                </div>
+
+                <section class="customizer-section is-active" data-panel="music">
+                    <p class="customizer-note">Add a local audio track and optional .lrc file here instead of editing code.</p>
+
+                    <label class="customizer-field" for="customTrackTitle">
+                        <span class="customizer-label">Track title</span>
+                        <input class="customizer-input" id="customTrackTitle" type="text" placeholder="Leave empty to use file name">
+                    </label>
+
+                    <label class="customizer-field" for="customTrackArtist">
+                        <span class="customizer-label">Artist</span>
+                        <input class="customizer-input" id="customTrackArtist" type="text" placeholder="Optional">
+                    </label>
+
+                    <label class="customizer-field" for="customAudioFile">
+                        <span class="customizer-label">Audio file</span>
+                        <input class="customizer-input customizer-input--file" id="customAudioFile" type="file" accept="audio/*">
+                    </label>
+
+                    <label class="customizer-field" for="customLyricsFile">
+                        <span class="customizer-label">Lyrics file (.lrc)</span>
+                        <input class="customizer-input customizer-input--file" id="customLyricsFile" type="file" accept=".lrc,text/plain">
+                    </label>
+
+                    <div class="customizer-actions">
+                        <button class="customizer-button customizer-button--primary" id="applyCustomTrackBtn" type="button">Apply local media</button>
+                        <button class="customizer-button" id="clearCustomTrackBtn" type="button">Revert to default</button>
+                    </div>
+                </section>
+
+                <section class="customizer-section" data-panel="background">
+                    <p class="customizer-note">Background is now organized into three main types: video, image, and effects. Each type has its own options below.</p>
+                    <div class="customizer-block">
+                        <span class="customizer-label">Mode</span>
+                        <div class="background-mode-switch" id="backgroundModeSwitch" aria-label="Background mode switch"></div>
+                    </div>
+
+                    <div class="customizer-background-stack">
+                        <section class="customizer-background-option" data-background-option="video">
+                            <div class="customizer-block">
+                                <span class="customizer-label">Video options</span>
+                                <div class="background-scene-switch" id="backgroundVideoSwitch" aria-label="Video background switch"></div>
+                            </div>
+                            <label class="customizer-field customizer-field--range" for="videoCoverRange">
+                                <span class="customizer-label">Video cover</span>
+                                <output class="customizer-value" id="videoCoverValue">55%</output>
+                                <input class="customizer-range" id="videoCoverRange" type="range" min="0" max="100" step="1" value="55">
+                            </label>
+                            <label class="customizer-field" for="customBackgroundVideoFile">
+                                <span class="customizer-label">Custom video</span>
+                                <input class="customizer-input customizer-input--file" id="customBackgroundVideoFile" type="file" accept="video/*">
+                            </label>
+                            <div class="customizer-actions">
+                                <button class="customizer-button customizer-button--primary" id="applyBackgroundVideoBtn" type="button">Apply video</button>
+                                <button class="customizer-button" id="clearBackgroundVideoBtn" type="button">Use built-in videos</button>
+                            </div>
+                        </section>
+
+                        <section class="customizer-background-option" data-background-option="image">
+                            <div class="customizer-block">
+                                <span class="customizer-label">Image options</span>
+                                <div class="background-scene-switch" id="backgroundImageSwitch" aria-label="Image background switch"></div>
+                            </div>
+                            <label class="customizer-field" for="customBackgroundImageFile">
+                                <span class="customizer-label">Custom image</span>
+                                <input class="customizer-input customizer-input--file" id="customBackgroundImageFile" type="file" accept="image/*">
+                            </label>
+                            <div class="customizer-actions">
+                                <button class="customizer-button customizer-button--primary" id="applyBackgroundImageBtn" type="button">Apply image</button>
+                                <button class="customizer-button" id="clearBackgroundImageBtn" type="button">Use built-in image</button>
+                            </div>
+                        </section>
+
+                        <section class="customizer-background-option" data-background-option="effects">
+                            <div class="customizer-block">
+                                <span class="customizer-label">Effect options</span>
+                                <div class="background-effect-switch" id="backgroundEffectSwitch" aria-label="Effect preset switch"></div>
+                            </div>
+
+                            <div class="customizer-classic-panel" id="classicEffectPanel" hidden>
+                                <label class="customizer-field customizer-field--select" for="effectClassicThemeSelect">
+                                    <span class="customizer-label">Neon Classic palette</span>
+                                    <select class="customizer-input" id="effectClassicThemeSelect"></select>
+                                </label>
+
+                                <div class="customizer-color-grid">
+                                    <label class="customizer-field customizer-field--color" for="classicGlowAInput">
+                                        <span class="customizer-label">Glow A</span>
+                                        <input class="customizer-color-input" id="classicGlowAInput" type="color" value="#ffbc96">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="classicGlowBInput">
+                                        <span class="customizer-label">Glow B</span>
+                                        <input class="customizer-color-input" id="classicGlowBInput" type="color" value="#ff6fad">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="classicGlowCInput">
+                                        <span class="customizer-label">Glow C</span>
+                                        <input class="customizer-color-input" id="classicGlowCInput" type="color" value="#ff7a60">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="classicBaseTopInput">
+                                        <span class="customizer-label">Base top</span>
+                                        <input class="customizer-color-input" id="classicBaseTopInput" type="color" value="#110810">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="classicBaseBottomInput">
+                                        <span class="customizer-label">Base bottom</span>
+                                        <input class="customizer-color-input" id="classicBaseBottomInput" type="color" value="#170a10">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="customizer-classic-panel" id="liquidEffectPanel" hidden>
+                                <div class="customizer-block">
+                                    <span class="customizer-label">Liquid Glass palette</span>
+                                </div>
+
+                                <div class="customizer-color-grid">
+                                    <label class="customizer-field customizer-field--color" for="liquidAccentAInput">
+                                        <span class="customizer-label">Water A</span>
+                                        <input class="customizer-color-input" id="liquidAccentAInput" type="color" value="#6fe8d8">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="liquidAccentBInput">
+                                        <span class="customizer-label">Water B</span>
+                                        <input class="customizer-color-input" id="liquidAccentBInput" type="color" value="#8eb6ff">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="liquidAccentCInput">
+                                        <span class="customizer-label">Water C</span>
+                                        <input class="customizer-color-input" id="liquidAccentCInput" type="color" value="#c8b0ff">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="liquidGlareInput">
+                                        <span class="customizer-label">Highlight</span>
+                                        <input class="customizer-color-input" id="liquidGlareInput" type="color" value="#f3f7ff">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="liquidBaseTopInput">
+                                        <span class="customizer-label">Base top</span>
+                                        <input class="customizer-color-input" id="liquidBaseTopInput" type="color" value="#182236">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="liquidBaseBottomInput">
+                                        <span class="customizer-label">Base bottom</span>
+                                        <input class="customizer-color-input" id="liquidBaseBottomInput" type="color" value="#1d1b31">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="customizer-classic-panel" id="northernLightsEffectPanel" hidden>
+                                <div class="customizer-block">
+                                    <span class="customizer-label">Northern Lights palette</span>
+                                </div>
+
+                                <div class="customizer-color-grid">
+                                    <label class="customizer-field customizer-field--color" for="northernVeilAInput">
+                                        <span class="customizer-label">Veil A</span>
+                                        <input class="customizer-color-input" id="northernVeilAInput" type="color" value="#64ffd6">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="northernVeilBInput">
+                                        <span class="customizer-label">Veil B</span>
+                                        <input class="customizer-color-input" id="northernVeilBInput" type="color" value="#74c9ff">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="northernVeilCInput">
+                                        <span class="customizer-label">Veil C</span>
+                                        <input class="customizer-color-input" id="northernVeilCInput" type="color" value="#ca87ff">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="northernSkyTopInput">
+                                        <span class="customizer-label">Sky top</span>
+                                        <input class="customizer-color-input" id="northernSkyTopInput" type="color" value="#081220">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="northernSkyBottomInput">
+                                        <span class="customizer-label">Sky bottom</span>
+                                        <input class="customizer-color-input" id="northernSkyBottomInput" type="color" value="#140f2f">
+                                    </label>
+
+                                    <label class="customizer-field customizer-field--color" for="northernStarsInput">
+                                        <span class="customizer-label">Stars</span>
+                                        <input class="customizer-color-input" id="northernStarsInput" type="color" value="#eef6ff">
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="customizer-section" data-panel="layout">
+                    <p class="customizer-note">Adjust floating text modules, hide sections, and edit intro or creative copy without touching code.</p>
+                    <label class="customizer-toggle">
+                        <input id="toggleShellCopy" type="checkbox">
+                        <span>Hide intro panel</span>
+                    </label>
+                    <label class="customizer-toggle">
+                        <input id="toggleLyrics" type="checkbox">
+                        <span>Hide lyrics overlay</span>
+                    </label>
+                    <label class="customizer-toggle">
+                        <input id="toggleMusicDock" type="checkbox">
+                        <span>Hide Module 4 player</span>
+                    </label>
+                    <label class="customizer-toggle">
+                        <input id="toggleClockWidget" type="checkbox">
+                        <span>Hide clock module</span>
+                    </label>
+                    <label class="customizer-toggle">
+                        <input id="toggleProfileCard" type="checkbox">
+                        <span>Hide profile card</span>
+                    </label>
+                    <label class="customizer-toggle">
+                        <input id="toggleCreativeWidget" type="checkbox">
+                        <span>Hide creative widget</span>
+                    </label>
+
+                    <div class="customizer-block">
+                        <span class="customizer-label">Audio Reactive</span>
+                    </div>
+                    <label class="customizer-toggle">
+                        <input id="toggleAudioReactive" type="checkbox">
+                        <span>Enable audio reactive</span>
+                    </label>
+                    <label class="customizer-field customizer-field--range" for="audioReactiveIntensityRange">
+                        <span class="customizer-label">Reactive intensity</span>
+                        <output class="customizer-value" id="audioReactiveIntensityValue">62%</output>
+                        <input class="customizer-range" id="audioReactiveIntensityRange" type="range" min="0" max="100" step="1" value="62">
+                    </label>
+
+                    <div class="customizer-edit-grid">
+                        <label class="customizer-field" for="layoutIntroTitleInput">
+                            <span class="customizer-label">Intro title</span>
+                            <input class="customizer-input" id="layoutIntroTitleInput" type="text">
+                        </label>
+                        <label class="customizer-field customizer-field--textarea" for="layoutIntroLeadInput">
+                            <span class="customizer-label">Intro text</span>
+                            <textarea class="customizer-input customizer-textarea" id="layoutIntroLeadInput" rows="4"></textarea>
+                        </label>
+                    </div>
+
+                    <div class="customizer-edit-grid">
+                        <label class="customizer-field" for="creativeWidgetTitleInput">
+                            <span class="customizer-label">Creative title</span>
+                            <input class="customizer-input" id="creativeWidgetTitleInput" type="text">
+                        </label>
+                        <label class="customizer-field customizer-field--textarea" for="creativeWidgetBodyInput">
+                            <span class="customizer-label">Creative text</span>
+                            <textarea class="customizer-input customizer-textarea" id="creativeWidgetBodyInput" rows="4"></textarea>
+                        </label>
+                    </div>
+
+                    <div class="customizer-slider-grid">
+                        <label class="customizer-field customizer-field--select" for="creativeWidgetFontSelect">
+                            <span class="customizer-label">Creative font</span>
+                            <select class="customizer-input" id="creativeWidgetFontSelect"></select>
+                        </label>
+                        <label class="customizer-field customizer-field--select" for="creativeWidgetAlignSelect">
+                            <span class="customizer-label">Creative align</span>
+                            <select class="customizer-input" id="creativeWidgetAlignSelect">
+                                <option value="left">Left</option>
+                                <option value="center">Center</option>
+                                <option value="right">Right</option>
+                            </select>
+                        </label>
+                        <label class="customizer-field customizer-field--range" for="creativeWidgetScaleRange">
+                            <span class="customizer-label">Creative size</span>
+                            <output class="customizer-value" id="creativeWidgetScaleValue">100%</output>
+                            <input class="customizer-range" id="creativeWidgetScaleRange" type="range" min="70" max="260" step="1" value="100">
+                        </label>
+                        <label class="customizer-field customizer-field--select" for="creativeWidgetChromeSelect">
+                            <span class="customizer-label">Creative frame</span>
+                            <select class="customizer-input" id="creativeWidgetChromeSelect">
+                                <option value="boxed">Box</option>
+                                <option value="free">Transparent</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="customizer-color-grid">
+                        <label class="customizer-field customizer-field--color" for="creativeWidgetTextColorInput">
+                            <span class="customizer-label">Text color</span>
+                            <input class="customizer-color-input" id="creativeWidgetTextColorInput" type="color" value="#f7fbff">
+                        </label>
+                        <label class="customizer-field customizer-field--color" for="creativeWidgetAccentColorInput">
+                            <span class="customizer-label">Accent color</span>
+                            <input class="customizer-color-input" id="creativeWidgetAccentColorInput" type="color" value="#9feeff">
+                        </label>
+                    </div>
+                </section>
+            </div>
+        </aside>
+
+        <header class="shell-hud">
+            <div class="hud-pill" id="shellEyebrow"></div>
+            <button class="hud-button" id="openCustomizerButton" type="button">Customize</button>
+        </header>
+
+        <main class="shell-stage" id="shellStage">
+            <section class="shell-copy" id="shellCopy" aria-label="Project intro">
+                <div class="shell-copy-panel" id="shellCopyPanel">
+                    <div class="shell-copy-header" id="shellCopyDragHandle">
+                        <p class="shell-kicker">artist profile canvas</p>
+                        <span class="shell-copy-chip">intro</span>
+                    </div>
+                    <div class="shell-copy-editor">
+                        <h1 class="shell-title" id="shellTitle" contenteditable="true" spellcheck="false"></h1>
+                        <p class="shell-lead" id="shellLead" contenteditable="true" spellcheck="false"></p>
+                    </div>
+                    <div class="shell-badges" id="shellBadges"></div>
+                    <button class="shell-copy-resize" id="shellCopyResize" type="button" aria-label="Resize intro panel"></button>
+                </div>
+            </section>
+
+            <section class="music-dock" id="musicDock" aria-label="Local music player">
+                <div class="music-header" id="musicDragHandle">
+                    <div class="music-header-copy">
+                        <p class="music-kicker">module 04</p>
+                        <h2 class="music-title">Neon player</h2>
+                    </div>
+                    <span class="music-state" id="musicState">idle</span>
+                </div>
+
+                <div class="music-now-playing">
+                    <div class="music-artwork-shell">
+                        <img class="music-artwork" id="musicArtwork" alt="Track artwork">
+                        <div class="music-artwork-fallback" id="musicArtworkFallback" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="music-meta">
+                        <p class="music-track-name" id="musicTrackName"></p>
+                        <p class="music-track-artist" id="musicTrackArtist"></p>
+                        <p class="music-track-note" id="musicTrackNote"></p>
+                    </div>
+                </div>
+
+                <div class="music-eq" aria-hidden="true">
+                    <span class="music-eq-bar"></span>
+                    <span class="music-eq-bar"></span>
+                    <span class="music-eq-bar"></span>
+                    <span class="music-eq-bar"></span>
+                </div>
+
+                <div class="music-progress-shell">
+                    <input class="music-progress" id="musicProgress" type="range" min="0" max="0" step="0.01" value="0" aria-label="Track progress">
+                    <div class="music-time-row">
+                        <span id="musicCurrentTime">0:00</span>
+                        <span id="musicDuration">0:00</span>
+                    </div>
+                </div>
+
+                <div class="music-controls">
+                    <button class="music-control-btn" id="musicPrevBtn" type="button">Prev</button>
+                    <button class="music-control-btn music-control-btn--primary" id="musicPlayBtn" type="button">Play</button>
+                    <button class="music-control-btn" id="musicNextBtn" type="button">Next</button>
+                </div>
+
+                <div class="music-volume-row">
+                    <span class="music-volume-label">Volume</span>
+                    <input class="music-volume" id="musicVolume" type="range" min="0" max="100" value="72">
+                </div>
+
+                <div class="music-queue" id="musicQueue"></div>
+
+                <button class="music-resize-handle music-resize-handle--east" type="button" data-music-resize="e" aria-label="Resize player width"></button>
+                <button class="music-resize-handle music-resize-handle--south" type="button" data-music-resize="s" aria-label="Resize player height"></button>
+                <button class="music-resize-handle music-resize-handle--corner" type="button" data-music-resize="se" aria-label="Resize player"></button>
+            </section>
+
+            <section class="card-stage" id="cardStage" aria-label="Interactive card stage">
+                <div class="card-root" id="cardRoot">
+                    <article class="profile-card" id="profileCard">
+                        <span class="card-beam" aria-hidden="true"></span>
+                        <span class="card-flare" aria-hidden="true"></span>
+
+                        <div class="card-brand-row">
+                            <span class="card-chip">artist mode</span>
+                            <span class="card-chip card-chip--ghost" id="cardModeChip">drag ready</span>
+                        </div>
+
+                        <div class="card-watermark" id="cardWordmark" aria-hidden="true"></div>
+
+                        <div class="portrait-frame" id="portraitFrame">
+                            <div class="portrait-fallback" id="avatarFallback" aria-hidden="true"></div>
+                            <img class="portrait-image" id="profileAvatar" alt="Profile avatar">
+
+                            <div class="portrait-overlay">
+                                <div class="profile-copy-block">
+                                    <p class="profile-label" id="profileLabel"></p>
+
+                                    <div class="profile-name-row">
+                                        <h2 class="profile-name" id="profileName"></h2>
+                                        <span class="profile-badge" id="profileBadge" hidden>verified</span>
+                                    </div>
+
+                                    <p class="profile-tagline" id="profileTagline"></p>
+                                    <p class="profile-bio" id="profileBio"></p>
+                                </div>
+
+                                <div class="profile-footer">
+                                    <div class="profile-socials" id="profileSocialLinks"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <button class="card-handle card-handle--east" type="button" data-resize="e" aria-label="Resize card width"></button>
+                    <button class="card-handle card-handle--south" type="button" data-resize="s" aria-label="Resize card height"></button>
+                    <button class="card-handle card-handle--corner" type="button" data-resize="se" aria-label="Resize card"></button>
+                </div>
+            </section>
+
+            <section class="creative-widget" id="creativeWidget" aria-label="Creative text widget">
+                <div class="creative-widget-shell" id="creativeWidgetShell">
+                    <div class="creative-widget-header" id="creativeWidgetDragHandle">
+                        <span class="creative-widget-chip">creative</span>
+                        <button class="creative-widget-toggle" id="creativeWidgetBoxBtn" type="button" aria-pressed="true">Box</button>
+                    </div>
+                    <div class="creative-widget-body" id="creativeWidgetBody">
+                        <p class="creative-widget-title" id="creativeWidgetTitle" contenteditable="true" spellcheck="false"></p>
+                        <div class="creative-widget-divider" aria-hidden="true"></div>
+                        <p class="creative-widget-text" id="creativeWidgetText" contenteditable="true" spellcheck="false"></p>
+                    </div>
+                    <button class="creative-widget-resize creative-widget-resize--east" type="button" data-creative-resize="e" aria-label="Resize creative widget width"></button>
+                    <button class="creative-widget-resize creative-widget-resize--south" type="button" data-creative-resize="s" aria-label="Resize creative widget height"></button>
+                    <button class="creative-widget-resize creative-widget-resize--corner" type="button" data-creative-resize="se" aria-label="Resize creative widget"></button>
+                </div>
+            </section>
+
+            <section class="clock-widget" id="clockWidget" aria-label="Clock and focus timer">
+                <div class="clock-widget-shell">
+                    <div class="clock-topbar" id="clockDragHandle">
+                        <span class="clock-topbar-date" id="clockDateLabel">MONDAY, JUNE 12</span>
+                        <span class="clock-topbar-divider" aria-hidden="true"></span>
+                        <span class="clock-topbar-time" id="clockLiveTime">10:15 AM</span>
+                    </div>
+
+                    <div class="clock-card">
+                        <div class="clock-card-header">
+                            <div class="clock-card-copy">
+                                <p class="clock-kicker">module 05</p>
+                                <h2 class="clock-title">Focus clock</h2>
+                            </div>
+                            <span class="clock-state" id="clockState">ready</span>
+                        </div>
+
+                        <p class="clock-note" id="clockNote">Local time • UTC+7</p>
+                        <p class="clock-display" id="clockTimerDisplay">25:00</p>
+
+                        <div class="clock-mode-tabs" id="clockModeTabs" role="tablist" aria-label="Focus timer modes">
+                            <button class="clock-mode-btn" id="clockModePomodoro" type="button" data-clock-mode="pomodoro">Pomodoro</button>
+                            <button class="clock-mode-btn" id="clockModeShort" type="button" data-clock-mode="short">Short Break</button>
+                            <button class="clock-mode-btn" id="clockModeLong" type="button" data-clock-mode="long">Long Break</button>
+                        </div>
+
+                        <div class="clock-actions">
+                            <button class="clock-action-btn clock-action-btn--primary" id="clockStartBtn" type="button">Start</button>
+                            <button class="clock-action-btn" id="clockResetBtn" type="button">Reset</button>
+                        </div>
+
+                        <div class="clock-dots" id="clockModeDots" aria-hidden="true">
+                            <span class="clock-dot" data-clock-dot="pomodoro"></span>
+                            <span class="clock-dot" data-clock-dot="short"></span>
+                            <span class="clock-dot" data-clock-dot="long"></span>
+                        </div>
+                    </div>
+
+                    <button class="clock-resize-handle clock-resize-handle--east" type="button" data-clock-resize="e" aria-label="Resize clock width"></button>
+                    <button class="clock-resize-handle clock-resize-handle--south" type="button" data-clock-resize="s" aria-label="Resize clock height"></button>
+                    <button class="clock-resize-handle clock-resize-handle--corner" type="button" data-clock-resize="se" aria-label="Resize clock"></button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="shell-footer">
+            <div class="footer-rail">
+            </div>
+            <p class="shell-status" id="shellStatus"></p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script type="module" src="./js/app.js"></script>
+    <audio id="musicAudio" preload="metadata"></audio>
+</body>
+</html>

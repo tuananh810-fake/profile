@@ -1,0 +1,1038 @@
+.app-shell {
+    --video-brightness: 0.91;
+    --video-saturate: 0.99;
+    --video-contrast: 1.01;
+    --video-cover-opacity: 0.34;
+    --video-cover-edge-opacity: 0.34;
+    --effect-layer-bg:
+        radial-gradient(circle at 70% 12%, rgba(255, 120, 176, 0.24), transparent 22%),
+        radial-gradient(circle at 22% 76%, rgba(255, 182, 83, 0.18), transparent 24%),
+        radial-gradient(circle at 50% 50%, rgba(184, 96, 255, 0.12), transparent 46%),
+        conic-gradient(from 220deg at 50% 50%, rgba(91, 17, 61, 0.16), transparent 32%, rgba(185, 87, 42, 0.12), transparent 78%, rgba(91, 17, 61, 0.16)),
+        linear-gradient(160deg, rgba(12, 7, 16, 0.97), rgba(17, 10, 19, 0.95));
+    --effect-orb-a: radial-gradient(circle, rgba(255, 125, 177, 0.4), transparent 70%);
+    --effect-orb-b: radial-gradient(circle, rgba(255, 170, 86, 0.3), transparent 68%);
+    --effect-orb-c: radial-gradient(circle, rgba(186, 98, 255, 0.26), transparent 68%);
+    --effect-band-opacity: 0;
+    --effect-band-a: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+    --effect-band-b: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+    --effect-band-blur: 38px;
+    --effect-panel-opacity: 0;
+    --effect-panel-fill: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    --effect-panel-border: rgba(255, 255, 255, 0.12);
+    --effect-panel-shadow: rgba(255, 255, 255, 0.06);
+    --aurora-veil-opacity: 0;
+    --aurora-veil-a: linear-gradient(90deg, transparent, transparent);
+    --aurora-veil-b: linear-gradient(90deg, transparent, transparent);
+    --aurora-veil-c: radial-gradient(circle, transparent, transparent);
+    --classic-glow-a-rgb: 255, 188, 150;
+    --classic-glow-b-rgb: 255, 111, 173;
+    --classic-glow-c-rgb: 255, 122, 96;
+    --classic-base-top-rgb: 17, 8, 16;
+    --classic-base-bottom-rgb: 23, 10, 16;
+    --northern-veil-a-rgb: 100, 255, 214;
+    --northern-veil-b-rgb: 116, 201, 255;
+    --northern-veil-c-rgb: 202, 135, 255;
+    --northern-sky-top-rgb: 8, 18, 32;
+    --northern-sky-bottom-rgb: 20, 15, 47;
+    --northern-stars-rgb: 238, 246, 255;
+}
+
+.app-shell[data-effect-preset="ember"] {
+    --effect-layer-bg:
+        radial-gradient(circle at 72% 10%, rgba(255, 188, 150, 0.24), transparent 22%),
+        radial-gradient(circle at 14% 78%, rgba(255, 111, 173, 0.2), transparent 24%),
+        radial-gradient(circle at 54% 46%, rgba(255, 122, 96, 0.12), transparent 46%),
+        conic-gradient(from 210deg at 50% 50%, rgba(74, 16, 43, 0.16), transparent 28%, rgba(196, 78, 64, 0.14), transparent 76%, rgba(74, 16, 43, 0.18)),
+        linear-gradient(160deg, rgba(17, 8, 16, 0.97), rgba(23, 10, 16, 0.95));
+    --effect-orb-a: radial-gradient(circle, rgba(255, 139, 111, 0.42), transparent 70%);
+    --effect-orb-b: radial-gradient(circle, rgba(255, 198, 111, 0.3), transparent 68%);
+    --effect-orb-c: radial-gradient(circle, rgba(248, 109, 187, 0.26), transparent 68%);
+}
+
+.app-shell[data-effect-preset="violet"] {
+    --effect-layer-bg:
+        radial-gradient(circle at 72% 12%, rgba(174, 129, 255, 0.24), transparent 22%),
+        radial-gradient(circle at 20% 80%, rgba(255, 126, 213, 0.18), transparent 24%),
+        radial-gradient(circle at 48% 42%, rgba(104, 80, 255, 0.12), transparent 46%),
+        conic-gradient(from 200deg at 50% 50%, rgba(36, 12, 67, 0.18), transparent 32%, rgba(145, 67, 207, 0.16), transparent 78%, rgba(36, 12, 67, 0.16)),
+        linear-gradient(160deg, rgba(9, 9, 24, 0.97), rgba(18, 10, 36, 0.95));
+    --effect-orb-a: radial-gradient(circle, rgba(183, 135, 255, 0.38), transparent 70%);
+    --effect-orb-b: radial-gradient(circle, rgba(255, 127, 207, 0.28), transparent 68%);
+    --effect-orb-c: radial-gradient(circle, rgba(112, 133, 255, 0.24), transparent 68%);
+}
+
+.app-shell[data-effect-preset="mono"] {
+    --effect-layer-bg:
+        radial-gradient(circle at 72% 12%, rgba(239, 239, 239, 0.18), transparent 22%),
+        radial-gradient(circle at 18% 74%, rgba(176, 176, 176, 0.12), transparent 22%),
+        radial-gradient(circle at 50% 42%, rgba(230, 230, 230, 0.08), transparent 42%),
+        linear-gradient(160deg, rgba(10, 10, 12, 0.97), rgba(19, 19, 22, 0.96));
+    --effect-orb-a: radial-gradient(circle, rgba(232, 232, 232, 0.28), transparent 70%);
+    --effect-orb-b: radial-gradient(circle, rgba(186, 186, 186, 0.2), transparent 68%);
+    --effect-orb-c: radial-gradient(circle, rgba(248, 248, 248, 0.16), transparent 68%);
+}
+
+.app-shell[data-effect-preset="aurora"] {
+    --effect-layer-bg:
+        radial-gradient(circle at 16% 12%, rgba(126, 138, 255, 0.26), transparent 24%),
+        radial-gradient(circle at 78% 14%, rgba(244, 125, 255, 0.2), transparent 26%),
+        radial-gradient(circle at 56% 66%, rgba(92, 245, 255, 0.22), transparent 34%),
+        linear-gradient(180deg, rgba(40, 16, 112, 0.96), rgba(59, 29, 145, 0.94) 36%, rgba(16, 74, 164, 0.92) 68%, rgba(26, 14, 100, 0.97));
+    --effect-orb-a: radial-gradient(circle, rgba(96, 255, 229, 0.36), transparent 72%);
+    --effect-orb-b: radial-gradient(circle, rgba(240, 144, 255, 0.3), transparent 70%);
+    --effect-orb-c: radial-gradient(circle, rgba(148, 182, 255, 0.22), transparent 68%);
+    --effect-band-opacity: 0.98;
+    --effect-band-a: linear-gradient(96deg, rgba(102, 114, 255, 0), rgba(106, 255, 228, 0.28), rgba(114, 222, 255, 0.34), rgba(224, 132, 255, 0.26), rgba(102, 114, 255, 0));
+    --effect-band-b: linear-gradient(92deg, rgba(98, 188, 255, 0), rgba(123, 255, 232, 0.22), rgba(198, 255, 248, 0.16), rgba(255, 155, 229, 0.24), rgba(98, 188, 255, 0));
+    --effect-band-blur: 56px;
+    --aurora-veil-opacity: 0.86;
+    --aurora-veil-a: linear-gradient(106deg, rgba(122, 114, 255, 0), rgba(122, 250, 233, 0.26) 24%, rgba(128, 208, 255, 0.34) 44%, rgba(232, 142, 255, 0.28) 68%, rgba(122, 114, 255, 0));
+    --aurora-veil-b: linear-gradient(94deg, rgba(110, 160, 255, 0), rgba(116, 255, 214, 0.18) 20%, rgba(165, 255, 248, 0.14) 42%, rgba(250, 160, 255, 0.24) 66%, rgba(110, 160, 255, 0));
+    --aurora-veil-c: radial-gradient(circle at 50% 50%, rgba(154, 255, 245, 0.22), rgba(159, 170, 255, 0.16) 38%, rgba(244, 143, 255, 0.14) 58%, rgba(255, 255, 255, 0) 76%);
+}
+
+.app-shell[data-effect-preset="classic"] {
+    --effect-layer-bg:
+        radial-gradient(circle at 72% 10%, rgba(var(--classic-glow-a-rgb), 0.24), transparent 22%),
+        radial-gradient(circle at 14% 78%, rgba(var(--classic-glow-b-rgb), 0.2), transparent 24%),
+        radial-gradient(circle at 54% 46%, rgba(var(--classic-glow-c-rgb), 0.12), transparent 46%),
+        conic-gradient(from 210deg at 50% 50%, rgba(var(--classic-base-top-rgb), 0.18), transparent 28%, rgba(var(--classic-glow-c-rgb), 0.14), transparent 76%, rgba(var(--classic-base-top-rgb), 0.18)),
+        linear-gradient(160deg, rgba(var(--classic-base-top-rgb), 0.97), rgba(var(--classic-base-bottom-rgb), 0.95));
+    --effect-orb-a: radial-gradient(circle, rgba(var(--classic-glow-a-rgb), 0.42), transparent 70%);
+    --effect-orb-b: radial-gradient(circle, rgba(var(--classic-glow-b-rgb), 0.28), transparent 68%);
+    --effect-orb-c: radial-gradient(circle, rgba(var(--classic-glow-c-rgb), 0.24), transparent 68%);
+    --effect-band-opacity: 0.88;
+    --effect-band-a: linear-gradient(92deg, rgba(var(--classic-glow-a-rgb), 0), rgba(var(--classic-glow-a-rgb), 0.24), rgba(var(--classic-glow-b-rgb), 0.22), rgba(var(--classic-glow-c-rgb), 0.24), rgba(var(--classic-glow-a-rgb), 0));
+    --effect-band-b: linear-gradient(90deg, rgba(var(--classic-glow-b-rgb), 0), rgba(var(--classic-glow-b-rgb), 0.22), rgba(var(--classic-glow-c-rgb), 0.18), rgba(var(--classic-glow-a-rgb), 0.18), rgba(var(--classic-glow-b-rgb), 0));
+    --effect-band-blur: 42px;
+}
+
+.app-shell[data-effect-preset="classic"][data-effect-theme="aurora"] {
+    --effect-layer-bg:
+        radial-gradient(circle at 16% 12%, rgba(var(--classic-glow-a-rgb), 0.26), transparent 24%),
+        radial-gradient(circle at 78% 14%, rgba(var(--classic-glow-c-rgb), 0.2), transparent 26%),
+        radial-gradient(circle at 56% 66%, rgba(var(--classic-glow-b-rgb), 0.22), transparent 34%),
+        linear-gradient(180deg, rgba(var(--classic-base-top-rgb), 0.96), rgba(59, 29, 145, 0.94) 36%, rgba(var(--classic-base-bottom-rgb), 0.92) 68%, rgba(var(--classic-base-top-rgb), 0.97));
+    --effect-orb-a: radial-gradient(circle, rgba(var(--classic-glow-b-rgb), 0.36), transparent 72%);
+    --effect-orb-b: radial-gradient(circle, rgba(var(--classic-glow-c-rgb), 0.3), transparent 70%);
+    --effect-orb-c: radial-gradient(circle, rgba(var(--classic-glow-a-rgb), 0.22), transparent 68%);
+    --effect-band-opacity: 0.98;
+    --effect-band-a: linear-gradient(96deg, rgba(var(--classic-glow-a-rgb), 0), rgba(var(--classic-glow-b-rgb), 0.28), rgba(var(--classic-glow-a-rgb), 0.34), rgba(var(--classic-glow-c-rgb), 0.26), rgba(var(--classic-glow-a-rgb), 0));
+    --effect-band-b: linear-gradient(92deg, rgba(var(--classic-glow-a-rgb), 0), rgba(var(--classic-glow-b-rgb), 0.22), rgba(198, 255, 248, 0.16), rgba(var(--classic-glow-c-rgb), 0.24), rgba(var(--classic-glow-a-rgb), 0));
+    --effect-band-blur: 56px;
+    --aurora-veil-opacity: 0.86;
+    --aurora-veil-a: linear-gradient(106deg, rgba(var(--classic-glow-a-rgb), 0), rgba(var(--classic-glow-b-rgb), 0.26) 24%, rgba(var(--classic-glow-a-rgb), 0.34) 44%, rgba(var(--classic-glow-c-rgb), 0.28) 68%, rgba(var(--classic-glow-a-rgb), 0));
+    --aurora-veil-b: linear-gradient(94deg, rgba(var(--classic-glow-a-rgb), 0), rgba(var(--classic-glow-b-rgb), 0.18) 20%, rgba(165, 255, 248, 0.14) 42%, rgba(var(--classic-glow-c-rgb), 0.24) 66%, rgba(var(--classic-glow-a-rgb), 0));
+    --aurora-veil-c: radial-gradient(circle at 50% 50%, rgba(var(--classic-glow-b-rgb), 0.22), rgba(var(--classic-glow-a-rgb), 0.16) 38%, rgba(var(--classic-glow-c-rgb), 0.14) 58%, rgba(255, 255, 255, 0) 76%);
+}
+
+.app-shell[data-effect-preset="liquid"] {
+    --effect-layer-bg:
+        radial-gradient(circle at 16% 18%, rgba(var(--liquid-accent-a-rgb, 111, 232, 216), 0.12), transparent 20%),
+        radial-gradient(circle at 84% 18%, rgba(var(--liquid-accent-b-rgb, 142, 182, 255), 0.11), transparent 22%),
+        radial-gradient(circle at 72% 78%, rgba(var(--liquid-accent-c-rgb, 200, 176, 255), 0.1), transparent 20%),
+        radial-gradient(circle at 24% 82%, rgba(var(--liquid-accent-b-rgb, 142, 182, 255), 0.08), transparent 20%),
+        linear-gradient(
+            135deg,
+            rgba(var(--liquid-base-top-rgb, 24, 34, 54), 0.985),
+            rgba(var(--liquid-base-bottom-rgb, 29, 27, 49), 0.955) 42%,
+            rgba(var(--liquid-base-top-rgb, 24, 34, 54), 0.98)
+        );
+    --effect-orb-a: radial-gradient(circle, rgba(var(--liquid-accent-a-rgb, 111, 232, 216), 0.13), transparent 68%);
+    --effect-orb-b: radial-gradient(circle, rgba(var(--liquid-accent-b-rgb, 142, 182, 255), 0.12), transparent 70%);
+    --effect-orb-c: radial-gradient(circle, rgba(var(--liquid-accent-c-rgb, 200, 176, 255), 0.1), transparent 70%);
+    --effect-band-opacity: 0.24;
+    --effect-band-a: radial-gradient(circle at 30% 30%, rgba(var(--liquid-accent-a-rgb, 111, 232, 216), 0.14), rgba(var(--liquid-accent-a-rgb, 111, 232, 216), 0.04) 38%, rgba(var(--liquid-accent-a-rgb, 111, 232, 216), 0));
+    --effect-band-b: radial-gradient(circle at 65% 35%, rgba(var(--liquid-accent-b-rgb, 142, 182, 255), 0.14), rgba(var(--liquid-accent-b-rgb, 142, 182, 255), 0.04) 38%, rgba(var(--liquid-accent-b-rgb, 142, 182, 255), 0));
+    --effect-band-blur: 62px;
+    --effect-panel-opacity: 0.12;
+    --effect-panel-fill:
+        linear-gradient(180deg, rgba(var(--liquid-glare-rgb, 243, 247, 255), 0.08), rgba(var(--liquid-glare-rgb, 243, 247, 255), 0.02)),
+        radial-gradient(circle at 20% 18%, rgba(var(--liquid-glare-rgb, 243, 247, 255), 0.06), transparent 34%);
+    --effect-panel-border: rgba(255, 255, 255, 0.1);
+    --effect-panel-shadow: rgba(127, 175, 255, 0.04);
+}
+
+.app-shell[data-effect-preset="northern-lights"] {
+    --effect-layer-bg:
+        radial-gradient(circle at 50% -10%, rgba(255, 255, 255, 0.055), transparent 20%),
+        radial-gradient(circle at 18% 16%, rgba(var(--northern-veil-a-rgb), 0.08), transparent 26%),
+        radial-gradient(circle at 82% 12%, rgba(var(--northern-veil-c-rgb), 0.08), transparent 28%),
+        radial-gradient(circle at 56% 54%, rgba(var(--northern-veil-b-rgb), 0.07), transparent 38%),
+        radial-gradient(ellipse at 44% 10%, rgba(var(--northern-stars-rgb), 0.08), rgba(var(--northern-stars-rgb), 0.01) 34%, transparent 62%),
+        linear-gradient(112deg, rgba(255, 255, 255, 0.03), transparent 28%, rgba(255, 255, 255, 0.01) 44%, transparent 62%),
+        linear-gradient(
+            180deg,
+            rgba(var(--northern-sky-top-rgb), 0.99),
+            rgba(var(--northern-sky-top-rgb), 0.985) 34%,
+            rgba(var(--northern-sky-bottom-rgb), 0.97) 72%,
+            rgba(4, 6, 18, 0.995)
+        );
+    --effect-orb-a: radial-gradient(circle, rgba(var(--northern-veil-a-rgb), 0.07), transparent 74%);
+    --effect-orb-b: radial-gradient(circle, rgba(var(--northern-veil-b-rgb), 0.09), transparent 76%);
+    --effect-orb-c: radial-gradient(circle, rgba(var(--northern-veil-c-rgb), 0.06), transparent 74%);
+    --effect-band-opacity: 0.58;
+    --effect-band-a: linear-gradient(96deg, rgba(var(--northern-veil-a-rgb), 0), rgba(var(--northern-veil-a-rgb), 0.11), rgba(var(--northern-veil-b-rgb), 0.16), rgba(var(--northern-veil-c-rgb), 0.08), rgba(var(--northern-veil-a-rgb), 0));
+    --effect-band-b: linear-gradient(100deg, rgba(var(--northern-veil-b-rgb), 0), rgba(var(--northern-veil-b-rgb), 0.1), rgba(var(--northern-stars-rgb), 0.07), rgba(var(--northern-veil-a-rgb), 0.08), rgba(var(--northern-veil-b-rgb), 0));
+    --effect-band-blur: 90px;
+    --aurora-veil-opacity: 0.74;
+    --aurora-veil-a: linear-gradient(108deg, rgba(var(--northern-veil-a-rgb), 0), rgba(var(--northern-veil-a-rgb), 0.16) 18%, rgba(var(--northern-veil-b-rgb), 0.22) 44%, rgba(var(--northern-veil-c-rgb), 0.1) 72%, rgba(var(--northern-veil-a-rgb), 0));
+    --aurora-veil-b: linear-gradient(96deg, rgba(var(--northern-veil-b-rgb), 0), rgba(var(--northern-veil-a-rgb), 0.12) 20%, rgba(var(--northern-stars-rgb), 0.06) 40%, rgba(var(--northern-veil-c-rgb), 0.14) 68%, rgba(var(--northern-veil-b-rgb), 0));
+    --aurora-veil-c: radial-gradient(circle at 50% 50%, rgba(var(--northern-veil-b-rgb), 0.14), rgba(var(--northern-veil-a-rgb), 0.08) 42%, rgba(var(--northern-veil-c-rgb), 0.08) 62%, rgba(255, 255, 255, 0) 80%);
+}
+
+.background-engine {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.background-layer,
+.background-shade {
+    position: absolute;
+    inset: 0;
+}
+
+.background-layer {
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 320ms ease, transform 460ms ease;
+    will-change: opacity, transform;
+}
+
+.app-shell[data-background-mode="video"] .background-layer--video,
+.app-shell[data-background-mode="image"] .background-layer--image,
+.app-shell[data-background-mode="effects"] .background-layer--effects {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.background-video,
+.background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.background-video {
+    filter:
+        saturate(var(--video-saturate))
+        contrast(var(--video-contrast))
+        brightness(var(--video-brightness));
+    transform: scale(1.04);
+}
+
+.background-image {
+    filter: saturate(1.04) contrast(1.03) brightness(0.72);
+    transform: scale(1.03);
+    animation: background-pan 24s ease-in-out infinite alternate;
+}
+
+.background-video-vignette,
+.background-image-vignette {
+    position: absolute;
+    inset: 0;
+    animation: vignette-breathe 18s ease-in-out infinite alternate;
+}
+
+.background-video-vignette {
+    opacity: var(--video-cover-opacity);
+    background:
+        radial-gradient(circle at 50% 46%, transparent 18%, rgba(9, 11, 16, 0.08) 58%, rgba(5, 6, 10, var(--video-cover-edge-opacity)) 100%),
+        linear-gradient(180deg, rgba(10, 10, 12, 0.04), rgba(10, 10, 12, 0.18));
+}
+
+.background-image-vignette {
+    background:
+        radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.05), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(255, 193, 128, 0.08), transparent 34%),
+        linear-gradient(180deg, rgba(6, 7, 14, 0.24), rgba(4, 5, 10, 0.6));
+}
+
+.background-layer--effects {
+    background: var(--effect-layer-bg);
+    isolation: isolate;
+}
+
+.app-shell[data-effect-preset="aurora"] .background-layer--effects,
+.app-shell[data-effect-preset="northern-lights"] .background-layer--effects,
+.app-shell[data-effect-preset="classic"][data-effect-theme="aurora"] .background-layer--effects {
+    background-size: 140% 140%;
+    animation: aurora-sky-drift 28s ease-in-out infinite alternate;
+}
+
+.app-shell[data-effect-preset="northern-lights"] .background-layer--effects {
+    background-size: 170% 170%;
+    animation: aurora-sky-drift 42s ease-in-out infinite alternate;
+}
+
+.background-layer--effects::before,
+.background-layer--effects::after {
+    content: "";
+    position: absolute;
+    border-radius: 999px;
+    pointer-events: none;
+    opacity: var(--effect-band-opacity);
+    filter: blur(var(--effect-band-blur));
+    mix-blend-mode: screen;
+}
+
+.background-layer--effects::before {
+    top: 8%;
+    left: -14%;
+    width: 70rem;
+    height: 16rem;
+    background: var(--effect-band-a);
+    animation: aurora-wave 18s ease-in-out infinite alternate;
+}
+
+.background-layer--effects::after {
+    right: -16%;
+    bottom: 12%;
+    width: 58rem;
+    height: 14rem;
+    background: var(--effect-band-b);
+    animation: aurora-wave 22s ease-in-out infinite alternate-reverse;
+}
+
+.app-shell[data-effect-preset="aurora"] .background-layer--effects::before,
+.app-shell[data-effect-preset="northern-lights"] .background-layer--effects::before,
+.app-shell[data-effect-preset="classic"][data-effect-theme="aurora"] .background-layer--effects::before {
+    top: -2%;
+    left: -10%;
+    width: 78rem;
+    height: 20rem;
+    filter: blur(58px) saturate(170%);
+    animation:
+        aurora-wave 16s ease-in-out infinite alternate,
+        aurora-chroma 18s linear infinite;
+}
+
+.app-shell[data-effect-preset="aurora"] .background-layer--effects::after,
+.app-shell[data-effect-preset="northern-lights"] .background-layer--effects::after,
+.app-shell[data-effect-preset="classic"][data-effect-theme="aurora"] .background-layer--effects::after {
+    right: -10%;
+    bottom: 8%;
+    width: 68rem;
+    height: 18rem;
+    filter: blur(60px) saturate(165%);
+    animation:
+        aurora-wave 20s ease-in-out infinite alternate-reverse,
+        aurora-chroma 22s linear infinite reverse;
+}
+
+.app-shell[data-effect-preset="liquid"] .background-layer--effects::before,
+.app-shell[data-effect-preset="liquid"] .background-layer--effects::after {
+    border-radius: 44% 56% 63% 37% / 42% 42% 58% 58%;
+    mix-blend-mode: normal;
+    filter: blur(52px);
+}
+
+.app-shell[data-effect-preset="liquid"] .background-layer--effects::before {
+    top: -4%;
+    left: -6%;
+    width: 50rem;
+    height: 32rem;
+    animation: liquid-shift 18s ease-in-out infinite alternate;
+}
+
+.app-shell[data-effect-preset="liquid"] .background-layer--effects::after {
+    right: -8%;
+    bottom: 6%;
+    width: 44rem;
+    height: 28rem;
+    animation: liquid-shift 21s ease-in-out infinite alternate-reverse;
+}
+
+.app-shell[data-effect-preset="liquid"] .background-layer--effects::before,
+.app-shell[data-effect-preset="liquid"] .background-layer--effects::after {
+    opacity: 0.16;
+    filter: blur(68px);
+}
+
+.effects-fluid-canvas,
+.effects-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.effects-fluid-canvas {
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    filter: saturate(118%) contrast(106%);
+    transition: opacity 280ms ease;
+}
+
+.app-shell[data-effect-preset="liquid"] .effects-fluid-canvas {
+    opacity: 0.98;
+    mix-blend-mode: normal;
+    filter: saturate(138%) contrast(118%) brightness(1.03);
+}
+
+.app-shell.has-motion-stroke-overlay[data-effect-preset="liquid"] .effects-fluid-canvas {
+    opacity: 0.82;
+}
+
+.app-shell[data-effect-preset="aurora"] .effects-canvas,
+.app-shell[data-effect-preset="northern-lights"] .effects-canvas,
+.app-shell[data-effect-preset="classic"][data-effect-theme="aurora"] .effects-canvas {
+    opacity: 0.96;
+    mix-blend-mode: screen;
+}
+
+.app-shell[data-effect-preset="northern-lights"] .effects-canvas {
+    opacity: 0.76;
+    mix-blend-mode: screen;
+}
+
+.effects-aurora-veil {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: screen;
+    border-radius: 56% 44% 64% 36% / 42% 44% 56% 58%;
+    filter: blur(54px) saturate(160%);
+    transition: opacity 260ms ease;
+}
+
+.app-shell[data-effect-preset="aurora"] .effects-aurora-veil,
+.app-shell[data-effect-preset="northern-lights"] .effects-aurora-veil,
+.app-shell[data-effect-preset="classic"][data-effect-theme="aurora"] .effects-aurora-veil {
+    opacity: var(--aurora-veil-opacity);
+}
+
+.effects-aurora-veil--a {
+    top: 10%;
+    left: -8%;
+    width: 48rem;
+    height: 18rem;
+    background: var(--aurora-veil-a);
+    animation:
+        aurora-curtain 17s ease-in-out infinite alternate,
+        aurora-chroma 16s linear infinite;
+}
+
+.effects-aurora-veil--b {
+    top: 26%;
+    right: -10%;
+    width: 46rem;
+    height: 16rem;
+    background: var(--aurora-veil-b);
+    animation:
+        aurora-curtain 20s ease-in-out 0.5s infinite alternate-reverse,
+        aurora-chroma 20s linear infinite reverse;
+}
+
+.effects-aurora-veil--c {
+    left: 34%;
+    bottom: 16%;
+    width: 28rem;
+    height: 12rem;
+    background: var(--aurora-veil-c);
+    animation:
+        aurora-breathe 14s ease-in-out infinite alternate,
+        aurora-chroma 24s linear infinite;
+}
+
+.app-shell[data-effect-preset="northern-lights"] .background-layer--effects::before {
+    top: 8%;
+    left: -8%;
+    width: 96rem;
+    height: 12rem;
+    filter: blur(82px) saturate(142%);
+    animation:
+        aurora-wave 34s ease-in-out infinite alternate,
+        aurora-chroma 46s linear infinite;
+}
+
+.app-shell[data-effect-preset="northern-lights"] .background-layer--effects::after {
+    right: -4%;
+    bottom: 18%;
+    width: 88rem;
+    height: 10rem;
+    filter: blur(86px) saturate(138%);
+    animation:
+        aurora-wave 38s ease-in-out infinite alternate-reverse,
+        aurora-chroma 52s linear infinite reverse;
+}
+
+.app-shell[data-effect-preset="northern-lights"] .effects-aurora-veil--a {
+    top: 10%;
+    left: -4%;
+    width: 74rem;
+    height: 12rem;
+    filter: blur(72px) saturate(140%);
+    animation:
+        aurora-curtain 30s ease-in-out infinite alternate,
+        aurora-chroma 48s linear infinite;
+}
+
+.app-shell[data-effect-preset="northern-lights"] .effects-aurora-veil--b {
+    top: 20%;
+    right: -6%;
+    width: 66rem;
+    height: 10rem;
+    filter: blur(68px) saturate(138%);
+    animation:
+        aurora-curtain 36s ease-in-out 0.6s infinite alternate-reverse,
+        aurora-chroma 54s linear infinite reverse;
+}
+
+.app-shell[data-effect-preset="northern-lights"] .effects-aurora-veil--c {
+    left: 34%;
+    bottom: 26%;
+    width: 38rem;
+    height: 8rem;
+    filter: blur(54px) saturate(130%);
+    animation:
+        aurora-breathe 24s ease-in-out infinite alternate,
+        aurora-chroma 44s linear infinite;
+}
+
+.app-shell[data-effect-preset="liquid"] .effects-canvas {
+    opacity: 0.04;
+    mix-blend-mode: screen;
+}
+
+.effects-stroke-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.effects-stroke-ambient,
+.effects-stroke-interactive,
+.effects-cursor-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.effects-stroke-motif {
+    position: absolute;
+    width: var(--stroke-motif-size);
+    aspect-ratio: 1;
+    opacity: var(--stroke-motif-opacity);
+    transform: translate(-50%, -50%) rotate(var(--stroke-motif-rotation));
+    transform-origin: center;
+    animation: stroke-motif-drift var(--stroke-drift-duration) ease-in-out var(--stroke-delay) infinite alternate;
+}
+
+.effects-stroke-motif--interactive {
+    transform: translate(-50%, -50%) rotate(var(--stroke-motif-rotation)) scale(var(--stroke-live-scale, 1));
+    animation:
+        stroke-stamp-pop var(--stroke-live-duration, 860ms) cubic-bezier(0.22, 1, 0.36, 1) forwards,
+        none;
+}
+
+.app-shell[data-effect-preset="liquid"] .effects-stroke-motif {
+    opacity: calc(var(--stroke-motif-opacity) * 0.74);
+    mix-blend-mode: plus-lighter;
+    filter: blur(0.12rem);
+}
+
+.app-shell[data-effect-preset="liquid"] .effects-stroke-motif--interactive {
+    filter: blur(0);
+    opacity: 1;
+}
+
+.effects-stroke-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.effects-stroke-track-shadow,
+.effects-stroke-track,
+.effects-stroke-glow,
+.effects-stroke-line,
+.effects-stroke-echo {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.effects-stroke-track-shadow {
+    stroke-width: calc(var(--stroke-width) + 0.8rem);
+}
+
+.effects-stroke-track {
+    stroke-width: calc(var(--stroke-width) + 0.36rem);
+}
+
+.effects-stroke-glow {
+    stroke-width: calc(var(--stroke-width) + 0.62rem);
+    opacity: 0.46;
+    filter: blur(8px);
+    stroke-dasharray: 22 78;
+    animation: stroke-travel var(--stroke-dash-duration) linear var(--stroke-delay) infinite;
+}
+
+.effects-stroke-line {
+    stroke-width: var(--stroke-width);
+    stroke-dasharray: 20 80;
+    animation: stroke-travel var(--stroke-dash-duration) linear var(--stroke-delay) infinite;
+}
+
+.effects-stroke-echo {
+    stroke-width: calc(var(--stroke-width) * 0.58);
+    opacity: 0.8;
+    stroke-dasharray: 10 90;
+    animation: stroke-travel calc(var(--stroke-dash-duration) * 1.28) linear calc(var(--stroke-delay) * -1) infinite reverse;
+}
+
+.effects-glass-panel {
+    position: absolute;
+    border-radius: 2rem;
+    border: 1px solid var(--effect-panel-border);
+    background: var(--effect-panel-fill);
+    box-shadow:
+        0 1.25rem 3rem rgba(61, 92, 156, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.52),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 0 2rem var(--effect-panel-shadow);
+    backdrop-filter: blur(34px) saturate(170%);
+    opacity: var(--effect-panel-opacity);
+    pointer-events: none;
+    transform: rotate(var(--glass-rotation, 0deg));
+}
+
+.effects-glass-panel::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.02)),
+        radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.34), transparent 24%);
+    opacity: 0.9;
+}
+
+.effects-glass-panel--a {
+    top: 4%;
+    left: 20%;
+    width: 28rem;
+    height: 11rem;
+    --glass-rotation: -2deg;
+    animation: glass-float 18s ease-in-out infinite alternate;
+}
+
+.effects-glass-panel--b {
+    top: 12%;
+    right: 11%;
+    width: 18rem;
+    height: 7rem;
+    --glass-rotation: 3deg;
+    animation: glass-float 22s ease-in-out 0.8s infinite alternate-reverse;
+}
+
+.effects-glass-panel--c {
+    bottom: 8%;
+    left: 10%;
+    width: 22rem;
+    height: 8rem;
+    --glass-rotation: -10deg;
+    animation: glass-float 20s ease-in-out 0.4s infinite alternate;
+}
+
+.app-shell[data-effect-preset="liquid"] .effects-glass-panel {
+    opacity: 0.08;
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow:
+        0 0.75rem 2rem rgba(61, 92, 156, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+        0 0 0 1px rgba(255, 255, 255, 0.02),
+        0 0 1rem rgba(147, 200, 255, 0.06);
+    backdrop-filter: blur(18px) saturate(130%);
+}
+
+.app-shell[data-effect-preset="liquid"] .effects-glass-panel::before {
+    opacity: 0.22;
+}
+
+.app-shell.has-motion-stroke-overlay[data-effect-preset="liquid"] .effects-glass-panel,
+.app-shell.has-motion-stroke-overlay[data-effect-preset="liquid"] .effects-orb,
+.app-shell.has-motion-stroke-overlay[data-effect-preset="liquid"] .background-layer--effects::before,
+.app-shell.has-motion-stroke-overlay[data-effect-preset="liquid"] .background-layer--effects::after {
+    opacity: 0.12;
+}
+
+.effects-liquid-ripple {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--liquid-ripple-size, 10rem);
+    height: var(--liquid-ripple-size, 10rem);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    background:
+        radial-gradient(circle, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02) 45%, rgba(255, 255, 255, 0) 70%);
+    box-shadow:
+        0 0 1.6rem rgba(164, 214, 255, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.42);
+    transform: translate(-50%, -50%) scale(0.18);
+    opacity: 0.9;
+    animation: liquid-ripple-pop 920ms ease-out forwards;
+}
+
+.effects-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(28px);
+    opacity: 0.9;
+    mix-blend-mode: screen;
+    animation: orb-drift 18s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+.app-shell[data-effect-preset="liquid"] .effects-orb {
+    filter: blur(72px);
+    opacity: 0.28;
+    mix-blend-mode: screen;
+}
+
+.app-shell[data-effect-preset="aurora"] .effects-orb,
+.app-shell[data-effect-preset="classic"][data-effect-theme="aurora"] .effects-orb {
+    filter: blur(44px) saturate(152%);
+    opacity: 0.94;
+}
+
+.effects-orb--a {
+    top: 18%;
+    left: 10%;
+    width: 18rem;
+    height: 18rem;
+    background: var(--effect-orb-a);
+}
+
+.app-shell[data-effect-preset="liquid"] .effects-orb--a {
+    top: 10%;
+    left: -2%;
+    width: 42rem;
+    height: 28rem;
+    animation: liquid-bob 20s ease-in-out infinite alternate;
+}
+
+.effects-orb--b {
+    right: 12%;
+    bottom: 18%;
+    width: 16rem;
+    height: 16rem;
+    background: var(--effect-orb-b);
+    animation-duration: 22s;
+}
+
+.app-shell[data-effect-preset="liquid"] .effects-orb--b {
+    right: 18%;
+    bottom: 16%;
+    width: 36rem;
+    height: 24rem;
+    animation: liquid-bob 22s ease-in-out 0.8s infinite alternate-reverse;
+}
+
+.effects-orb--c {
+    top: 50%;
+    right: 24%;
+    width: 12rem;
+    height: 12rem;
+    background: var(--effect-orb-c);
+    animation-duration: 15s;
+}
+
+.app-shell[data-effect-preset="liquid"] .effects-orb--c {
+    top: 56%;
+    right: -2%;
+    width: 30rem;
+    height: 20rem;
+    animation: liquid-bob 16s ease-in-out 0.25s infinite alternate;
+}
+
+.background-shade {
+    background:
+        linear-gradient(180deg, rgba(4, 8, 20, 0.34), rgba(4, 8, 20, 0.58)),
+        radial-gradient(circle at center, transparent 16%, rgba(4, 8, 20, 0.12) 76%, rgba(4, 8, 20, 0.5) 100%);
+}
+
+.app-shell[data-background-mode="video"] .background-shade,
+.app-shell[data-background-mode="image"] .background-shade {
+    background:
+        linear-gradient(180deg, rgba(8, 8, 10, 0.12), rgba(8, 8, 10, 0.28)),
+        radial-gradient(circle at center, transparent 22%, rgba(8, 8, 10, 0.1) 76%, rgba(8, 8, 10, 0.34) 100%);
+}
+
+.app-shell[data-background-mode="effects"][data-effect-preset="liquid"] .background-shade {
+    background:
+        linear-gradient(180deg, rgba(var(--liquid-glare-rgb, 243, 247, 255), 0.03), rgba(var(--liquid-base-bottom-rgb, 29, 27, 49), 0.08)),
+        radial-gradient(circle at center, rgba(var(--liquid-glare-rgb, 243, 247, 255), 0.04), rgba(var(--liquid-base-bottom-rgb, 29, 27, 49), 0.22) 100%);
+}
+
+.app-shell[data-background-mode="effects"][data-effect-preset="aurora"] .background-shade,
+.app-shell[data-background-mode="effects"][data-effect-preset="northern-lights"] .background-shade,
+.app-shell[data-background-mode="effects"][data-effect-preset="classic"][data-effect-theme="aurora"] .background-shade {
+    background:
+        linear-gradient(180deg, rgba(10, 12, 34, 0.08), rgba(10, 12, 34, 0.22)),
+        radial-gradient(circle at center, transparent 18%, rgba(10, 14, 40, 0.08) 76%, rgba(8, 10, 34, 0.18) 100%);
+}
+
+.footer-rail,
+.background-mode-switch,
+.background-scene-switch,
+.background-effect-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+}
+
+.background-control-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(9, 18, 42, 0.52);
+    backdrop-filter: blur(14px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.background-control-group--wrap {
+    border-radius: 1.15rem;
+    flex-wrap: wrap;
+}
+
+.background-switch-btn,
+.scene-nav-btn,
+.scene-label {
+    min-height: 2.75rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.background-switch-btn,
+.scene-nav-btn {
+    padding: 0.45rem 0.95rem;
+    cursor: pointer;
+    transition: background 180ms ease, color 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+
+.background-switch-btn:hover,
+.scene-nav-btn:hover {
+    transform: translateY(-1px);
+    color: var(--text-primary);
+}
+
+.background-switch-btn.is-active {
+    background: linear-gradient(180deg, rgba(84, 173, 255, 0.22), rgba(40, 87, 204, 0.22));
+    border-color: rgba(110, 196, 255, 0.28);
+    color: var(--text-primary);
+    box-shadow: 0 0 1rem rgba(68, 147, 255, 0.18);
+}
+
+.scene-nav-btn {
+    min-width: 2.75rem;
+    padding-inline: 0.8rem;
+}
+
+.scene-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 10rem;
+    min-width: 10rem;
+    padding: 0.45rem 0.9rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.82rem;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.background-effect-switch .background-control-group {
+    width: 100%;
+}
+
+.background-effect-switch .background-switch-btn {
+    min-width: 7.5rem;
+}
+
+@keyframes background-pan {
+    from {
+        transform: scale(1.03) translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: scale(1.07) translate3d(-1.8rem, -1.1rem, 0);
+    }
+}
+
+@keyframes vignette-breathe {
+    from {
+        opacity: 0.92;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes orb-drift {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(-2rem, 1.6rem, 0);
+    }
+}
+
+@keyframes aurora-wave {
+    from {
+        transform: translate3d(0, 0, 0) rotate(-8deg) scale(1);
+    }
+
+    to {
+        transform: translate3d(2rem, -1rem, 0) rotate(8deg) scale(1.06);
+    }
+}
+
+@keyframes aurora-sky-drift {
+    from {
+        background-position: 0% 0%, 100% 0%, 50% 100%, 50% 50%;
+    }
+
+    to {
+        background-position: 8% 6%, 88% 8%, 54% 86%, 50% 50%;
+    }
+}
+
+@keyframes aurora-curtain {
+    from {
+        transform: translate3d(0, 0, 0) rotate(-9deg) scale(1);
+    }
+
+    to {
+        transform: translate3d(2.2rem, -1.1rem, 0) rotate(7deg) scale(1.08);
+    }
+}
+
+@keyframes aurora-breathe {
+    from {
+        transform: translate3d(0, 0, 0) scale(0.96);
+        opacity: calc(var(--aurora-veil-opacity) * 0.72);
+    }
+
+    to {
+        transform: translate3d(0.8rem, -0.5rem, 0) scale(1.08);
+        opacity: var(--aurora-veil-opacity);
+    }
+}
+
+@keyframes aurora-chroma {
+    0% {
+        filter: blur(54px) saturate(155%) hue-rotate(0deg);
+    }
+
+    35% {
+        filter: blur(60px) saturate(176%) hue-rotate(16deg);
+    }
+
+    70% {
+        filter: blur(58px) saturate(170%) hue-rotate(-14deg);
+    }
+
+    100% {
+        filter: blur(56px) saturate(164%) hue-rotate(8deg);
+    }
+}
+
+@keyframes liquid-shift {
+    from {
+        transform: translate3d(0, 0, 0) scale(1) rotate(-6deg);
+    }
+
+    to {
+        transform: translate3d(2rem, -1.4rem, 0) scale(1.08) rotate(8deg);
+    }
+}
+
+@keyframes liquid-bob {
+    from {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    to {
+        transform: translate3d(-1.8rem, 1.2rem, 0) scale(1.08);
+    }
+}
+
+@keyframes glass-float {
+    from {
+        transform: translate3d(0, 0, 0) rotate(var(--glass-rotation, 0deg));
+    }
+
+    to {
+        transform: translate3d(1rem, -0.8rem, 0) rotate(calc(var(--glass-rotation, 0deg) + 2deg));
+    }
+}
+
+@keyframes stroke-travel {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -100;
+    }
+}
+
+@keyframes stroke-motif-drift {
+    from {
+        transform: translate(-50%, -50%) rotate(var(--stroke-motif-rotation)) translate3d(0, 0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(calc(var(--stroke-motif-rotation) + 6deg)) translate3d(0.8rem, -0.65rem, 0) scale(1.03);
+    }
+}
+
+@keyframes stroke-stamp-pop {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--stroke-motif-rotation)) scale(0.5);
+    }
+
+    18% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(calc(var(--stroke-motif-rotation) + 10deg)) scale(1.16);
+    }
+}
+
+@keyframes liquid-ripple-pop {
+    0% {
+        opacity: 0.92;
+        transform: translate(-50%, -50%) scale(0.22);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.22);
+    }
+}

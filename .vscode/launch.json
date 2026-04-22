@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "Profile: Run local",
+            "command": "npm start",
+            "cwd": "${workspaceFolder}",
+            "serverReadyAction": {
+                "pattern": "-\\s+(http://127\\.0\\.0\\.1:\\d+)",
+                "uriFormat": "%s",
+                "action": "openExternally"
+            }
+        },
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "Profile: Run LAN",
+            "command": "npm run start:lan",
+            "cwd": "${workspaceFolder}",
+            "serverReadyAction": {
+                "pattern": "-\\s+(http://127\\.0\\.0\\.1:\\d+)",
+                "uriFormat": "%s",
+                "action": "openExternally"
+            }
+        }
+    ]
+}
