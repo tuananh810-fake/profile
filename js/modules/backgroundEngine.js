@@ -329,6 +329,26 @@ class BackgroundEngine {
         }
     }
 
+    applyStoredCustomVideo(blob, label, announce = true) {
+        if (!blob) {
+            return;
+        }
+
+        this.releaseCustomVideo(false);
+        const url = URL.createObjectURL(blob);
+        const nextLabel = label || "Saved custom video";
+
+        this.customVideoResource = { url, label: nextLabel };
+        this.videoLabel.textContent = nextLabel;
+        this.applyVideoSource(url);
+        this.setMode("video", false);
+        this.playVideo();
+
+        if (announce) {
+            this.setStatus(`Saved custom video loaded: ${nextLabel}.`);
+        }
+    }
+
     clearCustomVideo(announce = true) {
         const hadCustom = Boolean(this.customVideoResource);
         this.releaseCustomVideo(false);
@@ -406,6 +426,25 @@ class BackgroundEngine {
 
         if (announce) {
             this.setStatus(`Custom image applied: ${label}.`);
+        }
+    }
+
+    applyStoredCustomImage(blob, label, announce = true) {
+        if (!blob) {
+            return;
+        }
+
+        this.releaseCustomImage(false);
+        const url = URL.createObjectURL(blob);
+        const nextLabel = label || "Saved custom image";
+
+        this.customImageResource = { url, label: nextLabel };
+        this.imageLabel.textContent = nextLabel;
+        this.applyImageSource(url, nextLabel);
+        this.setMode("image", false);
+
+        if (announce) {
+            this.setStatus(`Saved custom image loaded: ${nextLabel}.`);
         }
     }
 

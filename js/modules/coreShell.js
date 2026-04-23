@@ -50,6 +50,8 @@ class CoreShell {
         this.status.textContent = shell.status;
         this.wordmarkTop.textContent = shell.wordmark;
         this.wordmarkBottom.textContent = shell.wordmark;
+        this.wordmarkTop.hidden = !shell.wordmark;
+        this.wordmarkBottom.hidden = !shell.wordmark;
 
         this.badges.replaceChildren(
             ...shell.badges.map((label) => {

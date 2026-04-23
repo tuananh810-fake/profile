@@ -6,7 +6,7 @@
     <title>Neon Artist Profile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Caveat:wght@500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Spectral:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Chakra+Petch:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&family=Sora:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Spectral:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/base.css">
     <link rel="stylesheet" href="./styles/background.css">
     <link rel="stylesheet" href="./styles/profile.css">
@@ -81,18 +81,6 @@
                         <input class="lyrics-setting-input" id="lyricsScaleRange" type="range" min="60" max="240" step="1" value="100">
                     </label>
 
-                    <label class="lyrics-setting" for="lyricsWidthRange">
-                        <span class="lyrics-setting-label">Width</span>
-                        <output class="lyrics-setting-value" id="lyricsWidthValue">740px</output>
-                        <input class="lyrics-setting-input" id="lyricsWidthRange" type="range" min="360" max="1220" step="4" value="740">
-                    </label>
-
-                    <label class="lyrics-setting" for="lyricsHeightRange">
-                        <span class="lyrics-setting-label">Height</span>
-                        <output class="lyrics-setting-value" id="lyricsHeightValue">260px</output>
-                        <input class="lyrics-setting-input" id="lyricsHeightRange" type="range" min="220" max="920" step="4" value="260">
-                    </label>
-
                     <label class="lyrics-setting" for="lyricsBoxHazeRange">
                         <span class="lyrics-setting-label">Box Haze</span>
                         <output class="lyrics-setting-value" id="lyricsBoxHazeValue">58%</output>
@@ -104,16 +92,138 @@
                         <select class="lyrics-font-select" id="lyricsFontSelect"></select>
                     </label>
 
+                    <label class="lyrics-setting lyrics-setting--toggle" for="lyricsBoldToggle">
+                        <span class="lyrics-setting-label">Bold</span>
+                        <span class="lyrics-toggle-shell">
+                            <input class="lyrics-toggle-input" id="lyricsBoldToggle" type="checkbox" aria-label="Bold lyrics text">
+                            <span class="lyrics-toggle-track" aria-hidden="true"></span>
+                        </span>
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--toggle" for="lyricsItalicToggle">
+                        <span class="lyrics-setting-label">Italic</span>
+                        <span class="lyrics-toggle-shell">
+                            <input class="lyrics-toggle-input" id="lyricsItalicToggle" type="checkbox" aria-label="Italic lyrics text">
+                            <span class="lyrics-toggle-track" aria-hidden="true"></span>
+                        </span>
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--select" for="textEffect">
+                        <span class="lyrics-setting-label">Text Style</span>
+                        <select class="lyrics-font-select" id="textEffect" aria-label="Lyrics text style">
+                            <option value="normal">Normal</option>
+                            <option value="outline">Outline</option>
+                            <option value="3d-effect">3D-Effect</option>
+                            <option value="pixel-game">Pixel-Game</option>
+                        </select>
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--select" for="colorMode">
+                        <span class="lyrics-setting-label">Color Mode</span>
+                        <select class="lyrics-font-select" id="colorMode" aria-label="Lyrics color mode">
+                            <option value="single">Single</option>
+                            <option value="gradient-text">Gradient-Text</option>
+                            <option value="random-per-word">Random-Per-Word</option>
+                            <option value="random-per-char">Random-Per-Char</option>
+                        </select>
+                    </label>
+
+                    <div class="lyrics-setting lyrics-setting--palette">
+                        <span class="lyrics-setting-label">Hologram Presets</span>
+                        <div class="lyrics-preset-gallery" id="lyricsColorPresetGallery" aria-label="Lyrics color preset gallery"></div>
+                        <span class="lyrics-color-preview" id="lyricsMultiColorPreview" aria-live="polite"></span>
+                    </div>
+
+                    <label class="lyrics-setting lyrics-setting--color" for="lyricsPrimaryColor">
+                        <span class="lyrics-setting-label">Color 1</span>
+                        <input class="lyrics-color-input" id="lyricsPrimaryColor" type="color" value="#f9fcff" aria-label="Lyrics hologram color 1">
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--color" for="lyricsSecondaryColor">
+                        <span class="lyrics-setting-label">Color 2</span>
+                        <input class="lyrics-color-input" id="lyricsSecondaryColor" type="color" value="#9fd4ff" aria-label="Lyrics hologram color 2">
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--color" for="lyricsAccentColor">
+                        <span class="lyrics-setting-label">Color 3</span>
+                        <input class="lyrics-color-input" id="lyricsAccentColor" type="color" value="#8ef4ff" aria-label="Lyrics hologram color 3">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsLetterSpacingRange">
+                        <span class="lyrics-setting-label">Letter Spacing</span>
+                        <output class="lyrics-setting-value" id="lyricsLetterSpacingValue">+0.00em</output>
+                        <input class="lyrics-setting-input" id="lyricsLetterSpacingRange" type="range" min="-80" max="180" step="5" value="0">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsWordSpacingRange">
+                        <span class="lyrics-setting-label">Word Spacing</span>
+                        <output class="lyrics-setting-value" id="lyricsWordSpacingValue">+0.00em</output>
+                        <input class="lyrics-setting-input" id="lyricsWordSpacingRange" type="range" min="-30" max="120" step="2" value="0">
+                    </label>
+
                     <label class="lyrics-setting" for="lyricsKineticWordsRange">
                         <span class="lyrics-setting-label">Words / Line</span>
                         <output class="lyrics-setting-value" id="lyricsKineticWordsValue">5</output>
-                        <input class="lyrics-setting-input" id="lyricsKineticWordsRange" type="range" min="3" max="8" step="1" value="5">
+                        <input class="lyrics-setting-input" id="lyricsKineticWordsRange" type="range" min="0" max="8" step="1" value="5">
                     </label>
 
                     <label class="lyrics-setting" for="lyricsKineticCharsRange">
                         <span class="lyrics-setting-label">Chars / Line</span>
                         <output class="lyrics-setting-value" id="lyricsKineticCharsValue">20</output>
-                        <input class="lyrics-setting-input" id="lyricsKineticCharsRange" type="range" min="10" max="36" step="1" value="20">
+                        <input class="lyrics-setting-input" id="lyricsKineticCharsRange" type="range" min="0" max="36" step="1" value="20">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsKineticSpeedRange">
+                        <span class="lyrics-setting-label">Kinetic Speed</span>
+                        <output class="lyrics-setting-value" id="lyricsKineticSpeedValue">1.00x</output>
+                        <input class="lyrics-setting-input" id="lyricsKineticSpeedRange" type="range" min="25" max="200" step="5" value="100">
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--select" for="lyricsKineticStyleSelect">
+                        <span class="lyrics-setting-label">Kinetic Style</span>
+                        <select class="lyrics-font-select" id="lyricsKineticStyleSelect" aria-label="Kinetic lyric style">
+                            <option value="center-build">Center Build</option>
+                            <option value="soft-drift">Soft Drift</option>
+                            <option value="clean-phrase">Clean Phrase</option>
+                        </select>
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--toggle" for="lyricsTailBurstToggle">
+                        <span class="lyrics-setting-label">Tail Burst</span>
+                        <span class="lyrics-toggle-shell">
+                            <input class="lyrics-toggle-input" id="lyricsTailBurstToggle" type="checkbox" aria-label="Enable burst effect on the last word of each kinetic row">
+                            <span class="lyrics-toggle-track" aria-hidden="true"></span>
+                        </span>
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--select" for="lyricsTailBurstStyleSelect">
+                        <span class="lyrics-setting-label">Burst Style</span>
+                        <select class="lyrics-font-select" id="lyricsTailBurstStyleSelect" aria-label="Tail burst style">
+                            <option value="glow-burst">Glow Burst</option>
+                            <option value="firework">Firework</option>
+                            <option value="shatter">Shatter</option>
+                        </select>
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--color" for="lyricsTailBurstColorA">
+                        <span class="lyrics-setting-label">Burst A</span>
+                        <input class="lyrics-color-input" id="lyricsTailBurstColorA" type="color" value="#7ef8ff" aria-label="Tail burst primary color">
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--color" for="lyricsTailBurstColorB">
+                        <span class="lyrics-setting-label">Burst B</span>
+                        <input class="lyrics-color-input" id="lyricsTailBurstColorB" type="color" value="#4d8cff" aria-label="Tail burst secondary color">
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--color" for="lyricsTailBurstColorCore">
+                        <span class="lyrics-setting-label">Burst Core</span>
+                        <input class="lyrics-color-input" id="lyricsTailBurstColorCore" type="color" value="#fff8ff" aria-label="Tail burst core color">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsTailBurstStrengthRange">
+                        <span class="lyrics-setting-label">Burst Strength</span>
+                        <span class="lyrics-setting-value" id="lyricsTailBurstStrengthValue">1.00x</span>
+                        <input class="lyrics-setting-input" id="lyricsTailBurstStrengthRange" type="range" min="25" max="200" step="5" value="100" aria-label="Tail burst strength">
                     </label>
 
                     <label class="lyrics-setting lyrics-setting--select" for="lyricsAlignSelect" id="lyricsAlignSetting">
@@ -184,12 +294,13 @@
 
                 <div class="customizer-tabs" id="customizerTabs" aria-label="Customizer tabs">
                     <button class="customizer-tab is-active" type="button" data-tab="music">Music</button>
+                    <button class="customizer-tab" type="button" data-tab="lyrics">Lyrics</button>
                     <button class="customizer-tab" type="button" data-tab="background">Background</button>
                     <button class="customizer-tab" type="button" data-tab="layout">Layout</button>
                 </div>
 
                 <section class="customizer-section is-active" data-panel="music">
-                    <p class="customizer-note">Add a local audio track and optional .lrc file here instead of editing code.</p>
+                    <p class="customizer-note">Add a local audio track and optional .lrc file here instead of editing code. Saved tracks stay in this browser and load again automatically next time.</p>
 
                     <label class="customizer-field" for="customTrackTitle">
                         <span class="customizer-label">Track title</span>
@@ -212,9 +323,31 @@
                     </label>
 
                     <div class="customizer-actions">
-                        <button class="customizer-button customizer-button--primary" id="applyCustomTrackBtn" type="button">Apply local media</button>
-                        <button class="customizer-button" id="clearCustomTrackBtn" type="button">Revert to default</button>
+                        <button class="customizer-button customizer-button--primary" id="applyCustomTrackBtn" type="button">Save and load track</button>
+                        <button class="customizer-button" id="cancelTrackEditBtn" type="button" hidden>Cancel edit</button>
+                        <button class="customizer-button" id="clearCustomTrackBtn" type="button">Play default</button>
                     </div>
+
+                    <div class="customizer-upload-status" id="customTrackStatus" hidden aria-live="polite">
+                        <p class="customizer-upload-step" id="customTrackStatusStep">Waiting for local media.</p>
+                        <p class="customizer-upload-detail" id="customTrackStatusDetail">Add an MP3 and optional .lrc file. The player will read, parse, and prepare lyric timing automatically.</p>
+                    </div>
+
+                    <div class="customizer-library" id="customTrackLibrary" hidden>
+                        <div class="customizer-library-head">
+                            <div class="customizer-library-head-row">
+                                <span class="customizer-label">Saved local tracks</span>
+                                <button class="customizer-button customizer-button--compact" id="exportTrackLibraryCodeBtn" type="button">Export code</button>
+                            </div>
+                            <p class="customizer-library-note" id="customTrackLibraryNote">Tracks saved in this browser appear here.</p>
+                        </div>
+                        <div class="customizer-library-list" id="customTrackLibraryList"></div>
+                    </div>
+                </section>
+
+                <section class="customizer-section" data-panel="lyrics">
+                    <p class="customizer-note">Tune lyric typography, spacing, box haze, and render mode from one sidebar instead of stacking controls on top of the lyric box.</p>
+                    <div class="lyrics-sidebar-mount" id="lyricsSidebarMount"></div>
                 </section>
 
                 <section class="customizer-section" data-panel="background">

@@ -5,3 +5,6 @@
 .server-test.out.log
 server-test.log
 .dom-test.html
+node_modules/
+.env
+.env.local

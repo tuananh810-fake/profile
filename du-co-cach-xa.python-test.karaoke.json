@@ -1,0 +1,4582 @@
+{
+  "generatedAt": "2026-04-23T14:53:10Z",
+  "source": {
+    "audio": "du-co-cach-xa.mp3",
+    "lyrics": "du-co-cach-xa.lrc",
+    "mode": "python",
+    "engine": "faster-whisper",
+    "model": "tiny",
+    "transcriptWordCount": 521
+  },
+  "lines": [
+    {
+      "lineStartMs": 33450,
+      "text": "Ngày hôm qua em chợt mang nắng tới",
+      "words": [
+        {
+          "text": "Ngày",
+          "startTime": 33220,
+          "endTime": 33820,
+          "timeMs": 33220,
+          "confidence": 0.21780038997530937
+        },
+        {
+          "text": "hôm",
+          "startTime": 33660,
+          "endTime": 34100,
+          "timeMs": 33660,
+          "confidence": null
+        },
+        {
+          "text": "qua",
+          "startTime": 34100,
+          "endTime": 34620,
+          "timeMs": 34100,
+          "confidence": 0.5182938575744629
+        },
+        {
+          "text": "em",
+          "startTime": 34620,
+          "endTime": 34840,
+          "timeMs": 34620,
+          "confidence": 0.4886547923088074
+        },
+        {
+          "text": "chợt",
+          "startTime": 34880,
+          "endTime": 35140,
+          "timeMs": 34880,
+          "confidence": null
+        },
+        {
+          "text": "mang",
+          "startTime": 35140,
+          "endTime": 35360,
+          "timeMs": 35140,
+          "confidence": 0.286357581615448
+        },
+        {
+          "text": "nắng",
+          "startTime": 35539,
+          "endTime": 35938,
+          "timeMs": 35539,
+          "confidence": null
+        },
+        {
+          "text": "tới",
+          "startTime": 35938,
+          "endTime": 36640,
+          "timeMs": 35938,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 36640,
+      "text": "Chợt làm ngẩn ngơ đắm say anh chiếc hôn bối rối",
+      "words": [
+        {
+          "text": "Chợt",
+          "startTime": 36810,
+          "endTime": 36980,
+          "timeMs": 36810,
+          "confidence": null
+        },
+        {
+          "text": "làm",
+          "startTime": 36980,
+          "endTime": 37240,
+          "timeMs": 36980,
+          "confidence": 0.4078556299209595
+        },
+        {
+          "text": "ngẩn",
+          "startTime": 37140,
+          "endTime": 37300,
+          "timeMs": 37140,
+          "confidence": null
+        },
+        {
+          "text": "ngơ",
+          "startTime": 37300,
+          "endTime": 37460,
+          "timeMs": 37300,
+          "confidence": null
+        },
+        {
+          "text": "đắm",
+          "startTime": 37460,
+          "endTime": 37620,
+          "timeMs": 37460,
+          "confidence": null
+        },
+        {
+          "text": "say",
+          "startTime": 37620,
+          "endTime": 37780,
+          "timeMs": 37620,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 37780,
+          "endTime": 37960,
+          "timeMs": 37780,
+          "confidence": 0.5065204799175262
+        },
+        {
+          "text": "chiếc",
+          "startTime": 40360,
+          "endTime": 40780,
+          "timeMs": 40360,
+          "confidence": 0.8936445713043213
+        },
+        {
+          "text": "hôn",
+          "startTime": 40693,
+          "endTime": 41026,
+          "timeMs": 40693,
+          "confidence": null
+        },
+        {
+          "text": "bối",
+          "startTime": 41026,
+          "endTime": 41359,
+          "timeMs": 41026,
+          "confidence": null
+        },
+        {
+          "text": "rối",
+          "startTime": 41359,
+          "endTime": 41439,
+          "timeMs": 41359,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 40300,
+      "text": "Chợt làm muôn câu ca",
+      "words": [
+        {
+          "text": "Chợt",
+          "startTime": 40540,
+          "endTime": 40780,
+          "timeMs": 40540,
+          "confidence": null
+        },
+        {
+          "text": "làm",
+          "startTime": 40780,
+          "endTime": 41020,
+          "timeMs": 40780,
+          "confidence": 0.9490724802017212
+        },
+        {
+          "text": "muôn",
+          "startTime": 41170,
+          "endTime": 41560,
+          "timeMs": 41170,
+          "confidence": null
+        },
+        {
+          "text": "câu",
+          "startTime": 41560,
+          "endTime": 42240,
+          "timeMs": 41560,
+          "confidence": 0.45804721117019653
+        },
+        {
+          "text": "ca",
+          "startTime": 41958,
+          "endTime": 42290,
+          "timeMs": 41958,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 42290,
+      "text": "Chợt gọi mùa xuân qua",
+      "words": [
+        {
+          "text": "Chợt",
+          "startTime": 42495,
+          "endTime": 42700,
+          "timeMs": 42495,
+          "confidence": null
+        },
+        {
+          "text": "gọi",
+          "startTime": 42700,
+          "endTime": 42980,
+          "timeMs": 42700,
+          "confidence": 0.5821508020162582
+        },
+        {
+          "text": "mùa",
+          "startTime": 42980,
+          "endTime": 43180,
+          "timeMs": 42980,
+          "confidence": 0.48899614810943604
+        },
+        {
+          "text": "xuân",
+          "startTime": 43180,
+          "endTime": 43480,
+          "timeMs": 43180,
+          "confidence": 0.6088692396879196
+        },
+        {
+          "text": "qua",
+          "startTime": 43480,
+          "endTime": 44200,
+          "timeMs": 43480,
+          "confidence": 0.6275933384895325
+        }
+      ]
+    },
+    {
+      "lineStartMs": 44120,
+      "text": "Đừng rời tay trong tay, anh nghe mùa xuân ôi đắm say",
+      "words": [
+        {
+          "text": "Đừng",
+          "startTime": 44200,
+          "endTime": 44660,
+          "timeMs": 44200,
+          "confidence": 0.4481115788221359
+        },
+        {
+          "text": "rời",
+          "startTime": 44790,
+          "endTime": 45380,
+          "timeMs": 44790,
+          "confidence": null
+        },
+        {
+          "text": "tay",
+          "startTime": 45380,
+          "endTime": 45820,
+          "timeMs": 45380,
+          "confidence": 0.38638201355934143
+        },
+        {
+          "text": "trong",
+          "startTime": 45527,
+          "endTime": 45673,
+          "timeMs": 45527,
+          "confidence": null
+        },
+        {
+          "text": "tay,",
+          "startTime": 45673,
+          "endTime": 45820,
+          "timeMs": 45673,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 45820,
+          "endTime": 46180,
+          "timeMs": 45820,
+          "confidence": 0.44775381684303284
+        },
+        {
+          "text": "nghe",
+          "startTime": 46090,
+          "endTime": 46360,
+          "timeMs": 46090,
+          "confidence": null
+        },
+        {
+          "text": "mùa",
+          "startTime": 46360,
+          "endTime": 46560,
+          "timeMs": 46360,
+          "confidence": 0.8394604523976644
+        },
+        {
+          "text": "xuân",
+          "startTime": 46560,
+          "endTime": 46840,
+          "timeMs": 46560,
+          "confidence": 0.9841402471065521
+        },
+        {
+          "text": "ôi",
+          "startTime": 46840,
+          "endTime": 47120,
+          "timeMs": 46840,
+          "confidence": 0.3348376154899597
+        },
+        {
+          "text": "đắm",
+          "startTime": 47170,
+          "endTime": 47500,
+          "timeMs": 47170,
+          "confidence": null
+        },
+        {
+          "text": "say",
+          "startTime": 47500,
+          "endTime": 48080,
+          "timeMs": 47500,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 48080,
+      "text": "Và giờ em nơi thật xa, anh mang tình yêu không phôi pha",
+      "words": [
+        {
+          "text": "Và",
+          "startTime": 48220,
+          "endTime": 48360,
+          "timeMs": 48220,
+          "confidence": null
+        },
+        {
+          "text": "giờ",
+          "startTime": 48360,
+          "endTime": 48500,
+          "timeMs": 48360,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 48500,
+          "endTime": 49000,
+          "timeMs": 48500,
+          "confidence": 0.2676852345466614
+        },
+        {
+          "text": "nơi",
+          "startTime": 49000,
+          "endTime": 49180,
+          "timeMs": 49000,
+          "confidence": 0.6422484368085861
+        },
+        {
+          "text": "thật",
+          "startTime": 49180,
+          "endTime": 49500,
+          "timeMs": 49180,
+          "confidence": 0.37142880260944366
+        },
+        {
+          "text": "xa,",
+          "startTime": 49500,
+          "endTime": 49780,
+          "timeMs": 49500,
+          "confidence": 0.6572476327419281
+        },
+        {
+          "text": "anh",
+          "startTime": 49780,
+          "endTime": 50020,
+          "timeMs": 49780,
+          "confidence": 0.7225714921951294
+        },
+        {
+          "text": "mang",
+          "startTime": 50020,
+          "endTime": 50260,
+          "timeMs": 50020,
+          "confidence": null
+        },
+        {
+          "text": "tình",
+          "startTime": 50260,
+          "endTime": 50500,
+          "timeMs": 50260,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 50500,
+          "endTime": 50740,
+          "timeMs": 50500,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 50740,
+          "endTime": 50900,
+          "timeMs": 50740,
+          "confidence": 0.82627272605896
+        },
+        {
+          "text": "phôi",
+          "startTime": 50960,
+          "endTime": 51180,
+          "timeMs": 50960,
+          "confidence": null
+        },
+        {
+          "text": "pha",
+          "startTime": 51180,
+          "endTime": 51880,
+          "timeMs": 51180,
+          "confidence": 0.4580257162451744
+        }
+      ]
+    },
+    {
+      "lineStartMs": 51850,
+      "text": "Mỉm cười khi bỗng nhớ em, anh nâng câu hát",
+      "words": [
+        {
+          "text": "Mỉm",
+          "startTime": 52125,
+          "endTime": 52400,
+          "timeMs": 52125,
+          "confidence": null
+        },
+        {
+          "text": "cười",
+          "startTime": 52400,
+          "endTime": 52640,
+          "timeMs": 52400,
+          "confidence": 0.26885291934013367
+        },
+        {
+          "text": "khi",
+          "startTime": 52633,
+          "endTime": 52867,
+          "timeMs": 52633,
+          "confidence": null
+        },
+        {
+          "text": "bỗng",
+          "startTime": 52867,
+          "endTime": 53100,
+          "timeMs": 52867,
+          "confidence": null
+        },
+        {
+          "text": "nhớ",
+          "startTime": 53100,
+          "endTime": 53540,
+          "timeMs": 53100,
+          "confidence": 0.32043540477752686
+        },
+        {
+          "text": "em,",
+          "startTime": 53540,
+          "endTime": 53840,
+          "timeMs": 53540,
+          "confidence": 0.9500237703323364
+        },
+        {
+          "text": "anh",
+          "startTime": 53840,
+          "endTime": 54160,
+          "timeMs": 53840,
+          "confidence": 0.9048407077789307
+        },
+        {
+          "text": "nâng",
+          "startTime": 54540,
+          "endTime": 55240,
+          "timeMs": 54540,
+          "confidence": null
+        },
+        {
+          "text": "câu",
+          "startTime": 55240,
+          "endTime": 55940,
+          "timeMs": 55240,
+          "confidence": null
+        },
+        {
+          "text": "hát",
+          "startTime": 55940,
+          "endTime": 56460,
+          "timeMs": 55940,
+          "confidence": 0.24622556567192078
+        }
+      ]
+    },
+    {
+      "lineStartMs": 55720,
+      "text": "Hát yêu em thật nhiều",
+      "words": [
+        {
+          "text": "Hát",
+          "startTime": 55940,
+          "endTime": 56460,
+          "timeMs": 55940,
+          "confidence": 0.24622556567192078
+        },
+        {
+          "text": "yêu",
+          "startTime": 57200,
+          "endTime": 57660,
+          "timeMs": 57200,
+          "confidence": 0.9125784039497375
+        },
+        {
+          "text": "em",
+          "startTime": 57558,
+          "endTime": 57916,
+          "timeMs": 57558,
+          "confidence": null
+        },
+        {
+          "text": "thật",
+          "startTime": 57916,
+          "endTime": 58274,
+          "timeMs": 57916,
+          "confidence": null
+        },
+        {
+          "text": "nhiều",
+          "startTime": 58274,
+          "endTime": 58354,
+          "timeMs": 58274,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 57510,
+      "text": "Nhớ môi em thật nhiều",
+      "words": [
+        {
+          "text": "Nhớ",
+          "startTime": 57960,
+          "endTime": 58320,
+          "timeMs": 57960,
+          "confidence": 0.690424233675003
+        },
+        {
+          "text": "môi",
+          "startTime": 58320,
+          "endTime": 58740,
+          "timeMs": 58320,
+          "confidence": 0.3644196391105652
+        },
+        {
+          "text": "em",
+          "startTime": 58742,
+          "endTime": 59164,
+          "timeMs": 58742,
+          "confidence": null
+        },
+        {
+          "text": "thật",
+          "startTime": 59164,
+          "endTime": 59586,
+          "timeMs": 59164,
+          "confidence": null
+        },
+        {
+          "text": "nhiều",
+          "startTime": 59586,
+          "endTime": 59666,
+          "timeMs": 59586,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 59620,
+      "text": "Muốn theo mây và gió nơi phương trời đó anh đợi ai",
+      "words": [
+        {
+          "text": "Muốn",
+          "startTime": 59907,
+          "endTime": 60193,
+          "timeMs": 59907,
+          "confidence": null
+        },
+        {
+          "text": "theo",
+          "startTime": 60193,
+          "endTime": 60480,
+          "timeMs": 60193,
+          "confidence": null
+        },
+        {
+          "text": "mây",
+          "startTime": 60480,
+          "endTime": 60760,
+          "timeMs": 60480,
+          "confidence": 0.38878239691257477
+        },
+        {
+          "text": "và",
+          "startTime": 60760,
+          "endTime": 60980,
+          "timeMs": 60760,
+          "confidence": 0.29432982206344604
+        },
+        {
+          "text": "gió",
+          "startTime": 60990,
+          "endTime": 61220,
+          "timeMs": 60990,
+          "confidence": null
+        },
+        {
+          "text": "nơi",
+          "startTime": 61220,
+          "endTime": 61450,
+          "timeMs": 61220,
+          "confidence": null
+        },
+        {
+          "text": "phương",
+          "startTime": 61450,
+          "endTime": 61680,
+          "timeMs": 61450,
+          "confidence": null
+        },
+        {
+          "text": "trời",
+          "startTime": 61680,
+          "endTime": 61960,
+          "timeMs": 61680,
+          "confidence": 0.7727698683738708
+        },
+        {
+          "text": "đó",
+          "startTime": 61960,
+          "endTime": 62220,
+          "timeMs": 61960,
+          "confidence": 0.5792276263237
+        },
+        {
+          "text": "anh",
+          "startTime": 62220,
+          "endTime": 62420,
+          "timeMs": 62220,
+          "confidence": 0.6970101594924927
+        },
+        {
+          "text": "đợi",
+          "startTime": 62520,
+          "endTime": 62820,
+          "timeMs": 62520,
+          "confidence": null
+        },
+        {
+          "text": "ai",
+          "startTime": 62820,
+          "endTime": 63180,
+          "timeMs": 62820,
+          "confidence": 0.1820438802242279
+        }
+      ]
+    },
+    {
+      "lineStartMs": 63190,
+      "text": "Nếu mây kia mang người yêu anh đi về nơi nào xa vời",
+      "words": [
+        {
+          "text": "Nếu",
+          "startTime": 63180,
+          "endTime": 63720,
+          "timeMs": 63180,
+          "confidence": 0.8083422183990479
+        },
+        {
+          "text": "mây",
+          "startTime": 63720,
+          "endTime": 64100,
+          "timeMs": 63720,
+          "confidence": 0.7411405146121979
+        },
+        {
+          "text": "kia",
+          "startTime": 64100,
+          "endTime": 64360,
+          "timeMs": 64100,
+          "confidence": 0.46046413481235504
+        },
+        {
+          "text": "mang",
+          "startTime": 64360,
+          "endTime": 64600,
+          "timeMs": 64360,
+          "confidence": 0.6462323069572449
+        },
+        {
+          "text": "người",
+          "startTime": 64600,
+          "endTime": 64840,
+          "timeMs": 64600,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 64840,
+          "endTime": 65080,
+          "timeMs": 64840,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 65080,
+          "endTime": 65320,
+          "timeMs": 65080,
+          "confidence": null
+        },
+        {
+          "text": "đi",
+          "startTime": 65320,
+          "endTime": 65560,
+          "timeMs": 65320,
+          "confidence": null
+        },
+        {
+          "text": "về",
+          "startTime": 65560,
+          "endTime": 65800,
+          "timeMs": 65560,
+          "confidence": null
+        },
+        {
+          "text": "nơi",
+          "startTime": 65800,
+          "endTime": 66060,
+          "timeMs": 65800,
+          "confidence": 0.5475368499755859
+        },
+        {
+          "text": "nào",
+          "startTime": 66060,
+          "endTime": 66320,
+          "timeMs": 66060,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 66320,
+          "endTime": 66560,
+          "timeMs": 66320,
+          "confidence": 0.30612529069185257
+        },
+        {
+          "text": "vời",
+          "startTime": 66560,
+          "endTime": 67120,
+          "timeMs": 66560,
+          "confidence": 0.5047815144062042
+        }
+      ]
+    },
+    {
+      "lineStartMs": 67170,
+      "text": "Nếu xa xôi đành để riêng đôi ta về hai phương trời",
+      "words": [
+        {
+          "text": "Nếu",
+          "startTime": 67120,
+          "endTime": 67640,
+          "timeMs": 67120,
+          "confidence": 0.8358181118965149
+        },
+        {
+          "text": "xa",
+          "startTime": 67640,
+          "endTime": 67920,
+          "timeMs": 67640,
+          "confidence": 0.7425017952919006
+        },
+        {
+          "text": "xôi",
+          "startTime": 67910,
+          "endTime": 68180,
+          "timeMs": 67910,
+          "confidence": null
+        },
+        {
+          "text": "đành",
+          "startTime": 68180,
+          "endTime": 68420,
+          "timeMs": 68180,
+          "confidence": 0.6526042222976685
+        },
+        {
+          "text": "để",
+          "startTime": 68420,
+          "endTime": 68660,
+          "timeMs": 68420,
+          "confidence": 0.43189603090286255
+        },
+        {
+          "text": "riêng",
+          "startTime": 68660,
+          "endTime": 68900,
+          "timeMs": 68660,
+          "confidence": null
+        },
+        {
+          "text": "đôi",
+          "startTime": 68900,
+          "endTime": 69140,
+          "timeMs": 68900,
+          "confidence": null
+        },
+        {
+          "text": "ta",
+          "startTime": 69140,
+          "endTime": 69420,
+          "timeMs": 69140,
+          "confidence": 0.2209634780883789
+        },
+        {
+          "text": "về",
+          "startTime": 69400,
+          "endTime": 69660,
+          "timeMs": 69400,
+          "confidence": null
+        },
+        {
+          "text": "hai",
+          "startTime": 69660,
+          "endTime": 70120,
+          "timeMs": 69660,
+          "confidence": 0.38895082473754883
+        },
+        {
+          "text": "phương",
+          "startTime": 70020,
+          "endTime": 70380,
+          "timeMs": 70020,
+          "confidence": null
+        },
+        {
+          "text": "trời",
+          "startTime": 70380,
+          "endTime": 71100,
+          "timeMs": 70380,
+          "confidence": 0.7387293577194214
+        }
+      ]
+    },
+    {
+      "lineStartMs": 71150,
+      "text": "Có hay chăng không người yêu anh mong rằng tim mình không rời",
+      "words": [
+        {
+          "text": "Có",
+          "startTime": 71100,
+          "endTime": 71560,
+          "timeMs": 71100,
+          "confidence": 0.41971060633659363
+        },
+        {
+          "text": "hay",
+          "startTime": 71450,
+          "endTime": 71800,
+          "timeMs": 71450,
+          "confidence": null
+        },
+        {
+          "text": "chăng",
+          "startTime": 71800,
+          "endTime": 72020,
+          "timeMs": 71800,
+          "confidence": 0.38811855018138885
+        },
+        {
+          "text": "không",
+          "startTime": 72020,
+          "endTime": 72280,
+          "timeMs": 72020,
+          "confidence": 0.50843745470047
+        },
+        {
+          "text": "người",
+          "startTime": 72300,
+          "endTime": 72580,
+          "timeMs": 72300,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 72580,
+          "endTime": 72840,
+          "timeMs": 72580,
+          "confidence": 0.09241324663162231
+        },
+        {
+          "text": "anh",
+          "startTime": 72840,
+          "endTime": 73000,
+          "timeMs": 72840,
+          "confidence": 0.769866943359375
+        },
+        {
+          "text": "mong",
+          "startTime": 73000,
+          "endTime": 73220,
+          "timeMs": 73000,
+          "confidence": 0.6220837533473969
+        },
+        {
+          "text": "rằng",
+          "startTime": 73180,
+          "endTime": 73360,
+          "timeMs": 73180,
+          "confidence": null
+        },
+        {
+          "text": "tim",
+          "startTime": 73360,
+          "endTime": 73720,
+          "timeMs": 73360,
+          "confidence": 0.5869944294293722
+        },
+        {
+          "text": "mình",
+          "startTime": 73720,
+          "endTime": 73960,
+          "timeMs": 73720,
+          "confidence": 0.4013424217700958
+        },
+        {
+          "text": "không",
+          "startTime": 73960,
+          "endTime": 74180,
+          "timeMs": 73960,
+          "confidence": 0.41051608324050903
+        },
+        {
+          "text": "rời",
+          "startTime": 74252,
+          "endTime": 74940,
+          "timeMs": 74252,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 74940,
+      "text": "Để ngày đêm anh với anh mong một ngày không cách xa",
+      "words": [
+        {
+          "text": "Để",
+          "startTime": 75380,
+          "endTime": 75640,
+          "timeMs": 75380,
+          "confidence": 0.6878033578395844
+        },
+        {
+          "text": "ngày",
+          "startTime": 77260,
+          "endTime": 77540,
+          "timeMs": 77260,
+          "confidence": 0.424092099070549
+        },
+        {
+          "text": "đêm",
+          "startTime": 77295,
+          "endTime": 77375,
+          "timeMs": 77295,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 77330,
+          "endTime": 77410,
+          "timeMs": 77330,
+          "confidence": null
+        },
+        {
+          "text": "với",
+          "startTime": 77365,
+          "endTime": 77445,
+          "timeMs": 77365,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 77400,
+          "endTime": 77480,
+          "timeMs": 77400,
+          "confidence": null
+        },
+        {
+          "text": "mong",
+          "startTime": 77435,
+          "endTime": 77515,
+          "timeMs": 77435,
+          "confidence": null
+        },
+        {
+          "text": "một",
+          "startTime": 77470,
+          "endTime": 77550,
+          "timeMs": 77470,
+          "confidence": null
+        },
+        {
+          "text": "ngày",
+          "startTime": 77505,
+          "endTime": 77585,
+          "timeMs": 77505,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 77540,
+          "endTime": 77760,
+          "timeMs": 77540,
+          "confidence": 0.8447485566139221
+        },
+        {
+          "text": "cách",
+          "startTime": 77780,
+          "endTime": 78020,
+          "timeMs": 77780,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 78020,
+          "endTime": 78480,
+          "timeMs": 78020,
+          "confidence": 0.8640542030334473
+        }
+      ]
+    },
+    {
+      "lineStartMs": 78410,
+      "text": "Biết đâu mai đây là mây thênh thang người say bên mình",
+      "words": [
+        {
+          "text": "Biết",
+          "startTime": 78578,
+          "endTime": 78747,
+          "timeMs": 78578,
+          "confidence": null
+        },
+        {
+          "text": "đâu",
+          "startTime": 78747,
+          "endTime": 78915,
+          "timeMs": 78747,
+          "confidence": null
+        },
+        {
+          "text": "mai",
+          "startTime": 78915,
+          "endTime": 79083,
+          "timeMs": 78915,
+          "confidence": null
+        },
+        {
+          "text": "đây",
+          "startTime": 79083,
+          "endTime": 79252,
+          "timeMs": 79083,
+          "confidence": null
+        },
+        {
+          "text": "là",
+          "startTime": 79252,
+          "endTime": 79420,
+          "timeMs": 79252,
+          "confidence": null
+        },
+        {
+          "text": "mây",
+          "startTime": 79420,
+          "endTime": 79680,
+          "timeMs": 79420,
+          "confidence": 0.28491976112127304
+        },
+        {
+          "text": "thênh",
+          "startTime": 80060,
+          "endTime": 80700,
+          "timeMs": 80060,
+          "confidence": null
+        },
+        {
+          "text": "thang",
+          "startTime": 80700,
+          "endTime": 80960,
+          "timeMs": 80700,
+          "confidence": 0.2816086485981941
+        },
+        {
+          "text": "người",
+          "startTime": 80990,
+          "endTime": 81280,
+          "timeMs": 80990,
+          "confidence": null
+        },
+        {
+          "text": "say",
+          "startTime": 81280,
+          "endTime": 81570,
+          "timeMs": 81280,
+          "confidence": null
+        },
+        {
+          "text": "bên",
+          "startTime": 81570,
+          "endTime": 81860,
+          "timeMs": 81570,
+          "confidence": null
+        },
+        {
+          "text": "mình",
+          "startTime": 81860,
+          "endTime": 82560,
+          "timeMs": 81860,
+          "confidence": 0.3833642601966858
+        }
+      ]
+    },
+    {
+      "lineStartMs": 82450,
+      "text": "Biết đâu anh nhẹ nhàng nâng trên môi này câu ru tình",
+      "words": [
+        {
+          "text": "Biết",
+          "startTime": 82755,
+          "endTime": 83060,
+          "timeMs": 82755,
+          "confidence": null
+        },
+        {
+          "text": "đâu",
+          "startTime": 83060,
+          "endTime": 83320,
+          "timeMs": 83060,
+          "confidence": 0.41227787733078003
+        },
+        {
+          "text": "anh",
+          "startTime": 83320,
+          "endTime": 83540,
+          "timeMs": 83320,
+          "confidence": 0.31980738043785095
+        },
+        {
+          "text": "nhẹ",
+          "startTime": 83555,
+          "endTime": 83790,
+          "timeMs": 83555,
+          "confidence": null
+        },
+        {
+          "text": "nhàng",
+          "startTime": 83790,
+          "endTime": 84025,
+          "timeMs": 83790,
+          "confidence": null
+        },
+        {
+          "text": "nâng",
+          "startTime": 84025,
+          "endTime": 84260,
+          "timeMs": 84025,
+          "confidence": null
+        },
+        {
+          "text": "trên",
+          "startTime": 84260,
+          "endTime": 84440,
+          "timeMs": 84260,
+          "confidence": 0.14820381999015808
+        },
+        {
+          "text": "môi",
+          "startTime": 84440,
+          "endTime": 84720,
+          "timeMs": 84440,
+          "confidence": 0.5703355818986893
+        },
+        {
+          "text": "này",
+          "startTime": 84769,
+          "endTime": 85098,
+          "timeMs": 84769,
+          "confidence": null
+        },
+        {
+          "text": "câu",
+          "startTime": 85098,
+          "endTime": 85427,
+          "timeMs": 85098,
+          "confidence": null
+        },
+        {
+          "text": "ru",
+          "startTime": 85427,
+          "endTime": 85756,
+          "timeMs": 85427,
+          "confidence": null
+        },
+        {
+          "text": "tình",
+          "startTime": 85756,
+          "endTime": 86400,
+          "timeMs": 85756,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 86400,
+      "text": "Biết đâu xa xôi chẳng thêm cho anh lẻ loi một bóng hình",
+      "words": [
+        {
+          "text": "Biết",
+          "startTime": 86670,
+          "endTime": 86940,
+          "timeMs": 86670,
+          "confidence": null
+        },
+        {
+          "text": "đâu",
+          "startTime": 86940,
+          "endTime": 87140,
+          "timeMs": 86940,
+          "confidence": 0.9350967407226562
+        },
+        {
+          "text": "xa",
+          "startTime": 87140,
+          "endTime": 87340,
+          "timeMs": 87140,
+          "confidence": 0.5167621225118637
+        },
+        {
+          "text": "xôi",
+          "startTime": 87395,
+          "endTime": 87650,
+          "timeMs": 87395,
+          "confidence": null
+        },
+        {
+          "text": "chẳng",
+          "startTime": 87650,
+          "endTime": 87905,
+          "timeMs": 87650,
+          "confidence": null
+        },
+        {
+          "text": "thêm",
+          "startTime": 87905,
+          "endTime": 88160,
+          "timeMs": 87905,
+          "confidence": null
+        },
+        {
+          "text": "cho",
+          "startTime": 88160,
+          "endTime": 88380,
+          "timeMs": 88160,
+          "confidence": 0.20260212570428848
+        },
+        {
+          "text": "anh",
+          "startTime": 88270,
+          "endTime": 88380,
+          "timeMs": 88270,
+          "confidence": null
+        },
+        {
+          "text": "lẻ",
+          "startTime": 88380,
+          "endTime": 88860,
+          "timeMs": 88380,
+          "confidence": 0.18901970982551575
+        },
+        {
+          "text": "loi",
+          "startTime": 88717,
+          "endTime": 89054,
+          "timeMs": 88717,
+          "confidence": null
+        },
+        {
+          "text": "một",
+          "startTime": 89054,
+          "endTime": 89391,
+          "timeMs": 89054,
+          "confidence": null
+        },
+        {
+          "text": "bóng",
+          "startTime": 89391,
+          "endTime": 89728,
+          "timeMs": 89391,
+          "confidence": null
+        },
+        {
+          "text": "hình",
+          "startTime": 89728,
+          "endTime": 90780,
+          "timeMs": 89728,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 90780,
+      "text": "Hãy tin rằng trái tim này có riêng hình bóng em",
+      "words": [
+        {
+          "text": "Hãy",
+          "startTime": 90810,
+          "endTime": 90890,
+          "timeMs": 90810,
+          "confidence": null
+        },
+        {
+          "text": "tin",
+          "startTime": 90840,
+          "endTime": 90920,
+          "timeMs": 90840,
+          "confidence": null
+        },
+        {
+          "text": "rằng",
+          "startTime": 90870,
+          "endTime": 90950,
+          "timeMs": 90870,
+          "confidence": null
+        },
+        {
+          "text": "trái",
+          "startTime": 90600,
+          "endTime": 91300,
+          "timeMs": 90600,
+          "confidence": 0.0682271346449852
+        },
+        {
+          "text": "tim",
+          "startTime": 91220,
+          "endTime": 91840,
+          "timeMs": 91220,
+          "confidence": null
+        },
+        {
+          "text": "này",
+          "startTime": 91840,
+          "endTime": 92460,
+          "timeMs": 91840,
+          "confidence": null
+        },
+        {
+          "text": "có",
+          "startTime": 92460,
+          "endTime": 92680,
+          "timeMs": 92460,
+          "confidence": 0.44789746403694153
+        },
+        {
+          "text": "riêng",
+          "startTime": 92570,
+          "endTime": 92680,
+          "timeMs": 92570,
+          "confidence": null
+        },
+        {
+          "text": "hình",
+          "startTime": 92680,
+          "endTime": 92790,
+          "timeMs": 92680,
+          "confidence": null
+        },
+        {
+          "text": "bóng",
+          "startTime": 92790,
+          "endTime": 92900,
+          "timeMs": 92790,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 92900,
+          "endTime": 93060,
+          "timeMs": 92900,
+          "confidence": 0.7761679291725159
+        }
+      ]
+    },
+    {
+      "lineStartMs": 93960,
+      "text": "Dù cho mình cách xa",
+      "words": [
+        {
+          "text": "Dù",
+          "startTime": 94340,
+          "endTime": 94860,
+          "timeMs": 94340,
+          "confidence": 0.47457917407155037
+        },
+        {
+          "text": "cho",
+          "startTime": 94860,
+          "endTime": 95380,
+          "timeMs": 94860,
+          "confidence": null
+        },
+        {
+          "text": "mình",
+          "startTime": 95380,
+          "endTime": 95600,
+          "timeMs": 95380,
+          "confidence": 0.2193445861339569
+        },
+        {
+          "text": "cách",
+          "startTime": 95640,
+          "endTime": 95900,
+          "timeMs": 95640,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 95900,
+          "endTime": 96680,
+          "timeMs": 95900,
+          "confidence": 0.653301939368248
+        }
+      ]
+    },
+    {
+      "lineStartMs": 98280,
+      "text": "Và khi gió mây đã đưa em đi thật xa",
+      "words": [
+        {
+          "text": "Và",
+          "startTime": 98140,
+          "endTime": 98660,
+          "timeMs": 98140,
+          "confidence": 0.15123441815376282
+        },
+        {
+          "text": "khi",
+          "startTime": 98467,
+          "endTime": 98793,
+          "timeMs": 98467,
+          "confidence": null
+        },
+        {
+          "text": "gió",
+          "startTime": 98793,
+          "endTime": 99120,
+          "timeMs": 98793,
+          "confidence": null
+        },
+        {
+          "text": "mây",
+          "startTime": 99120,
+          "endTime": 99720,
+          "timeMs": 99120,
+          "confidence": 0.2792699858546257
+        },
+        {
+          "text": "đã",
+          "startTime": 100100,
+          "endTime": 100320,
+          "timeMs": 100100,
+          "confidence": 0.3979852671424548
+        },
+        {
+          "text": "đưa",
+          "startTime": 100210,
+          "endTime": 100320,
+          "timeMs": 100210,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 100320,
+          "endTime": 100600,
+          "timeMs": 100320,
+          "confidence": 0.951185941696167
+        },
+        {
+          "text": "đi",
+          "startTime": 100600,
+          "endTime": 100720,
+          "timeMs": 100600,
+          "confidence": 0.3303689956665039
+        },
+        {
+          "text": "thật",
+          "startTime": 100750,
+          "endTime": 100900,
+          "timeMs": 100750,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 100900,
+          "endTime": 101620,
+          "timeMs": 100900,
+          "confidence": 0.864776074886322
+        }
+      ]
+    },
+    {
+      "lineStartMs": 102840,
+      "text": "Em có biết chăng?",
+      "words": [
+        {
+          "text": "Em",
+          "startTime": 102780,
+          "endTime": 103300,
+          "timeMs": 102780,
+          "confidence": 0.5277075171470642
+        },
+        {
+          "text": "có",
+          "startTime": 103300,
+          "endTime": 103380,
+          "timeMs": 103300,
+          "confidence": 0.7258750796318054
+        },
+        {
+          "text": "biết",
+          "startTime": 103380,
+          "endTime": 103580,
+          "timeMs": 103380,
+          "confidence": 0.738657534122467
+        },
+        {
+          "text": "chăng?",
+          "startTime": 103580,
+          "endTime": 104060,
+          "timeMs": 103580,
+          "confidence": 0.6993393748998642
+        }
+      ]
+    },
+    {
+      "lineStartMs": 104580,
+      "text": "Rằng trái tim anh vẫn chỉ yêu có riêng em thôi yeah eh eh",
+      "words": [
+        {
+          "text": "Rằng",
+          "startTime": 104883,
+          "endTime": 105187,
+          "timeMs": 104883,
+          "confidence": null
+        },
+        {
+          "text": "trái",
+          "startTime": 105187,
+          "endTime": 105490,
+          "timeMs": 105187,
+          "confidence": null
+        },
+        {
+          "text": "tim",
+          "startTime": 105490,
+          "endTime": 105793,
+          "timeMs": 105490,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 105793,
+          "endTime": 106097,
+          "timeMs": 105793,
+          "confidence": null
+        },
+        {
+          "text": "vẫn",
+          "startTime": 106097,
+          "endTime": 106400,
+          "timeMs": 106097,
+          "confidence": null
+        },
+        {
+          "text": "chỉ",
+          "startTime": 106400,
+          "endTime": 106480,
+          "timeMs": 106400,
+          "confidence": 0.05234748078510165
+        },
+        {
+          "text": "yêu",
+          "startTime": 107960,
+          "endTime": 108320,
+          "timeMs": 107960,
+          "confidence": 0.6316965222358704
+        },
+        {
+          "text": "có",
+          "startTime": 108460,
+          "endTime": 108540,
+          "timeMs": 108460,
+          "confidence": 0.6031154990196228
+        },
+        {
+          "text": "riêng",
+          "startTime": 108590,
+          "endTime": 108720,
+          "timeMs": 108590,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 108720,
+          "endTime": 109020,
+          "timeMs": 108720,
+          "confidence": 0.9617575407028198
+        },
+        {
+          "text": "thôi",
+          "startTime": 109390,
+          "endTime": 110060,
+          "timeMs": 109390,
+          "confidence": null
+        },
+        {
+          "text": "yeah",
+          "startTime": 110060,
+          "endTime": 110140,
+          "timeMs": 110060,
+          "confidence": 0.013961564749479294
+        },
+        {
+          "text": "eh",
+          "startTime": 110499,
+          "endTime": 110938,
+          "timeMs": 110499,
+          "confidence": null
+        },
+        {
+          "text": "eh",
+          "startTime": 110938,
+          "endTime": 111018,
+          "timeMs": 110938,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 110720,
+      "text": "Bao yêu thương ngày qua anh mang tình ta, em yêu giờ xa cách",
+      "words": [
+        {
+          "text": "Bao",
+          "startTime": 110720,
+          "endTime": 111001,
+          "timeMs": 110720,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 111001,
+          "endTime": 111281,
+          "timeMs": 111001,
+          "confidence": null
+        },
+        {
+          "text": "thương",
+          "startTime": 111281,
+          "endTime": 111562,
+          "timeMs": 111281,
+          "confidence": null
+        },
+        {
+          "text": "ngày",
+          "startTime": 111562,
+          "endTime": 111843,
+          "timeMs": 111562,
+          "confidence": null
+        },
+        {
+          "text": "qua",
+          "startTime": 111843,
+          "endTime": 112124,
+          "timeMs": 111843,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 112124,
+          "endTime": 112404,
+          "timeMs": 112124,
+          "confidence": null
+        },
+        {
+          "text": "mang",
+          "startTime": 112404,
+          "endTime": 112685,
+          "timeMs": 112404,
+          "confidence": null
+        },
+        {
+          "text": "tình",
+          "startTime": 112685,
+          "endTime": 112966,
+          "timeMs": 112685,
+          "confidence": null
+        },
+        {
+          "text": "ta,",
+          "startTime": 112966,
+          "endTime": 113246,
+          "timeMs": 112966,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 113246,
+          "endTime": 113527,
+          "timeMs": 113246,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 113527,
+          "endTime": 113808,
+          "timeMs": 113527,
+          "confidence": null
+        },
+        {
+          "text": "giờ",
+          "startTime": 113808,
+          "endTime": 114089,
+          "timeMs": 113808,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 114089,
+          "endTime": 114369,
+          "timeMs": 114089,
+          "confidence": null
+        },
+        {
+          "text": "cách",
+          "startTime": 114369,
+          "endTime": 114650,
+          "timeMs": 114369,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 114650,
+      "text": "Anh mong thời gian trôi qua thật nhanh, anh mong ngày em về",
+      "words": [
+        {
+          "text": "Anh",
+          "startTime": 114650,
+          "endTime": 114943,
+          "timeMs": 114650,
+          "confidence": null
+        },
+        {
+          "text": "mong",
+          "startTime": 114943,
+          "endTime": 115236,
+          "timeMs": 114943,
+          "confidence": null
+        },
+        {
+          "text": "thời",
+          "startTime": 115236,
+          "endTime": 115529,
+          "timeMs": 115236,
+          "confidence": null
+        },
+        {
+          "text": "gian",
+          "startTime": 115529,
+          "endTime": 115822,
+          "timeMs": 115529,
+          "confidence": null
+        },
+        {
+          "text": "trôi",
+          "startTime": 115822,
+          "endTime": 116115,
+          "timeMs": 115822,
+          "confidence": null
+        },
+        {
+          "text": "qua",
+          "startTime": 116115,
+          "endTime": 116408,
+          "timeMs": 116115,
+          "confidence": null
+        },
+        {
+          "text": "thật",
+          "startTime": 116408,
+          "endTime": 116702,
+          "timeMs": 116408,
+          "confidence": null
+        },
+        {
+          "text": "nhanh,",
+          "startTime": 116702,
+          "endTime": 116995,
+          "timeMs": 116702,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 116995,
+          "endTime": 117288,
+          "timeMs": 116995,
+          "confidence": null
+        },
+        {
+          "text": "mong",
+          "startTime": 117288,
+          "endTime": 117581,
+          "timeMs": 117288,
+          "confidence": null
+        },
+        {
+          "text": "ngày",
+          "startTime": 117581,
+          "endTime": 117874,
+          "timeMs": 117581,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 117874,
+          "endTime": 118167,
+          "timeMs": 117874,
+          "confidence": null
+        },
+        {
+          "text": "về",
+          "startTime": 118167,
+          "endTime": 118460,
+          "timeMs": 118167,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 118460,
+      "text": "Nhớ lắm run run đôi vai gầy",
+      "words": [
+        {
+          "text": "Nhớ",
+          "startTime": 118460,
+          "endTime": 118753,
+          "timeMs": 118460,
+          "confidence": null
+        },
+        {
+          "text": "lắm",
+          "startTime": 118753,
+          "endTime": 119046,
+          "timeMs": 118753,
+          "confidence": null
+        },
+        {
+          "text": "run",
+          "startTime": 119046,
+          "endTime": 119339,
+          "timeMs": 119046,
+          "confidence": null
+        },
+        {
+          "text": "run",
+          "startTime": 119339,
+          "endTime": 119631,
+          "timeMs": 119339,
+          "confidence": null
+        },
+        {
+          "text": "đôi",
+          "startTime": 119631,
+          "endTime": 119924,
+          "timeMs": 119631,
+          "confidence": null
+        },
+        {
+          "text": "vai",
+          "startTime": 119924,
+          "endTime": 120217,
+          "timeMs": 119924,
+          "confidence": null
+        },
+        {
+          "text": "gầy",
+          "startTime": 120217,
+          "endTime": 120510,
+          "timeMs": 120217,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 120510,
+      "text": "Mắt biếc em mang theo mây trời",
+      "words": [
+        {
+          "text": "Mắt",
+          "startTime": 120510,
+          "endTime": 120787,
+          "timeMs": 120510,
+          "confidence": null
+        },
+        {
+          "text": "biếc",
+          "startTime": 120787,
+          "endTime": 121064,
+          "timeMs": 120787,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 121064,
+          "endTime": 121341,
+          "timeMs": 121064,
+          "confidence": null
+        },
+        {
+          "text": "mang",
+          "startTime": 121341,
+          "endTime": 121619,
+          "timeMs": 121341,
+          "confidence": null
+        },
+        {
+          "text": "theo",
+          "startTime": 121619,
+          "endTime": 121896,
+          "timeMs": 121619,
+          "confidence": null
+        },
+        {
+          "text": "mây",
+          "startTime": 121896,
+          "endTime": 122173,
+          "timeMs": 121896,
+          "confidence": null
+        },
+        {
+          "text": "trời",
+          "startTime": 122173,
+          "endTime": 122450,
+          "timeMs": 122173,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 122450,
+      "text": "Để rồi lòng anh bao đắm say, ngất ngây trong anh tình yêu này",
+      "words": [
+        {
+          "text": "Để",
+          "startTime": 122450,
+          "endTime": 122814,
+          "timeMs": 122450,
+          "confidence": null
+        },
+        {
+          "text": "rồi",
+          "startTime": 122814,
+          "endTime": 123179,
+          "timeMs": 122814,
+          "confidence": null
+        },
+        {
+          "text": "lòng",
+          "startTime": 123179,
+          "endTime": 123543,
+          "timeMs": 123179,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 123543,
+          "endTime": 123907,
+          "timeMs": 123543,
+          "confidence": null
+        },
+        {
+          "text": "bao",
+          "startTime": 123907,
+          "endTime": 124271,
+          "timeMs": 123907,
+          "confidence": null
+        },
+        {
+          "text": "đắm",
+          "startTime": 124271,
+          "endTime": 124636,
+          "timeMs": 124271,
+          "confidence": null
+        },
+        {
+          "text": "say,",
+          "startTime": 124636,
+          "endTime": 125000,
+          "timeMs": 124636,
+          "confidence": null
+        },
+        {
+          "text": "ngất",
+          "startTime": 125000,
+          "endTime": 125364,
+          "timeMs": 125000,
+          "confidence": null
+        },
+        {
+          "text": "ngây",
+          "startTime": 125364,
+          "endTime": 125729,
+          "timeMs": 125364,
+          "confidence": null
+        },
+        {
+          "text": "trong",
+          "startTime": 125729,
+          "endTime": 126093,
+          "timeMs": 125729,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 126093,
+          "endTime": 126457,
+          "timeMs": 126093,
+          "confidence": null
+        },
+        {
+          "text": "tình",
+          "startTime": 126457,
+          "endTime": 126821,
+          "timeMs": 126457,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 126821,
+          "endTime": 127186,
+          "timeMs": 126821,
+          "confidence": null
+        },
+        {
+          "text": "này",
+          "startTime": 127186,
+          "endTime": 127550,
+          "timeMs": 127186,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 127550,
+      "text": "Ngày hôm qua em chợt mang nắng tới",
+      "words": [
+        {
+          "text": "Ngày",
+          "startTime": 127550,
+          "endTime": 127936,
+          "timeMs": 127550,
+          "confidence": null
+        },
+        {
+          "text": "hôm",
+          "startTime": 127936,
+          "endTime": 128322,
+          "timeMs": 127936,
+          "confidence": null
+        },
+        {
+          "text": "qua",
+          "startTime": 128322,
+          "endTime": 128709,
+          "timeMs": 128322,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 128709,
+          "endTime": 129095,
+          "timeMs": 128709,
+          "confidence": null
+        },
+        {
+          "text": "chợt",
+          "startTime": 129095,
+          "endTime": 129481,
+          "timeMs": 129095,
+          "confidence": null
+        },
+        {
+          "text": "mang",
+          "startTime": 129481,
+          "endTime": 129868,
+          "timeMs": 129481,
+          "confidence": null
+        },
+        {
+          "text": "nắng",
+          "startTime": 129868,
+          "endTime": 130254,
+          "timeMs": 129868,
+          "confidence": null
+        },
+        {
+          "text": "tới",
+          "startTime": 130254,
+          "endTime": 130640,
+          "timeMs": 130254,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 130640,
+      "text": "Chợt làm ngẩn ngơ đắm say anh chiếc hôn bối rối",
+      "words": [
+        {
+          "text": "Chợt",
+          "startTime": 130640,
+          "endTime": 130990,
+          "timeMs": 130640,
+          "confidence": null
+        },
+        {
+          "text": "làm",
+          "startTime": 130990,
+          "endTime": 131340,
+          "timeMs": 130990,
+          "confidence": null
+        },
+        {
+          "text": "ngẩn",
+          "startTime": 131340,
+          "endTime": 131690,
+          "timeMs": 131340,
+          "confidence": null
+        },
+        {
+          "text": "ngơ",
+          "startTime": 131690,
+          "endTime": 132040,
+          "timeMs": 131690,
+          "confidence": null
+        },
+        {
+          "text": "đắm",
+          "startTime": 132040,
+          "endTime": 132390,
+          "timeMs": 132040,
+          "confidence": null
+        },
+        {
+          "text": "say",
+          "startTime": 132390,
+          "endTime": 132740,
+          "timeMs": 132390,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 132740,
+          "endTime": 133090,
+          "timeMs": 132740,
+          "confidence": null
+        },
+        {
+          "text": "chiếc",
+          "startTime": 133090,
+          "endTime": 133440,
+          "timeMs": 133090,
+          "confidence": null
+        },
+        {
+          "text": "hôn",
+          "startTime": 133440,
+          "endTime": 133790,
+          "timeMs": 133440,
+          "confidence": null
+        },
+        {
+          "text": "bối",
+          "startTime": 133790,
+          "endTime": 134140,
+          "timeMs": 133790,
+          "confidence": null
+        },
+        {
+          "text": "rối",
+          "startTime": 134140,
+          "endTime": 134490,
+          "timeMs": 134140,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 134490,
+      "text": "Chợt làm muôn câu ca",
+      "words": [
+        {
+          "text": "Chợt",
+          "startTime": 134490,
+          "endTime": 134822,
+          "timeMs": 134490,
+          "confidence": null
+        },
+        {
+          "text": "làm",
+          "startTime": 134822,
+          "endTime": 135154,
+          "timeMs": 134822,
+          "confidence": null
+        },
+        {
+          "text": "muôn",
+          "startTime": 135154,
+          "endTime": 135486,
+          "timeMs": 135154,
+          "confidence": null
+        },
+        {
+          "text": "câu",
+          "startTime": 135486,
+          "endTime": 135818,
+          "timeMs": 135486,
+          "confidence": null
+        },
+        {
+          "text": "ca",
+          "startTime": 135818,
+          "endTime": 136150,
+          "timeMs": 135818,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 136150,
+      "text": "Chợt gọi mùa xuân qua",
+      "words": [
+        {
+          "text": "Chợt",
+          "startTime": 136150,
+          "endTime": 136598,
+          "timeMs": 136150,
+          "confidence": null
+        },
+        {
+          "text": "gọi",
+          "startTime": 136598,
+          "endTime": 137046,
+          "timeMs": 136598,
+          "confidence": null
+        },
+        {
+          "text": "mùa",
+          "startTime": 137046,
+          "endTime": 137494,
+          "timeMs": 137046,
+          "confidence": null
+        },
+        {
+          "text": "xuân",
+          "startTime": 137494,
+          "endTime": 137942,
+          "timeMs": 137494,
+          "confidence": null
+        },
+        {
+          "text": "qua",
+          "startTime": 137942,
+          "endTime": 138390,
+          "timeMs": 137942,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 138390,
+      "text": "Đừng rời tay trong tay, anh nghe mùa xuân ôi đắm say",
+      "words": [
+        {
+          "text": "Đừng",
+          "startTime": 138451,
+          "endTime": 138531,
+          "timeMs": 138451,
+          "confidence": null
+        },
+        {
+          "text": "rời",
+          "startTime": 138512,
+          "endTime": 138592,
+          "timeMs": 138512,
+          "confidence": null
+        },
+        {
+          "text": "tay",
+          "startTime": 138573,
+          "endTime": 138653,
+          "timeMs": 138573,
+          "confidence": null
+        },
+        {
+          "text": "trong",
+          "startTime": 138634,
+          "endTime": 138714,
+          "timeMs": 138634,
+          "confidence": null
+        },
+        {
+          "text": "tay,",
+          "startTime": 138695,
+          "endTime": 138775,
+          "timeMs": 138695,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 138755,
+          "endTime": 138835,
+          "timeMs": 138755,
+          "confidence": null
+        },
+        {
+          "text": "nghe",
+          "startTime": 138816,
+          "endTime": 138896,
+          "timeMs": 138816,
+          "confidence": null
+        },
+        {
+          "text": "mùa",
+          "startTime": 138877,
+          "endTime": 138957,
+          "timeMs": 138877,
+          "confidence": null
+        },
+        {
+          "text": "xuân",
+          "startTime": 138938,
+          "endTime": 139018,
+          "timeMs": 138938,
+          "confidence": null
+        },
+        {
+          "text": "ôi",
+          "startTime": 138999,
+          "endTime": 139079,
+          "timeMs": 138999,
+          "confidence": null
+        },
+        {
+          "text": "đắm",
+          "startTime": 139060,
+          "endTime": 139140,
+          "timeMs": 139060,
+          "confidence": 0.034866221249103546
+        },
+        {
+          "text": "say",
+          "startTime": 139362,
+          "endTime": 142020,
+          "timeMs": 139362,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 142020,
+      "text": "Và giờ em nơi thật xa, anh mang tình yêu không phôi pha",
+      "words": [
+        {
+          "text": "Và",
+          "startTime": 142020,
+          "endTime": 142322,
+          "timeMs": 142020,
+          "confidence": null
+        },
+        {
+          "text": "giờ",
+          "startTime": 142322,
+          "endTime": 142625,
+          "timeMs": 142322,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 142625,
+          "endTime": 142927,
+          "timeMs": 142625,
+          "confidence": null
+        },
+        {
+          "text": "nơi",
+          "startTime": 142927,
+          "endTime": 143229,
+          "timeMs": 142927,
+          "confidence": null
+        },
+        {
+          "text": "thật",
+          "startTime": 143229,
+          "endTime": 143532,
+          "timeMs": 143229,
+          "confidence": null
+        },
+        {
+          "text": "xa,",
+          "startTime": 143532,
+          "endTime": 143834,
+          "timeMs": 143532,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 143834,
+          "endTime": 144136,
+          "timeMs": 143834,
+          "confidence": null
+        },
+        {
+          "text": "mang",
+          "startTime": 144136,
+          "endTime": 144438,
+          "timeMs": 144136,
+          "confidence": null
+        },
+        {
+          "text": "tình",
+          "startTime": 144438,
+          "endTime": 144741,
+          "timeMs": 144438,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 144741,
+          "endTime": 145043,
+          "timeMs": 144741,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 145043,
+          "endTime": 145345,
+          "timeMs": 145043,
+          "confidence": null
+        },
+        {
+          "text": "phôi",
+          "startTime": 145345,
+          "endTime": 145648,
+          "timeMs": 145345,
+          "confidence": null
+        },
+        {
+          "text": "pha",
+          "startTime": 145648,
+          "endTime": 145950,
+          "timeMs": 145648,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 145950,
+      "text": "Mỉm cười khi bỗng nhớ em, anh nâng câu hát",
+      "words": [
+        {
+          "text": "Mỉm",
+          "startTime": 145950,
+          "endTime": 146333,
+          "timeMs": 145950,
+          "confidence": null
+        },
+        {
+          "text": "cười",
+          "startTime": 146333,
+          "endTime": 146716,
+          "timeMs": 146333,
+          "confidence": null
+        },
+        {
+          "text": "khi",
+          "startTime": 146716,
+          "endTime": 147099,
+          "timeMs": 146716,
+          "confidence": null
+        },
+        {
+          "text": "bỗng",
+          "startTime": 147099,
+          "endTime": 147482,
+          "timeMs": 147099,
+          "confidence": null
+        },
+        {
+          "text": "nhớ",
+          "startTime": 147482,
+          "endTime": 147865,
+          "timeMs": 147482,
+          "confidence": null
+        },
+        {
+          "text": "em,",
+          "startTime": 147865,
+          "endTime": 148248,
+          "timeMs": 147865,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 148248,
+          "endTime": 148631,
+          "timeMs": 148248,
+          "confidence": null
+        },
+        {
+          "text": "nâng",
+          "startTime": 148631,
+          "endTime": 149014,
+          "timeMs": 148631,
+          "confidence": null
+        },
+        {
+          "text": "câu",
+          "startTime": 149014,
+          "endTime": 149397,
+          "timeMs": 149014,
+          "confidence": null
+        },
+        {
+          "text": "hát",
+          "startTime": 149397,
+          "endTime": 149780,
+          "timeMs": 149397,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 149780,
+      "text": "Hát yêu em thật nhiều",
+      "words": [
+        {
+          "text": "Hát",
+          "startTime": 149780,
+          "endTime": 150174,
+          "timeMs": 149780,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 150174,
+          "endTime": 150568,
+          "timeMs": 150174,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 150568,
+          "endTime": 150962,
+          "timeMs": 150568,
+          "confidence": null
+        },
+        {
+          "text": "thật",
+          "startTime": 150962,
+          "endTime": 151356,
+          "timeMs": 150962,
+          "confidence": null
+        },
+        {
+          "text": "nhiều",
+          "startTime": 151356,
+          "endTime": 151750,
+          "timeMs": 151356,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 151750,
+      "text": "Nhớ môi em thật nhiều",
+      "words": [
+        {
+          "text": "Nhớ",
+          "startTime": 151750,
+          "endTime": 152126,
+          "timeMs": 151750,
+          "confidence": null
+        },
+        {
+          "text": "môi",
+          "startTime": 152126,
+          "endTime": 152502,
+          "timeMs": 152126,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 152502,
+          "endTime": 152878,
+          "timeMs": 152502,
+          "confidence": null
+        },
+        {
+          "text": "thật",
+          "startTime": 152878,
+          "endTime": 153254,
+          "timeMs": 152878,
+          "confidence": null
+        },
+        {
+          "text": "nhiều",
+          "startTime": 153254,
+          "endTime": 153630,
+          "timeMs": 153254,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 153630,
+      "text": "Muốn theo mây và gió nơi phương trời đó anh đợi ai",
+      "words": [
+        {
+          "text": "Muốn",
+          "startTime": 153630,
+          "endTime": 153913,
+          "timeMs": 153630,
+          "confidence": null
+        },
+        {
+          "text": "theo",
+          "startTime": 153913,
+          "endTime": 154197,
+          "timeMs": 153913,
+          "confidence": null
+        },
+        {
+          "text": "mây",
+          "startTime": 154197,
+          "endTime": 154480,
+          "timeMs": 154197,
+          "confidence": null
+        },
+        {
+          "text": "và",
+          "startTime": 154480,
+          "endTime": 154763,
+          "timeMs": 154480,
+          "confidence": null
+        },
+        {
+          "text": "gió",
+          "startTime": 154763,
+          "endTime": 155047,
+          "timeMs": 154763,
+          "confidence": null
+        },
+        {
+          "text": "nơi",
+          "startTime": 155047,
+          "endTime": 155330,
+          "timeMs": 155047,
+          "confidence": null
+        },
+        {
+          "text": "phương",
+          "startTime": 155330,
+          "endTime": 155613,
+          "timeMs": 155330,
+          "confidence": null
+        },
+        {
+          "text": "trời",
+          "startTime": 155613,
+          "endTime": 155897,
+          "timeMs": 155613,
+          "confidence": null
+        },
+        {
+          "text": "đó",
+          "startTime": 155897,
+          "endTime": 156180,
+          "timeMs": 155897,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 156180,
+          "endTime": 156463,
+          "timeMs": 156180,
+          "confidence": null
+        },
+        {
+          "text": "đợi",
+          "startTime": 156463,
+          "endTime": 156747,
+          "timeMs": 156463,
+          "confidence": null
+        },
+        {
+          "text": "ai",
+          "startTime": 156747,
+          "endTime": 157030,
+          "timeMs": 156747,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 157030,
+      "text": "Nếu mây kia mang người yêu anh đi về nơi nào xa vời",
+      "words": [
+        {
+          "text": "Nếu",
+          "startTime": 157030,
+          "endTime": 157357,
+          "timeMs": 157030,
+          "confidence": null
+        },
+        {
+          "text": "mây",
+          "startTime": 157357,
+          "endTime": 157684,
+          "timeMs": 157357,
+          "confidence": null
+        },
+        {
+          "text": "kia",
+          "startTime": 157684,
+          "endTime": 158011,
+          "timeMs": 157684,
+          "confidence": null
+        },
+        {
+          "text": "mang",
+          "startTime": 158011,
+          "endTime": 158338,
+          "timeMs": 158011,
+          "confidence": null
+        },
+        {
+          "text": "người",
+          "startTime": 158338,
+          "endTime": 158665,
+          "timeMs": 158338,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 158665,
+          "endTime": 158992,
+          "timeMs": 158665,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 158992,
+          "endTime": 159318,
+          "timeMs": 158992,
+          "confidence": null
+        },
+        {
+          "text": "đi",
+          "startTime": 159318,
+          "endTime": 159645,
+          "timeMs": 159318,
+          "confidence": null
+        },
+        {
+          "text": "về",
+          "startTime": 159645,
+          "endTime": 159972,
+          "timeMs": 159645,
+          "confidence": null
+        },
+        {
+          "text": "nơi",
+          "startTime": 159972,
+          "endTime": 160299,
+          "timeMs": 159972,
+          "confidence": null
+        },
+        {
+          "text": "nào",
+          "startTime": 160299,
+          "endTime": 160626,
+          "timeMs": 160299,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 160626,
+          "endTime": 160953,
+          "timeMs": 160626,
+          "confidence": null
+        },
+        {
+          "text": "vời",
+          "startTime": 160953,
+          "endTime": 161280,
+          "timeMs": 160953,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 161280,
+      "text": "Nếu xa xôi đành để riêng đôi ta về hai phương trời",
+      "words": [
+        {
+          "text": "Nếu",
+          "startTime": 161280,
+          "endTime": 161611,
+          "timeMs": 161280,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 161611,
+          "endTime": 161942,
+          "timeMs": 161611,
+          "confidence": null
+        },
+        {
+          "text": "xôi",
+          "startTime": 161942,
+          "endTime": 162272,
+          "timeMs": 161942,
+          "confidence": null
+        },
+        {
+          "text": "đành",
+          "startTime": 162272,
+          "endTime": 162603,
+          "timeMs": 162272,
+          "confidence": null
+        },
+        {
+          "text": "để",
+          "startTime": 162603,
+          "endTime": 162934,
+          "timeMs": 162603,
+          "confidence": null
+        },
+        {
+          "text": "riêng",
+          "startTime": 162934,
+          "endTime": 163265,
+          "timeMs": 162934,
+          "confidence": null
+        },
+        {
+          "text": "đôi",
+          "startTime": 163265,
+          "endTime": 163596,
+          "timeMs": 163265,
+          "confidence": null
+        },
+        {
+          "text": "ta",
+          "startTime": 163596,
+          "endTime": 163927,
+          "timeMs": 163596,
+          "confidence": null
+        },
+        {
+          "text": "về",
+          "startTime": 163927,
+          "endTime": 164258,
+          "timeMs": 163927,
+          "confidence": null
+        },
+        {
+          "text": "hai",
+          "startTime": 164258,
+          "endTime": 164588,
+          "timeMs": 164258,
+          "confidence": null
+        },
+        {
+          "text": "phương",
+          "startTime": 164588,
+          "endTime": 164919,
+          "timeMs": 164588,
+          "confidence": null
+        },
+        {
+          "text": "trời",
+          "startTime": 164919,
+          "endTime": 165250,
+          "timeMs": 164919,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 165250,
+      "text": "Có hay chăng không người yêu anh mong rằng tim mình không rời",
+      "words": [
+        {
+          "text": "Có",
+          "startTime": 165250,
+          "endTime": 165535,
+          "timeMs": 165250,
+          "confidence": null
+        },
+        {
+          "text": "hay",
+          "startTime": 165535,
+          "endTime": 165819,
+          "timeMs": 165535,
+          "confidence": null
+        },
+        {
+          "text": "chăng",
+          "startTime": 165819,
+          "endTime": 166104,
+          "timeMs": 165819,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 166104,
+          "endTime": 166388,
+          "timeMs": 166104,
+          "confidence": null
+        },
+        {
+          "text": "người",
+          "startTime": 166388,
+          "endTime": 166673,
+          "timeMs": 166388,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 166673,
+          "endTime": 166958,
+          "timeMs": 166673,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 166958,
+          "endTime": 167242,
+          "timeMs": 166958,
+          "confidence": null
+        },
+        {
+          "text": "mong",
+          "startTime": 167242,
+          "endTime": 167527,
+          "timeMs": 167242,
+          "confidence": null
+        },
+        {
+          "text": "rằng",
+          "startTime": 167527,
+          "endTime": 167812,
+          "timeMs": 167527,
+          "confidence": null
+        },
+        {
+          "text": "tim",
+          "startTime": 167812,
+          "endTime": 168096,
+          "timeMs": 167812,
+          "confidence": null
+        },
+        {
+          "text": "mình",
+          "startTime": 168096,
+          "endTime": 168381,
+          "timeMs": 168096,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 168381,
+          "endTime": 168665,
+          "timeMs": 168381,
+          "confidence": null
+        },
+        {
+          "text": "rời",
+          "startTime": 168665,
+          "endTime": 168950,
+          "timeMs": 168665,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 168950,
+      "text": "Để ngày đêm anh với anh mong một ngày không cách xa",
+      "words": [
+        {
+          "text": "Để",
+          "startTime": 169540,
+          "endTime": 169760,
+          "timeMs": 169540,
+          "confidence": 0.5126753002405167
+        },
+        {
+          "text": "ngày",
+          "startTime": 169777,
+          "endTime": 170013,
+          "timeMs": 169777,
+          "confidence": null
+        },
+        {
+          "text": "đêm",
+          "startTime": 170013,
+          "endTime": 170250,
+          "timeMs": 170013,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 170250,
+          "endTime": 170487,
+          "timeMs": 170250,
+          "confidence": null
+        },
+        {
+          "text": "với",
+          "startTime": 170487,
+          "endTime": 170723,
+          "timeMs": 170487,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 170723,
+          "endTime": 170960,
+          "timeMs": 170723,
+          "confidence": null
+        },
+        {
+          "text": "mong",
+          "startTime": 170960,
+          "endTime": 171140,
+          "timeMs": 170960,
+          "confidence": 0.40938764810562134
+        },
+        {
+          "text": "một",
+          "startTime": 171140,
+          "endTime": 171440,
+          "timeMs": 171140,
+          "confidence": 0.25451791286468506
+        },
+        {
+          "text": "ngày",
+          "startTime": 171380,
+          "endTime": 171620,
+          "timeMs": 171380,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 171620,
+          "endTime": 171840,
+          "timeMs": 171620,
+          "confidence": 0.583337128162384
+        },
+        {
+          "text": "cách",
+          "startTime": 171870,
+          "endTime": 172120,
+          "timeMs": 171870,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 172120,
+          "endTime": 172660,
+          "timeMs": 172120,
+          "confidence": 0.5354808419942856
+        }
+      ]
+    },
+    {
+      "lineStartMs": 172470,
+      "text": "Biết đâu mai đây là mây thênh thang người say bên mình",
+      "words": [
+        {
+          "text": "Biết",
+          "startTime": 172660,
+          "endTime": 173220,
+          "timeMs": 172660,
+          "confidence": 0.22821219637989998
+        },
+        {
+          "text": "đâu",
+          "startTime": 173220,
+          "endTime": 173500,
+          "timeMs": 173220,
+          "confidence": 0.27258217334747314
+        },
+        {
+          "text": "mai",
+          "startTime": 173500,
+          "endTime": 173760,
+          "timeMs": 173500,
+          "confidence": 0.6344730257987976
+        },
+        {
+          "text": "đây",
+          "startTime": 173760,
+          "endTime": 174000,
+          "timeMs": 173760,
+          "confidence": 0.592279314994812
+        },
+        {
+          "text": "là",
+          "startTime": 174000,
+          "endTime": 174260,
+          "timeMs": 174000,
+          "confidence": 0.679767370223999
+        },
+        {
+          "text": "mây",
+          "startTime": 174260,
+          "endTime": 174520,
+          "timeMs": 174260,
+          "confidence": 0.4683005064725876
+        },
+        {
+          "text": "thênh",
+          "startTime": 174560,
+          "endTime": 174860,
+          "timeMs": 174560,
+          "confidence": null
+        },
+        {
+          "text": "thang",
+          "startTime": 174860,
+          "endTime": 175160,
+          "timeMs": 174860,
+          "confidence": null
+        },
+        {
+          "text": "người",
+          "startTime": 175160,
+          "endTime": 175460,
+          "timeMs": 175160,
+          "confidence": null
+        },
+        {
+          "text": "say",
+          "startTime": 175460,
+          "endTime": 175760,
+          "timeMs": 175460,
+          "confidence": null
+        },
+        {
+          "text": "bên",
+          "startTime": 175760,
+          "endTime": 175960,
+          "timeMs": 175760,
+          "confidence": 0.42249372601509094
+        },
+        {
+          "text": "mình",
+          "startTime": 176089,
+          "endTime": 176420,
+          "timeMs": 176089,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 176420,
+      "text": "Biết đâu anh nhẹ nhàng nâng trên môi này câu ru tình",
+      "words": [
+        {
+          "text": "Biết",
+          "startTime": 180460,
+          "endTime": 181080,
+          "timeMs": 180460,
+          "confidence": 0.7080862075090408
+        },
+        {
+          "text": "đâu",
+          "startTime": 180801,
+          "endTime": 181142,
+          "timeMs": 180801,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 181142,
+          "endTime": 181483,
+          "timeMs": 181142,
+          "confidence": null
+        },
+        {
+          "text": "nhẹ",
+          "startTime": 181483,
+          "endTime": 181824,
+          "timeMs": 181483,
+          "confidence": null
+        },
+        {
+          "text": "nhàng",
+          "startTime": 181824,
+          "endTime": 182165,
+          "timeMs": 181824,
+          "confidence": null
+        },
+        {
+          "text": "nâng",
+          "startTime": 182165,
+          "endTime": 182506,
+          "timeMs": 182165,
+          "confidence": null
+        },
+        {
+          "text": "trên",
+          "startTime": 182506,
+          "endTime": 182847,
+          "timeMs": 182506,
+          "confidence": null
+        },
+        {
+          "text": "môi",
+          "startTime": 182847,
+          "endTime": 183188,
+          "timeMs": 182847,
+          "confidence": null
+        },
+        {
+          "text": "này",
+          "startTime": 183188,
+          "endTime": 183529,
+          "timeMs": 183188,
+          "confidence": null
+        },
+        {
+          "text": "câu",
+          "startTime": 183529,
+          "endTime": 183870,
+          "timeMs": 183529,
+          "confidence": null
+        },
+        {
+          "text": "ru",
+          "startTime": 183870,
+          "endTime": 184211,
+          "timeMs": 183870,
+          "confidence": null
+        },
+        {
+          "text": "tình",
+          "startTime": 184211,
+          "endTime": 184291,
+          "timeMs": 184211,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 180510,
+      "text": "Biết đâu xa xôi chẳng thêm cho anh lẻ loi một bóng hình",
+      "words": [
+        {
+          "text": "Biết",
+          "startTime": 180460,
+          "endTime": 181080,
+          "timeMs": 180460,
+          "confidence": 0.7080862075090408
+        },
+        {
+          "text": "đâu",
+          "startTime": 181080,
+          "endTime": 181280,
+          "timeMs": 181080,
+          "confidence": 0.2754862308502197
+        },
+        {
+          "text": "xa",
+          "startTime": 181280,
+          "endTime": 181440,
+          "timeMs": 181280,
+          "confidence": 0.7585013210773468
+        },
+        {
+          "text": "xôi",
+          "startTime": 181956,
+          "endTime": 182632,
+          "timeMs": 181956,
+          "confidence": null
+        },
+        {
+          "text": "chẳng",
+          "startTime": 182632,
+          "endTime": 183308,
+          "timeMs": 182632,
+          "confidence": null
+        },
+        {
+          "text": "thêm",
+          "startTime": 183308,
+          "endTime": 183984,
+          "timeMs": 183308,
+          "confidence": null
+        },
+        {
+          "text": "cho",
+          "startTime": 183984,
+          "endTime": 184660,
+          "timeMs": 183984,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 184660,
+          "endTime": 185360,
+          "timeMs": 184660,
+          "confidence": 0.21755507588386536
+        },
+        {
+          "text": "lẻ",
+          "startTime": 184991,
+          "endTime": 185322,
+          "timeMs": 184991,
+          "confidence": null
+        },
+        {
+          "text": "loi",
+          "startTime": 185322,
+          "endTime": 185653,
+          "timeMs": 185322,
+          "confidence": null
+        },
+        {
+          "text": "một",
+          "startTime": 185653,
+          "endTime": 185984,
+          "timeMs": 185653,
+          "confidence": null
+        },
+        {
+          "text": "bóng",
+          "startTime": 185984,
+          "endTime": 186315,
+          "timeMs": 185984,
+          "confidence": null
+        },
+        {
+          "text": "hình",
+          "startTime": 186315,
+          "endTime": 186395,
+          "timeMs": 186315,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 184810,
+      "text": "Hãy tin rằng trái tim này có riêng hình bóng em",
+      "words": [
+        {
+          "text": "Hãy",
+          "startTime": 185085,
+          "endTime": 185360,
+          "timeMs": 185085,
+          "confidence": null
+        },
+        {
+          "text": "tin",
+          "startTime": 185360,
+          "endTime": 185540,
+          "timeMs": 185360,
+          "confidence": 0.22863982617855072
+        },
+        {
+          "text": "rằng",
+          "startTime": 185540,
+          "endTime": 185720,
+          "timeMs": 185540,
+          "confidence": 0.3265710771083832
+        },
+        {
+          "text": "trái",
+          "startTime": 185720,
+          "endTime": 186080,
+          "timeMs": 185720,
+          "confidence": 0.7882727384567261
+        },
+        {
+          "text": "tim",
+          "startTime": 186010,
+          "endTime": 186300,
+          "timeMs": 186010,
+          "confidence": null
+        },
+        {
+          "text": "này",
+          "startTime": 186300,
+          "endTime": 186560,
+          "timeMs": 186300,
+          "confidence": 0.44896814227104187
+        },
+        {
+          "text": "có",
+          "startTime": 186560,
+          "endTime": 186760,
+          "timeMs": 186560,
+          "confidence": 0.8749399781227112
+        },
+        {
+          "text": "riêng",
+          "startTime": 186793,
+          "endTime": 187027,
+          "timeMs": 186793,
+          "confidence": null
+        },
+        {
+          "text": "hình",
+          "startTime": 187027,
+          "endTime": 187260,
+          "timeMs": 187027,
+          "confidence": null
+        },
+        {
+          "text": "bóng",
+          "startTime": 187260,
+          "endTime": 187560,
+          "timeMs": 187260,
+          "confidence": 0.7622452080249786
+        },
+        {
+          "text": "em",
+          "startTime": 187554,
+          "endTime": 188040,
+          "timeMs": 187554,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 188040,
+      "text": "Dù cho mình cách xa",
+      "words": [
+        {
+          "text": "Dù",
+          "startTime": 188140,
+          "endTime": 188640,
+          "timeMs": 188140,
+          "confidence": 0.5253345258533955
+        },
+        {
+          "text": "cho",
+          "startTime": 188640,
+          "endTime": 189120,
+          "timeMs": 188640,
+          "confidence": 0.26182089000940323
+        },
+        {
+          "text": "mình",
+          "startTime": 189120,
+          "endTime": 189620,
+          "timeMs": 189120,
+          "confidence": 0.25554925203323364
+        },
+        {
+          "text": "cách",
+          "startTime": 189610,
+          "endTime": 190100,
+          "timeMs": 189610,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 190100,
+          "endTime": 191380,
+          "timeMs": 190100,
+          "confidence": 0.8550238013267517
+        }
+      ]
+    },
+    {
+      "lineStartMs": 191560,
+      "text": "Này người yêu dấu hãy lắng nghe con tim anh say bao lời yêu, baby (mong sẽ gặp em, bên nhau không xa cách)",
+      "words": [
+        {
+          "text": "Này",
+          "startTime": 192813,
+          "endTime": 194067,
+          "timeMs": 192813,
+          "confidence": null
+        },
+        {
+          "text": "người",
+          "startTime": 194067,
+          "endTime": 195320,
+          "timeMs": 194067,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 195320,
+          "endTime": 195780,
+          "timeMs": 195320,
+          "confidence": 0.8706204295158386
+        },
+        {
+          "text": "dấu",
+          "startTime": 195639,
+          "endTime": 195958,
+          "timeMs": 195639,
+          "confidence": null
+        },
+        {
+          "text": "hãy",
+          "startTime": 195958,
+          "endTime": 196277,
+          "timeMs": 195958,
+          "confidence": null
+        },
+        {
+          "text": "lắng",
+          "startTime": 196277,
+          "endTime": 196596,
+          "timeMs": 196277,
+          "confidence": null
+        },
+        {
+          "text": "nghe",
+          "startTime": 196596,
+          "endTime": 196915,
+          "timeMs": 196596,
+          "confidence": null
+        },
+        {
+          "text": "con",
+          "startTime": 196915,
+          "endTime": 197234,
+          "timeMs": 196915,
+          "confidence": null
+        },
+        {
+          "text": "tim",
+          "startTime": 197234,
+          "endTime": 197553,
+          "timeMs": 197234,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 197553,
+          "endTime": 197872,
+          "timeMs": 197553,
+          "confidence": null
+        },
+        {
+          "text": "say",
+          "startTime": 197872,
+          "endTime": 198191,
+          "timeMs": 197872,
+          "confidence": null
+        },
+        {
+          "text": "bao",
+          "startTime": 198191,
+          "endTime": 198510,
+          "timeMs": 198191,
+          "confidence": null
+        },
+        {
+          "text": "lời",
+          "startTime": 198510,
+          "endTime": 198829,
+          "timeMs": 198510,
+          "confidence": null
+        },
+        {
+          "text": "yêu,",
+          "startTime": 198829,
+          "endTime": 199148,
+          "timeMs": 198829,
+          "confidence": null
+        },
+        {
+          "text": "baby",
+          "startTime": 199148,
+          "endTime": 199467,
+          "timeMs": 199148,
+          "confidence": null
+        },
+        {
+          "text": "(mong",
+          "startTime": 199467,
+          "endTime": 199786,
+          "timeMs": 199467,
+          "confidence": null
+        },
+        {
+          "text": "sẽ",
+          "startTime": 199786,
+          "endTime": 200105,
+          "timeMs": 199786,
+          "confidence": null
+        },
+        {
+          "text": "gặp",
+          "startTime": 200105,
+          "endTime": 200424,
+          "timeMs": 200105,
+          "confidence": null
+        },
+        {
+          "text": "em,",
+          "startTime": 200424,
+          "endTime": 200743,
+          "timeMs": 200424,
+          "confidence": null
+        },
+        {
+          "text": "bên",
+          "startTime": 200743,
+          "endTime": 201062,
+          "timeMs": 200743,
+          "confidence": null
+        },
+        {
+          "text": "nhau",
+          "startTime": 201062,
+          "endTime": 201381,
+          "timeMs": 201062,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 201381,
+          "endTime": 201700,
+          "timeMs": 201381,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 201700,
+          "endTime": 202019,
+          "timeMs": 201700,
+          "confidence": null
+        },
+        {
+          "text": "cách)",
+          "startTime": 202019,
+          "endTime": 202099,
+          "timeMs": 202019,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 199220,
+      "text": "Này lời yêu thương anh viết riêng, bên anh tình yêu không cách xa",
+      "words": [
+        {
+          "text": "Này",
+          "startTime": 199220,
+          "endTime": 199641,
+          "timeMs": 199220,
+          "confidence": null
+        },
+        {
+          "text": "lời",
+          "startTime": 199641,
+          "endTime": 200063,
+          "timeMs": 199641,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 200063,
+          "endTime": 200484,
+          "timeMs": 200063,
+          "confidence": null
+        },
+        {
+          "text": "thương",
+          "startTime": 200484,
+          "endTime": 200906,
+          "timeMs": 200484,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 200906,
+          "endTime": 201327,
+          "timeMs": 200906,
+          "confidence": null
+        },
+        {
+          "text": "viết",
+          "startTime": 201327,
+          "endTime": 201749,
+          "timeMs": 201327,
+          "confidence": null
+        },
+        {
+          "text": "riêng,",
+          "startTime": 201749,
+          "endTime": 202170,
+          "timeMs": 201749,
+          "confidence": null
+        },
+        {
+          "text": "bên",
+          "startTime": 202170,
+          "endTime": 202591,
+          "timeMs": 202170,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 202591,
+          "endTime": 203013,
+          "timeMs": 202591,
+          "confidence": null
+        },
+        {
+          "text": "tình",
+          "startTime": 203013,
+          "endTime": 203434,
+          "timeMs": 203013,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 203434,
+          "endTime": 203856,
+          "timeMs": 203434,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 203856,
+          "endTime": 204277,
+          "timeMs": 203856,
+          "confidence": null
+        },
+        {
+          "text": "cách",
+          "startTime": 204277,
+          "endTime": 204699,
+          "timeMs": 204277,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 204699,
+          "endTime": 205120,
+          "timeMs": 204699,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 205120,
+      "text": "Nếu mây kia mang người yêu anh đi về nơi nào xa vời",
+      "words": [
+        {
+          "text": "Nếu",
+          "startTime": 205120,
+          "endTime": 205428,
+          "timeMs": 205120,
+          "confidence": null
+        },
+        {
+          "text": "mây",
+          "startTime": 205428,
+          "endTime": 205737,
+          "timeMs": 205428,
+          "confidence": null
+        },
+        {
+          "text": "kia",
+          "startTime": 205737,
+          "endTime": 206045,
+          "timeMs": 205737,
+          "confidence": null
+        },
+        {
+          "text": "mang",
+          "startTime": 206045,
+          "endTime": 206354,
+          "timeMs": 206045,
+          "confidence": null
+        },
+        {
+          "text": "người",
+          "startTime": 206354,
+          "endTime": 206662,
+          "timeMs": 206354,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 206662,
+          "endTime": 206971,
+          "timeMs": 206662,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 206971,
+          "endTime": 207279,
+          "timeMs": 206971,
+          "confidence": null
+        },
+        {
+          "text": "đi",
+          "startTime": 207279,
+          "endTime": 207588,
+          "timeMs": 207279,
+          "confidence": null
+        },
+        {
+          "text": "về",
+          "startTime": 207588,
+          "endTime": 207896,
+          "timeMs": 207588,
+          "confidence": null
+        },
+        {
+          "text": "nơi",
+          "startTime": 207896,
+          "endTime": 208205,
+          "timeMs": 207896,
+          "confidence": null
+        },
+        {
+          "text": "nào",
+          "startTime": 208205,
+          "endTime": 208513,
+          "timeMs": 208205,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 208513,
+          "endTime": 208822,
+          "timeMs": 208513,
+          "confidence": null
+        },
+        {
+          "text": "vời",
+          "startTime": 208822,
+          "endTime": 209130,
+          "timeMs": 208822,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 209130,
+      "text": "Nếu xa xôi đành để riêng đôi ta về hai phương trời",
+      "words": [
+        {
+          "text": "Nếu",
+          "startTime": 209130,
+          "endTime": 209420,
+          "timeMs": 209130,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 209420,
+          "endTime": 209710,
+          "timeMs": 209420,
+          "confidence": null
+        },
+        {
+          "text": "xôi",
+          "startTime": 209710,
+          "endTime": 210000,
+          "timeMs": 209710,
+          "confidence": null
+        },
+        {
+          "text": "đành",
+          "startTime": 210000,
+          "endTime": 210290,
+          "timeMs": 210000,
+          "confidence": null
+        },
+        {
+          "text": "để",
+          "startTime": 210290,
+          "endTime": 210580,
+          "timeMs": 210290,
+          "confidence": null
+        },
+        {
+          "text": "riêng",
+          "startTime": 210580,
+          "endTime": 210870,
+          "timeMs": 210580,
+          "confidence": null
+        },
+        {
+          "text": "đôi",
+          "startTime": 210870,
+          "endTime": 211160,
+          "timeMs": 210870,
+          "confidence": null
+        },
+        {
+          "text": "ta",
+          "startTime": 211160,
+          "endTime": 211450,
+          "timeMs": 211160,
+          "confidence": null
+        },
+        {
+          "text": "về",
+          "startTime": 211450,
+          "endTime": 211740,
+          "timeMs": 211450,
+          "confidence": null
+        },
+        {
+          "text": "hai",
+          "startTime": 211740,
+          "endTime": 212030,
+          "timeMs": 211740,
+          "confidence": null
+        },
+        {
+          "text": "phương",
+          "startTime": 212030,
+          "endTime": 212320,
+          "timeMs": 212030,
+          "confidence": null
+        },
+        {
+          "text": "trời",
+          "startTime": 212320,
+          "endTime": 212610,
+          "timeMs": 212320,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 212610,
+      "text": "Có hay chăng không người yêu anh mong rành tim mình không rời",
+      "words": [
+        {
+          "text": "Có",
+          "startTime": 212610,
+          "endTime": 212945,
+          "timeMs": 212610,
+          "confidence": null
+        },
+        {
+          "text": "hay",
+          "startTime": 212945,
+          "endTime": 213281,
+          "timeMs": 212945,
+          "confidence": null
+        },
+        {
+          "text": "chăng",
+          "startTime": 213281,
+          "endTime": 213616,
+          "timeMs": 213281,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 213616,
+          "endTime": 213952,
+          "timeMs": 213616,
+          "confidence": null
+        },
+        {
+          "text": "người",
+          "startTime": 213952,
+          "endTime": 214287,
+          "timeMs": 213952,
+          "confidence": null
+        },
+        {
+          "text": "yêu",
+          "startTime": 214287,
+          "endTime": 214622,
+          "timeMs": 214287,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 214622,
+          "endTime": 214958,
+          "timeMs": 214622,
+          "confidence": null
+        },
+        {
+          "text": "mong",
+          "startTime": 214958,
+          "endTime": 215293,
+          "timeMs": 214958,
+          "confidence": null
+        },
+        {
+          "text": "rành",
+          "startTime": 215293,
+          "endTime": 215628,
+          "timeMs": 215293,
+          "confidence": null
+        },
+        {
+          "text": "tim",
+          "startTime": 215628,
+          "endTime": 215964,
+          "timeMs": 215628,
+          "confidence": null
+        },
+        {
+          "text": "mình",
+          "startTime": 215964,
+          "endTime": 216299,
+          "timeMs": 215964,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 216299,
+          "endTime": 216635,
+          "timeMs": 216299,
+          "confidence": null
+        },
+        {
+          "text": "rời",
+          "startTime": 216635,
+          "endTime": 216970,
+          "timeMs": 216635,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 216970,
+      "text": "Để ngày đêm anh với anh mong một ngày không cách xa",
+      "words": [
+        {
+          "text": "Để",
+          "startTime": 216970,
+          "endTime": 217232,
+          "timeMs": 216970,
+          "confidence": null
+        },
+        {
+          "text": "ngày",
+          "startTime": 217232,
+          "endTime": 217495,
+          "timeMs": 217232,
+          "confidence": null
+        },
+        {
+          "text": "đêm",
+          "startTime": 217495,
+          "endTime": 217758,
+          "timeMs": 217495,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 217758,
+          "endTime": 218020,
+          "timeMs": 217758,
+          "confidence": null
+        },
+        {
+          "text": "với",
+          "startTime": 218020,
+          "endTime": 218282,
+          "timeMs": 218020,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 218282,
+          "endTime": 218545,
+          "timeMs": 218282,
+          "confidence": null
+        },
+        {
+          "text": "mong",
+          "startTime": 218545,
+          "endTime": 218808,
+          "timeMs": 218545,
+          "confidence": null
+        },
+        {
+          "text": "một",
+          "startTime": 218808,
+          "endTime": 219070,
+          "timeMs": 218808,
+          "confidence": null
+        },
+        {
+          "text": "ngày",
+          "startTime": 219070,
+          "endTime": 219332,
+          "timeMs": 219070,
+          "confidence": null
+        },
+        {
+          "text": "không",
+          "startTime": 219332,
+          "endTime": 219595,
+          "timeMs": 219332,
+          "confidence": null
+        },
+        {
+          "text": "cách",
+          "startTime": 219595,
+          "endTime": 219858,
+          "timeMs": 219595,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 219858,
+          "endTime": 220120,
+          "timeMs": 219858,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 220120,
+      "text": "Biết đâu mai đây là mây thênh thang người say bên mình",
+      "words": [
+        {
+          "text": "Biết",
+          "startTime": 220120,
+          "endTime": 220479,
+          "timeMs": 220120,
+          "confidence": null
+        },
+        {
+          "text": "đâu",
+          "startTime": 220479,
+          "endTime": 220838,
+          "timeMs": 220479,
+          "confidence": null
+        },
+        {
+          "text": "mai",
+          "startTime": 220838,
+          "endTime": 221198,
+          "timeMs": 220838,
+          "confidence": null
+        },
+        {
+          "text": "đây",
+          "startTime": 221198,
+          "endTime": 221557,
+          "timeMs": 221198,
+          "confidence": null
+        },
+        {
+          "text": "là",
+          "startTime": 221557,
+          "endTime": 221916,
+          "timeMs": 221557,
+          "confidence": null
+        },
+        {
+          "text": "mây",
+          "startTime": 221916,
+          "endTime": 222275,
+          "timeMs": 221916,
+          "confidence": null
+        },
+        {
+          "text": "thênh",
+          "startTime": 222275,
+          "endTime": 222634,
+          "timeMs": 222275,
+          "confidence": null
+        },
+        {
+          "text": "thang",
+          "startTime": 222634,
+          "endTime": 222993,
+          "timeMs": 222634,
+          "confidence": null
+        },
+        {
+          "text": "người",
+          "startTime": 222993,
+          "endTime": 223352,
+          "timeMs": 222993,
+          "confidence": null
+        },
+        {
+          "text": "say",
+          "startTime": 223352,
+          "endTime": 223712,
+          "timeMs": 223352,
+          "confidence": null
+        },
+        {
+          "text": "bên",
+          "startTime": 223712,
+          "endTime": 224071,
+          "timeMs": 223712,
+          "confidence": null
+        },
+        {
+          "text": "mình",
+          "startTime": 224071,
+          "endTime": 224430,
+          "timeMs": 224071,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 224430,
+      "text": "Biết đâu anh nhẹ nhàng nâng trên môi này câu ru tình",
+      "words": [
+        {
+          "text": "Biết",
+          "startTime": 224430,
+          "endTime": 224738,
+          "timeMs": 224430,
+          "confidence": null
+        },
+        {
+          "text": "đâu",
+          "startTime": 224738,
+          "endTime": 225047,
+          "timeMs": 224738,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 225047,
+          "endTime": 225355,
+          "timeMs": 225047,
+          "confidence": null
+        },
+        {
+          "text": "nhẹ",
+          "startTime": 225355,
+          "endTime": 225663,
+          "timeMs": 225355,
+          "confidence": null
+        },
+        {
+          "text": "nhàng",
+          "startTime": 225663,
+          "endTime": 225972,
+          "timeMs": 225663,
+          "confidence": null
+        },
+        {
+          "text": "nâng",
+          "startTime": 225972,
+          "endTime": 226280,
+          "timeMs": 225972,
+          "confidence": null
+        },
+        {
+          "text": "trên",
+          "startTime": 226280,
+          "endTime": 226588,
+          "timeMs": 226280,
+          "confidence": null
+        },
+        {
+          "text": "môi",
+          "startTime": 226588,
+          "endTime": 226897,
+          "timeMs": 226588,
+          "confidence": null
+        },
+        {
+          "text": "này",
+          "startTime": 226897,
+          "endTime": 227205,
+          "timeMs": 226897,
+          "confidence": null
+        },
+        {
+          "text": "câu",
+          "startTime": 227205,
+          "endTime": 227513,
+          "timeMs": 227205,
+          "confidence": null
+        },
+        {
+          "text": "ru",
+          "startTime": 227513,
+          "endTime": 227822,
+          "timeMs": 227513,
+          "confidence": null
+        },
+        {
+          "text": "tình",
+          "startTime": 227822,
+          "endTime": 228130,
+          "timeMs": 227822,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 228130,
+      "text": "Biết đâu xa xôi chẳng thêm cho anh lẻ loi một bóng hình",
+      "words": [
+        {
+          "text": "Biết",
+          "startTime": 228130,
+          "endTime": 228488,
+          "timeMs": 228130,
+          "confidence": null
+        },
+        {
+          "text": "đâu",
+          "startTime": 228488,
+          "endTime": 228845,
+          "timeMs": 228488,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 228845,
+          "endTime": 229203,
+          "timeMs": 228845,
+          "confidence": null
+        },
+        {
+          "text": "xôi",
+          "startTime": 229203,
+          "endTime": 229561,
+          "timeMs": 229203,
+          "confidence": null
+        },
+        {
+          "text": "chẳng",
+          "startTime": 229561,
+          "endTime": 229918,
+          "timeMs": 229561,
+          "confidence": null
+        },
+        {
+          "text": "thêm",
+          "startTime": 229918,
+          "endTime": 230276,
+          "timeMs": 229918,
+          "confidence": null
+        },
+        {
+          "text": "cho",
+          "startTime": 230276,
+          "endTime": 230634,
+          "timeMs": 230276,
+          "confidence": null
+        },
+        {
+          "text": "anh",
+          "startTime": 230634,
+          "endTime": 230992,
+          "timeMs": 230634,
+          "confidence": null
+        },
+        {
+          "text": "lẻ",
+          "startTime": 230992,
+          "endTime": 231349,
+          "timeMs": 230992,
+          "confidence": null
+        },
+        {
+          "text": "loi",
+          "startTime": 231349,
+          "endTime": 231707,
+          "timeMs": 231349,
+          "confidence": null
+        },
+        {
+          "text": "một",
+          "startTime": 231707,
+          "endTime": 232065,
+          "timeMs": 231707,
+          "confidence": null
+        },
+        {
+          "text": "bóng",
+          "startTime": 232065,
+          "endTime": 232422,
+          "timeMs": 232065,
+          "confidence": null
+        },
+        {
+          "text": "hình",
+          "startTime": 232422,
+          "endTime": 232780,
+          "timeMs": 232422,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 232780,
+      "text": "Hãy tin rằng trái tim mình có riêng hình bóng em",
+      "words": [
+        {
+          "text": "Hãy",
+          "startTime": 232780,
+          "endTime": 233086,
+          "timeMs": 232780,
+          "confidence": null
+        },
+        {
+          "text": "tin",
+          "startTime": 233086,
+          "endTime": 233393,
+          "timeMs": 233086,
+          "confidence": null
+        },
+        {
+          "text": "rằng",
+          "startTime": 233393,
+          "endTime": 233699,
+          "timeMs": 233393,
+          "confidence": null
+        },
+        {
+          "text": "trái",
+          "startTime": 233699,
+          "endTime": 234005,
+          "timeMs": 233699,
+          "confidence": null
+        },
+        {
+          "text": "tim",
+          "startTime": 234005,
+          "endTime": 234312,
+          "timeMs": 234005,
+          "confidence": null
+        },
+        {
+          "text": "mình",
+          "startTime": 234312,
+          "endTime": 234618,
+          "timeMs": 234312,
+          "confidence": null
+        },
+        {
+          "text": "có",
+          "startTime": 234618,
+          "endTime": 234925,
+          "timeMs": 234618,
+          "confidence": null
+        },
+        {
+          "text": "riêng",
+          "startTime": 234925,
+          "endTime": 235231,
+          "timeMs": 234925,
+          "confidence": null
+        },
+        {
+          "text": "hình",
+          "startTime": 235231,
+          "endTime": 235537,
+          "timeMs": 235231,
+          "confidence": null
+        },
+        {
+          "text": "bóng",
+          "startTime": 235537,
+          "endTime": 235844,
+          "timeMs": 235537,
+          "confidence": null
+        },
+        {
+          "text": "em",
+          "startTime": 235844,
+          "endTime": 236150,
+          "timeMs": 235844,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 236150,
+      "text": "Dù cho mình cách xa",
+      "words": [
+        {
+          "text": "Dù",
+          "startTime": 236150,
+          "endTime": 237558,
+          "timeMs": 236150,
+          "confidence": null
+        },
+        {
+          "text": "cho",
+          "startTime": 237558,
+          "endTime": 238966,
+          "timeMs": 237558,
+          "confidence": null
+        },
+        {
+          "text": "mình",
+          "startTime": 238966,
+          "endTime": 240374,
+          "timeMs": 238966,
+          "confidence": null
+        },
+        {
+          "text": "cách",
+          "startTime": 240374,
+          "endTime": 241782,
+          "timeMs": 240374,
+          "confidence": null
+        },
+        {
+          "text": "xa",
+          "startTime": 241782,
+          "endTime": 243190,
+          "timeMs": 241782,
+          "confidence": null
+        }
+      ]
+    },
+    {
+      "lineStartMs": 243190,
+      "text": "...",
+      "words": [
+        {
+          "text": "...",
+          "startTime": 243190,
+          "endTime": 248190,
+          "timeMs": 243190,
+          "confidence": null
+        }
+      ]
+    }
+  ]
+}

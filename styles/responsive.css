@@ -39,7 +39,7 @@
         width: min(23rem, calc(100vw - 2rem));
     }
 
-    .lyrics-settings {
+    .lyrics-settings--sidebar {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
@@ -116,7 +116,7 @@
         justify-content: flex-start;
     }
 
-    .lyrics-settings {
+    .lyrics-settings--sidebar {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -242,7 +242,7 @@
         justify-content: flex-start;
     }
 
-    .lyrics-settings {
+    .lyrics-settings--sidebar {
         grid-template-columns: 1fr;
     }
 

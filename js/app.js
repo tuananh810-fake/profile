@@ -154,6 +154,7 @@ class Application {
             mid: 0,
             high: 0,
             pulse: 0,
+            transient: 0,
             isPlaying: false
         };
     }
@@ -165,6 +166,7 @@ class Application {
             mid: this.clamp(Number(signal.mid) || 0, 0, 1),
             high: this.clamp(Number(signal.high) || 0, 0, 1),
             pulse: this.clamp(Number(signal.pulse) || 0, 0, 1),
+            transient: this.clamp(Number(signal.transient) || 0, 0, 1),
             isPlaying: Boolean(signal.isPlaying)
         };
     }

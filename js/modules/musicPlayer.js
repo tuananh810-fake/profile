@@ -37,9 +37,11 @@ class MusicPlayer {
         this.dragHandle = document.getElementById("musicDragHandle");
         this.resizeHandles = Array.from(this.root.querySelectorAll("[data-music-resize]"));
         this.stage = document.getElementById("shellStage");
+        this.basePlaylist = this.config.music.playlist.map((track) => ({ ...track }));
+        this.libraryTracks = [];
 
         this.state = {
-            playlist: this.config.music.playlist.map((track) => ({ ...track })),
+            playlist: this.basePlaylist.map((track) => ({ ...track })),
             currentIndex: this.config.music.defaultTrack,
             isPlaying: false,
             duration: 0
@@ -60,6 +62,7 @@ class MusicPlayer {
         this.sourceNode = null;
         this.analysisFrame = null;
         this.customTrackResource = null;
+        this.libraryTrackResources = [];
         this.isSeeking = false;
         this.seekPointerId = null;
         this.reactiveState = {
@@ -68,6 +71,7 @@ class MusicPlayer {
             mid: 0,
             high: 0,
             pulse: 0,
+            transient: 0,
             isPlaying: false
         };
 
@@ -728,6 +732,7 @@ class MusicPlayer {
             mid: 0,
             high: 0,
             pulse: 0,
+            transient: 0,
             isPlaying: false
         };
     }
@@ -755,6 +760,15 @@ class MusicPlayer {
         const pulseTarget = this.clamp(bass * 0.68 + overall * 0.32, 0, 1);
         const pulseDecay = this.clamp(config.pulseDecay ?? 0.88, 0.55, 0.98);
         const pulse = Math.max(pulseTarget, this.reactiveState.pulse * pulseDecay);
+        const attackDelta = this.clamp(
+            ((bass - this.reactiveState.bass) * (config.attackBassWeight ?? 0.62))
+            + ((overall - this.reactiveState.overall) * (config.attackOverallWeight ?? 0.38)),
+            0,
+            1
+        );
+        const transientTarget = this.clamp((attackDelta * 1.35) + (pulseTarget * 0.12), 0, 1);
+        const transientDecay = this.clamp(config.transientDecay ?? 0.68, 0.35, 0.95);
+        const transient = Math.max(transientTarget, this.reactiveState.transient * transientDecay);
 
         return {
             overall: weighted,
@@ -762,6 +776,7 @@ class MusicPlayer {
             mid,
             high,
             pulse,
+            transient,
             isPlaying: true
         };
     }
@@ -835,6 +850,57 @@ class MusicPlayer {
         return this.state.playlist[this.state.currentIndex] || null;
     }
 
+    getPlaylist() {
+        return this.state.playlist.map((track) => ({ ...track }));
+    }
+
+    getDefaultTrackIndex() {
+        const index = this.state.playlist.findIndex((track) => !track.isPersistedCustom);
+        return index >= 0 ? index : Math.max(0, this.state.currentIndex);
+    }
+
+    loadTrackById(trackId, autoplay = true) {
+        const targetIndex = this.state.playlist.findIndex((track) => track.id === trackId);
+        if (targetIndex < 0) {
+            return;
+        }
+
+        this.loadTrack(targetIndex, autoplay);
+    }
+
+    loadDefaultTrack(autoplay = false) {
+        this.loadTrack(this.getDefaultTrackIndex(), autoplay);
+    }
+
+    setLibraryTracks(tracks = [], options = {}) {
+        const previousTrackId = options.preferredTrackId || this.getCurrentTrack()?.id || null;
+        const autoplay = Boolean(options.autoplay);
+
+        this.releaseLibraryResources();
+        this.libraryTracks = tracks.map((track) => ({
+            ...track,
+            isCustom: true,
+            isPersistedCustom: true
+        }));
+        this.libraryTrackResources = this.libraryTracks
+            .filter((track) => track.managedFileUrl && typeof track.file === "string" && track.file.startsWith("blob:"))
+            .map((track) => track.file);
+
+        this.state.playlist = [
+            ...this.libraryTracks,
+            ...this.basePlaylist.map((track) => ({ ...track }))
+        ];
+        this.renderQueue();
+
+        const targetIndex = this.state.playlist.findIndex((track) => track.id === previousTrackId);
+        if (targetIndex >= 0) {
+            this.loadTrack(targetIndex, autoplay);
+            return;
+        }
+
+        this.loadTrack(this.getDefaultTrackIndex(), false);
+    }
+
     setCustomTrack(track, autoplay = true) {
         const nextTrack = {
             ...track,
@@ -853,16 +919,9 @@ class MusicPlayer {
     }
 
     clearCustomTrack() {
-        const hadCustomTrack = this.state.playlist.some((track) => track.isCustom);
         this.releaseCustomResources();
-        this.state.playlist = this.config.music.playlist.map((track) => ({ ...track }));
-        this.state.currentIndex = Math.min(this.config.music.defaultTrack, Math.max(0, this.state.playlist.length - 1));
-        this.renderQueue();
-        this.loadTrack(this.state.currentIndex, false);
-
-        if (hadCustomTrack) {
-            this.setStatus("Reverted to the default playlist.");
-        }
+        this.loadDefaultTrack(false);
+        this.setStatus("Default playlist restored.");
     }
 
     storeCustomResources(resource) {
@@ -880,6 +939,21 @@ class MusicPlayer {
         }
 
         this.customTrackResource = null;
+    }
+
+    releaseLibraryResources() {
+        if (!Array.isArray(this.libraryTrackResources) || this.libraryTrackResources.length === 0) {
+            this.libraryTrackResources = [];
+            return;
+        }
+
+        this.libraryTrackResources.forEach((resourceUrl) => {
+            if (typeof resourceUrl === "string" && resourceUrl.startsWith("blob:")) {
+                URL.revokeObjectURL(resourceUrl);
+            }
+        });
+
+        this.libraryTrackResources = [];
     }
 }
 

@@ -3,6 +3,13 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "start:lan": "set HOST=0.0.0.0&& node server.js"
+    "start:lan": "set HOST=0.0.0.0&& node server.js",
+    "align:karaoke": "node ./scripts/align-karaoke.mjs",
+    "align:karaoke:all": "node ./scripts/align-karaoke-all.mjs",
+    "align:karaoke:python": "node ./scripts/align-karaoke.mjs --mode python",
+    "align:karaoke:all:python": "node ./scripts/align-karaoke-all.mjs --mode python"
+  },
+  "dependencies": {
+    "openai": "^6.5.0"
   }
 }

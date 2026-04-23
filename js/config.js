@@ -4,7 +4,7 @@ export const APP_CONFIG = {
         title: "Neon artist shell",
         lead: "More than just a profile—an interactive playground. Built on a bold neon-dark aesthetic, this canvas lets you drag, resize, and shape your own space. Complete with a dynamic tri-mode background engine and a fully integrated music dock with live lyrics sync.",
         status: "Core shell, center card, background engine, music player, and an adjustable lyrics overlay with focus mode are ready.",
-        wordmark: "never\nstill",
+        wordmark: "",
         badges: ["drag ready", "resizable card", "3 background modes", "lyrics focus mode"],
         copyPanel: {
             defaultWidth: 430,
@@ -326,7 +326,8 @@ export const APP_CONFIG = {
                 note: "Track local with synced lyrics. Resize, reposition, or switch to focus mode while the song is playing.",
                 file: "./du-co-cach-xa.mp3",
                 artwork: "./avatar.jpg",
-                lyrics: "./du-co-cach-xa.lrc"
+                lyrics: "./du-co-cach-xa.lrc",
+                karaoke: "./du-co-cach-xa.karaoke.json"
             },
             {
                 id: "local-track-01",
@@ -335,7 +336,8 @@ export const APP_CONFIG = {
                 note: "Original local track kept as a secondary item in the queue.",
                 file: "./audio.mp3",
                 artwork: "./avatar.jpg",
-                lyrics: null
+                lyrics: null,
+                karaoke: null
             }
         ]
     },
@@ -345,6 +347,9 @@ export const APP_CONFIG = {
         minIntensity: 0,
         maxIntensity: 1,
         pulseDecay: 0.88,
+        transientDecay: 0.68,
+        attackBassWeight: 0.62,
+        attackOverallWeight: 0.38,
         overallWeight: 0.42,
         bassWeight: 0.34,
         midWeight: 0.16,
@@ -360,11 +365,25 @@ export const APP_CONFIG = {
             defaultTextScale: 1,
             defaultKineticMode: false,
             defaultKineticMaxWordsPerLine: 5,
-            minKineticMaxWordsPerLine: 3,
+            minKineticMaxWordsPerLine: 0,
             maxKineticMaxWordsPerLine: 8,
             defaultKineticMaxCharsPerLine: 20,
-            minKineticMaxCharsPerLine: 10,
+            minKineticMaxCharsPerLine: 0,
             maxKineticMaxCharsPerLine: 36,
+            defaultKineticSpeedFactor: 1,
+            minKineticSpeedFactor: 0.25,
+            maxKineticSpeedFactor: 2,
+            kineticSpeedStep: 0.05,
+            defaultKineticStyle: "center-build",
+            defaultKineticTailBurst: false,
+            defaultKineticTailBurstStyle: "glow-burst",
+            defaultKineticTailBurstColorA: "#7ef8ff",
+            defaultKineticTailBurstColorB: "#4d8cff",
+            defaultKineticTailBurstColorCore: "#fff8ff",
+            defaultKineticTailBurstStrength: 1,
+            minKineticTailBurstStrength: 0.25,
+            maxKineticTailBurstStrength: 2,
+            kineticTailBurstStrengthStep: 0.05,
             minTextScale: 0.6,
             maxTextScale: 3.4,
             scaleStep: 0.04,
@@ -376,6 +395,47 @@ export const APP_CONFIG = {
             defaultWidth: 740,
             defaultHeight: 260,
             defaultBoxHaze: 58,
+            defaultLetterSpacingAdjust: 0,
+            minLetterSpacingAdjust: -0.08,
+            maxLetterSpacingAdjust: 0.18,
+            letterSpacingAdjustStep: 0.005,
+            defaultWordSpacingAdjust: 0,
+            minWordSpacingAdjust: -0.3,
+            maxWordSpacingAdjust: 1.2,
+            wordSpacingAdjustStep: 0.02,
+            defaultTextStyle: "normal",
+            defaultColorMode: "single",
+            defaultColorPresetId: "aurora",
+            defaultMultiColorList: "#f9fcff, #9fd4ff, #8ef4ff",
+            defaultPrimaryColor: "#f9fcff",
+            defaultSecondaryColor: "#9fd4ff",
+            defaultAccentColor: "#8ef4ff",
+            colorPresets: [
+                {
+                    id: "aurora",
+                    label: "Aurora",
+                    colorMode: "gradient-text",
+                    colors: ["#f9fcff", "#9fd4ff", "#8ef4ff"]
+                },
+                {
+                    id: "cyberpunk",
+                    label: "Cyberpunk",
+                    colorMode: "gradient-text",
+                    colors: ["#ff4fd8", "#7d5cff", "#36f3ff"]
+                },
+                {
+                    id: "sunset",
+                    label: "Sunset",
+                    colorMode: "gradient-text",
+                    colors: ["#ffd166", "#ff7b89", "#9f6dff"]
+                },
+                {
+                    id: "hologlass",
+                    label: "Hologlass",
+                    colorMode: "gradient-text",
+                    colors: ["#e7fbff", "#95fff3", "#73a8ff"]
+                }
+            ],
             minBoxHaze: 0,
             maxBoxHaze: 100,
             minWidth: 320,
@@ -390,19 +450,29 @@ export const APP_CONFIG = {
                     family: "\"Space Grotesk\", \"Outfit\", sans-serif"
                 },
                 {
-                    id: "vietnam",
-                    label: "Be Vietnam",
-                    family: "\"Be Vietnam Pro\", \"Outfit\", sans-serif"
-                },
-                {
                     id: "sora",
                     label: "Sora",
                     family: "\"Sora\", \"Outfit\", sans-serif"
                 },
                 {
-                    id: "arial",
-                    label: "Arial",
-                    family: "Arial, Helvetica, sans-serif"
+                    id: "bricolage",
+                    label: "Bricolage",
+                    family: "\"Bricolage Grotesque\", \"Outfit\", sans-serif"
+                },
+                {
+                    id: "lexend",
+                    label: "Lexend",
+                    family: "\"Lexend\", \"Outfit\", sans-serif"
+                },
+                {
+                    id: "jakarta",
+                    label: "Jakarta",
+                    family: "\"Plus Jakarta Sans\", \"Outfit\", sans-serif"
+                },
+                {
+                    id: "chakra",
+                    label: "Chakra Petch",
+                    family: "\"Chakra Petch\", \"Space Grotesk\", sans-serif"
                 },
                 {
                     id: "times",
@@ -410,19 +480,9 @@ export const APP_CONFIG = {
                     family: "\"Times New Roman\", Times, serif"
                 },
                 {
-                    id: "georgia",
-                    label: "Georgia",
-                    family: "Georgia, serif"
-                },
-                {
                     id: "serif",
                     label: "Spectral",
                     family: "\"Spectral\", Georgia, serif"
-                },
-                {
-                    id: "caveat",
-                    label: "Caveat",
-                    family: "\"Caveat\", cursive"
                 }
             ],
             defaultFontPreset: "neo"
