@@ -5,6 +5,7 @@ import CenterCard from "./modules/centerCard.js";
 import ClockWidget from "./modules/clockWidget.js";
 import CreativeTextWidget from "./modules/creativeTextWidget.js";
 import CustomizerPanel from "./modules/customizerPanel.js";
+import DashboardFloatingWindows from "./modules/dashboardFloatingWindows.js";
 import LyricsGpuBurstRenderer from "./modules/lyricsGpuBurstRenderer.js";
 import applyLyricsKineticHotfix from "./modules/lyricsKineticHotfix.js";
 import LyricsEngine from "./modules/lyricsEngine.js";
@@ -26,6 +27,7 @@ class Application {
         this.clockWidget = null;
         this.creativeWidget = null;
         this.customizerPanel = null;
+        this.dashboardFloatingWindows = null;
         this.appShell = null;
         this.audioReactiveStorageKey = "profile.audioReactive.settings";
         this.audioReactiveState = this.readAudioReactiveState();
@@ -117,6 +119,18 @@ class Application {
             }
         });
         this.customizerPanel.init();
+
+        this.dashboardFloatingWindows = new DashboardFloatingWindows({
+            appShell: this.appShell,
+            shell: this.shell,
+            centerCard: this.centerCard,
+            lyricsEngine: this.lyricsEngine,
+            musicPlayer: this.musicPlayer,
+            clockWidget: this.clockWidget,
+            creativeWidget: this.creativeWidget,
+            customizerPanel: this.customizerPanel
+        });
+        this.dashboardFloatingWindows.init();
 
         this.shell.bindReset(() => this.centerCard.resetCard(true));
         this.shell.setStatus(this.config.shell.status);
