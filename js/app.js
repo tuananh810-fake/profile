@@ -5,9 +5,14 @@ import CenterCard from "./modules/centerCard.js";
 import ClockWidget from "./modules/clockWidget.js";
 import CreativeTextWidget from "./modules/creativeTextWidget.js";
 import CustomizerPanel from "./modules/customizerPanel.js";
+import LyricsGpuBurstRenderer from "./modules/lyricsGpuBurstRenderer.js";
+import applyLyricsKineticHotfix from "./modules/lyricsKineticHotfix.js";
 import LyricsEngine from "./modules/lyricsEngine.js";
 import MusicPlayer from "./modules/musicPlayer.js";
 import PerformanceManager from "./modules/performanceManager.js";
+
+globalThis.LyricsGpuBurstRenderer = globalThis.LyricsGpuBurstRenderer || LyricsGpuBurstRenderer;
+applyLyricsKineticHotfix(LyricsEngine);
 
 class Application {
     constructor(config = APP_CONFIG) {
