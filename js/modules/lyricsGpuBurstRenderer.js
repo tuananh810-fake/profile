@@ -1,4 +1,5 @@
 import "./dashboardLegacyBridge.js";
+import "./dashboardUiEnhancer.js";
 
 class LyricsGpuBurstRenderer {
     constructor(canvas) {
