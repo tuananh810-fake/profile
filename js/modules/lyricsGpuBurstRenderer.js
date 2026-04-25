@@ -1,5 +1,6 @@
 import "./dashboardLegacyBridge.js";
 import "./dashboardUiEnhancer.js";
+import "./lyricsTikTokRuntimeFix.js";
 
 class LyricsGpuBurstRenderer {
     constructor(canvas) {
