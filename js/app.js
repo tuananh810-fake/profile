@@ -7,6 +7,7 @@ import CreativeTextWidget from "./modules/creativeTextWidget.js";
 import CustomizerPanel from "./modules/customizerPanel.js";
 import LyricsEngine from "./modules/lyricsEngine.js";
 import MusicPlayer from "./modules/musicPlayer.js";
+import PerformanceManager from "./modules/performanceManager.js";
 
 class Application {
     constructor(config = APP_CONFIG) {
@@ -16,6 +17,7 @@ class Application {
         this.centerCard = null;
         this.lyricsEngine = null;
         this.musicPlayer = null;
+        this.performanceManager = null;
         this.clockWidget = null;
         this.creativeWidget = null;
         this.customizerPanel = null;
@@ -32,6 +34,12 @@ class Application {
             config: this.config
         });
         this.shell.init();
+
+        this.performanceManager = new PerformanceManager({
+            root: this.appShell,
+            onStatusChange: (message) => this.shell.setStatus(message)
+        });
+        this.performanceManager.init();
 
         this.backgroundEngine = new BackgroundEngine({
             root: this.appShell,

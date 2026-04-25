@@ -56,6 +56,7 @@
         <div class="shell-wordmark shell-wordmark-bottom" id="shellWordmarkBottom" aria-hidden="true"></div>
 
         <section class="lyrics-overlay" id="lyricsOverlay" aria-label="Synced lyrics overlay">
+            <canvas class="lyrics-burst-canvas" id="lyricsBurstCanvas" aria-hidden="true"></canvas>
             <div class="lyrics-shell">
                 <div class="lyrics-header" id="lyricsDragHandle">
                     <div class="lyrics-header-copy">
@@ -179,6 +180,20 @@
                         <input class="lyrics-setting-input" id="lyricsKineticSpeedRange" type="range" min="25" max="200" step="5" value="100">
                     </label>
 
+                    <label class="lyrics-setting" for="lyricsDelayRange">
+                        <span class="lyrics-setting-label">Lyric Delay</span>
+                        <output class="lyrics-setting-value" id="lyricsDelayValue">0ms</output>
+                        <input class="lyrics-setting-input" id="lyricsDelayRange" type="range" min="-900" max="900" step="25" value="0">
+                    </label>
+
+                    <label class="lyrics-setting lyrics-setting--toggle" for="lyricsSmoothModeToggle">
+                        <span class="lyrics-setting-label">Smooth Mode</span>
+                        <span class="lyrics-toggle-shell">
+                            <input class="lyrics-toggle-input" id="lyricsSmoothModeToggle" type="checkbox" aria-label="Enable low-cost lyric animation mode">
+                            <span class="lyrics-toggle-track" aria-hidden="true"></span>
+                        </span>
+                    </label>
+
                     <label class="lyrics-setting lyrics-setting--select" for="lyricsKineticStyleSelect">
                         <span class="lyrics-setting-label">Kinetic Style</span>
                         <select class="lyrics-font-select" id="lyricsKineticStyleSelect" aria-label="Kinetic lyric style">
@@ -202,6 +217,10 @@
                             <option value="glow-burst">Glow Burst</option>
                             <option value="firework">Firework</option>
                             <option value="shatter">Shatter</option>
+                            <option value="nova">Nova</option>
+                            <option value="comet">Comet</option>
+                            <option value="spark-rain">Spark Rain</option>
+                            <option value="glitch-shards">Glitch Shards</option>
                         </select>
                     </label>
 
@@ -224,6 +243,30 @@
                         <span class="lyrics-setting-label">Burst Strength</span>
                         <span class="lyrics-setting-value" id="lyricsTailBurstStrengthValue">1.00x</span>
                         <input class="lyrics-setting-input" id="lyricsTailBurstStrengthRange" type="range" min="25" max="200" step="5" value="100" aria-label="Tail burst strength">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsTailBurstParticlesRange">
+                        <span class="lyrics-setting-label">Particles</span>
+                        <span class="lyrics-setting-value" id="lyricsTailBurstParticlesValue">48</span>
+                        <input class="lyrics-setting-input" id="lyricsTailBurstParticlesRange" type="range" min="0" max="180" step="4" value="48" aria-label="Tail burst particle count">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsTailBurstSpreadRange">
+                        <span class="lyrics-setting-label">Spread</span>
+                        <span class="lyrics-setting-value" id="lyricsTailBurstSpreadValue">1.00x</span>
+                        <input class="lyrics-setting-input" id="lyricsTailBurstSpreadRange" type="range" min="20" max="220" step="5" value="100" aria-label="Tail burst spread">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsTailBurstGravityRange">
+                        <span class="lyrics-setting-label">Gravity</span>
+                        <span class="lyrics-setting-value" id="lyricsTailBurstGravityValue">0.65x</span>
+                        <input class="lyrics-setting-input" id="lyricsTailBurstGravityRange" type="range" min="-100" max="200" step="5" value="65" aria-label="Tail burst gravity">
+                    </label>
+
+                    <label class="lyrics-setting" for="lyricsTailBurstDurationRange">
+                        <span class="lyrics-setting-label">Duration</span>
+                        <span class="lyrics-setting-value" id="lyricsTailBurstDurationValue">0.80s</span>
+                        <input class="lyrics-setting-input" id="lyricsTailBurstDurationRange" type="range" min="20" max="180" step="5" value="80" aria-label="Tail burst duration">
                     </label>
 
                     <label class="lyrics-setting lyrics-setting--select" for="lyricsAlignSelect" id="lyricsAlignSetting">
@@ -322,6 +365,11 @@
                         <input class="customizer-input customizer-input--file" id="customLyricsFile" type="file" accept=".lrc,text/plain">
                     </label>
 
+                    <label class="customizer-field" for="customLyricsProFile">
+                        <span class="customizer-label">Word timing (.json)</span>
+                        <input class="customizer-input customizer-input--file" id="customLyricsProFile" type="file" accept=".json,application/json">
+                    </label>
+
                     <div class="customizer-actions">
                         <button class="customizer-button customizer-button--primary" id="applyCustomTrackBtn" type="button">Save and load track</button>
                         <button class="customizer-button" id="cancelTrackEditBtn" type="button" hidden>Cancel edit</button>
@@ -330,7 +378,7 @@
 
                     <div class="customizer-upload-status" id="customTrackStatus" hidden aria-live="polite">
                         <p class="customizer-upload-step" id="customTrackStatusStep">Waiting for local media.</p>
-                        <p class="customizer-upload-detail" id="customTrackStatusDetail">Add an MP3 and optional .lrc file. The player will read, parse, and prepare lyric timing automatically.</p>
+                        <p class="customizer-upload-detail" id="customTrackStatusDetail">Add an MP3, optional .lrc file, and optional word-timing .json. Clean Phrase only turns on when real word timing is available.</p>
                     </div>
 
                     <div class="customizer-library" id="customTrackLibrary" hidden>

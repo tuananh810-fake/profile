@@ -27,7 +27,11 @@ class BackgroundEngine {
         this.effectMount = effectMount;
         this.config = config;
         this.onStatusChange = onStatusChange;
-        this.ctx = this.canvas.getContext("2d");
+        this.ctx = this.canvas.getContext("2d", {
+            alpha: true,
+            desynchronized: true,
+            willReadFrequently: false
+        }) || this.canvas.getContext("2d");
 
         this.modeButtons = [];
         this.effectButtons = [];
@@ -1044,7 +1048,8 @@ class BackgroundEngine {
     }
 
     handleResize() {
-        const dpr = window.devicePixelRatio || 1;
+        const dprCap = window.profilePerformance?.getCanvasDprCap?.() || 1.6;
+        const dpr = Math.min(window.devicePixelRatio || 1, dprCap);
         const width = this.root.clientWidth || this.canvas.clientWidth || window.innerWidth;
         const height = this.root.clientHeight || this.canvas.clientHeight || window.innerHeight;
 

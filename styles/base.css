@@ -60,6 +60,43 @@ button {
     overflow: hidden;
 }
 
+.app-shell.is-gpu-accelerated {
+    transform: translateZ(0);
+}
+
+.app-shell.is-gpu-accelerated .background-engine,
+.app-shell.is-gpu-accelerated .background-layer,
+.app-shell.is-gpu-accelerated .background-video,
+.app-shell.is-gpu-accelerated .background-image,
+.app-shell.is-gpu-accelerated .effects-fluid-canvas,
+.app-shell.is-gpu-accelerated .effects-canvas {
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
+.app-shell.is-gpu-accelerated .lyrics-overlay,
+.app-shell.is-gpu-accelerated .lyrics-shell,
+.app-shell.is-gpu-accelerated .profile-card,
+.app-shell.is-gpu-accelerated .music-dock,
+.app-shell.is-gpu-accelerated .clock-widget,
+.app-shell.is-gpu-accelerated .creative-widget {
+    backface-visibility: hidden;
+}
+.app-shell.is-gpu-accelerated .effects-fluid-canvas,
+.app-shell.is-gpu-accelerated .effects-canvas,
+.app-shell.is-gpu-accelerated .lyrics-shell,
+.app-shell.is-gpu-accelerated .profile-card,
+.app-shell.is-gpu-accelerated .music-dock {
+    will-change: transform, opacity;
+}
+
+.app-shell.is-gpu-accelerated .lyrics-body,
+.app-shell.is-gpu-accelerated .music-now-playing,
+.app-shell.is-gpu-accelerated .clock-card,
+.app-shell.is-gpu-accelerated .creative-widget-shell {
+    contain: layout paint;
+}
+
 .shell-grid,
 .shell-noise,
 .shell-glow,

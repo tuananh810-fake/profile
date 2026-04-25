@@ -318,6 +318,13 @@
     background: rgba(255, 255, 255, 0.035);
 }
 
+.customizer-library-item.is-clean-phrase-ready {
+    border-color: rgba(113, 246, 202, 0.24);
+    background:
+        linear-gradient(135deg, rgba(113, 246, 202, 0.08), rgba(92, 169, 255, 0.04)),
+        rgba(255, 255, 255, 0.035);
+}
+
 .customizer-library-main {
     display: grid;
     gap: 0.18rem;
@@ -336,6 +343,43 @@
     color: rgba(214, 221, 236, 0.66);
     font-size: 0.76rem;
     line-height: 1.45;
+}
+
+.customizer-library-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.32rem;
+    margin-top: 0.16rem;
+}
+
+.customizer-library-badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-height: 1.42rem;
+    padding: 0.16rem 0.52rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(241, 248, 255, 0.92);
+    font-size: 0.62rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.customizer-library-badge--json {
+    border-color: rgba(117, 217, 255, 0.28);
+    background: rgba(117, 217, 255, 0.12);
+    color: rgba(214, 246, 255, 0.96);
+}
+
+.customizer-library-badge--ready {
+    border-color: rgba(118, 255, 200, 0.32);
+    background: linear-gradient(135deg, rgba(118, 255, 200, 0.2), rgba(116, 184, 255, 0.12));
+    color: rgba(230, 255, 246, 0.98);
+    box-shadow: 0 0 0.8rem rgba(118, 255, 200, 0.1);
 }
 
 .customizer-library-actions {

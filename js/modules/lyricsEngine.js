@@ -13,6 +13,7 @@ class LyricsEngine {
         this.previousLine = document.getElementById("lyricsPrevious");
         this.currentLine = document.getElementById("lyricsCurrent");
         this.nextLine = document.getElementById("lyricsNext");
+        this.burstCanvas = document.getElementById("lyricsBurstCanvas");
         this.meta = document.getElementById("lyricsMeta");
         this.tuneButton = document.getElementById("lyricsTuneBtn");
         this.settingsPanel = document.getElementById("lyricsSettings");
@@ -43,6 +44,9 @@ class LyricsEngine {
         this.kineticCharsValue = document.getElementById("lyricsKineticCharsValue");
         this.kineticSpeedRange = document.getElementById("lyricsKineticSpeedRange");
         this.kineticSpeedValue = document.getElementById("lyricsKineticSpeedValue");
+        this.lyricDelayRange = document.getElementById("lyricsDelayRange");
+        this.lyricDelayValue = document.getElementById("lyricsDelayValue");
+        this.smoothModeToggle = document.getElementById("lyricsSmoothModeToggle");
         this.kineticStyleSelect = document.getElementById("lyricsKineticStyleSelect");
         this.tailBurstToggle = document.getElementById("lyricsTailBurstToggle");
         this.tailBurstStyleSelect = document.getElementById("lyricsTailBurstStyleSelect");
@@ -51,6 +55,14 @@ class LyricsEngine {
         this.tailBurstColorCoreInput = document.getElementById("lyricsTailBurstColorCore");
         this.tailBurstStrengthRange = document.getElementById("lyricsTailBurstStrengthRange");
         this.tailBurstStrengthValue = document.getElementById("lyricsTailBurstStrengthValue");
+        this.tailBurstParticlesRange = document.getElementById("lyricsTailBurstParticlesRange");
+        this.tailBurstParticlesValue = document.getElementById("lyricsTailBurstParticlesValue");
+        this.tailBurstSpreadRange = document.getElementById("lyricsTailBurstSpreadRange");
+        this.tailBurstSpreadValue = document.getElementById("lyricsTailBurstSpreadValue");
+        this.tailBurstGravityRange = document.getElementById("lyricsTailBurstGravityRange");
+        this.tailBurstGravityValue = document.getElementById("lyricsTailBurstGravityValue");
+        this.tailBurstDurationRange = document.getElementById("lyricsTailBurstDurationRange");
+        this.tailBurstDurationValue = document.getElementById("lyricsTailBurstDurationValue");
         this.boxButton = document.getElementById("lyricsBoxBtn");
         this.pureButton = document.getElementById("lyricsPureBtn");
         this.kineticButton = document.getElementById("lyricsKineticBtn");
@@ -67,6 +79,7 @@ class LyricsEngine {
         this.lines = [];
         this.karaokeLines = [];
         this.karaokeLineMap = new Map();
+        this.karaokeMeta = {};
         this.cleanPhraseChunks = [];
         this.track = null;
         this.animationFrame = null;
@@ -79,11 +92,12 @@ class LyricsEngine {
         this.chromeModes = ["boxed", "free"];
         this.textAlignPresets = ["left", "center", "right"];
         this.kineticStylePresets = ["center-build", "soft-drift", "clean-phrase"];
-        this.tailBurstStylePresets = ["glow-burst", "firework", "shatter"];
+        this.tailBurstStylePresets = ["glow-burst", "firework", "shatter", "nova", "comet", "spark-rain", "glitch-shards"];
         this.textStylePresets = ["normal", "outline", "3d-effect", "pixel-game"];
         this.colorModes = ["single", "gradient-text", "random-per-word", "random-per-char"];
         this.colorPresets = this.displayConfig.colorPresets || [];
         this.displayState = this.getDefaultDisplayState();
+        this.gpuBurstRenderer = this.burstCanvas ? new LyricsGpuBurstRenderer(this.burstCanvas) : null;
         this.focusMode = false;
         this.isHidden = false;
         this.settingsOpen = false;
@@ -180,6 +194,7 @@ class LyricsEngine {
         this.lines = [];
         this.karaokeLines = [];
         this.karaokeLineMap = new Map();
+        this.karaokeMeta = {};
         this.cleanPhraseChunks = [];
         this.cleanPhraseState = null;
         this.isLoaded = false;
@@ -272,15 +287,20 @@ class LyricsEngine {
             }
 
             this.lines = parsed.lines;
-            this.setKaraokeLines(karaokeParsed.lines, this.lines);
-            this.cleanPhraseChunks = this.buildRefinedCleanPhraseChunks();
+            this.setKaraokeLines(karaokeParsed.lines, this.lines, karaokeParsed.meta);
+            this.cleanPhraseChunks = this.canUseCleanPhrase() ? this.buildRefinedCleanPhraseChunks() : [];
+            if (!this.canUseCleanPhrase() && this.displayState.kineticStyle === "clean-phrase") {
+                this.displayState.kineticStyle = "center-build";
+                this.persistDisplayState();
+            }
             this.isLoaded = true;
             this.shell.classList.remove("is-placeholder");
+            this.applyDisplayState();
             if (this.meta) {
                 this.meta.textContent = parsed.meta.title || parsed.meta.artist || track.title;
             }
             this.updateState(this.audio.paused ? "ready" : "syncing");
-            this.renderAtTime(this.audio.currentTime * 1000, true);
+            this.renderAtTime(this.getSyncedLyricTimeMs(), true);
             this.setStatus(`Lyrics loaded for ${track.title}.`);
 
             if (!this.audio.paused) {
@@ -435,20 +455,30 @@ class LyricsEngine {
             parsedSource = JSON.parse(parsedSource);
         }
 
-        const rawLines = Array.isArray(parsedSource)
+        const isLyricsProShape = Array.isArray(parsedSource?.data);
+        const rawLines = isLyricsProShape
+            ? parsedSource.data
+            : Array.isArray(parsedSource)
             ? parsedSource
             : Array.isArray(parsedSource?.lines)
                 ? parsedSource.lines
                 : [];
+        const meta = {
+            ...(parsedSource?.source && typeof parsedSource.source === "object" ? parsedSource.source : {}),
+            ...(parsedSource?.meta && typeof parsedSource.meta === "object" ? parsedSource.meta : {})
+        };
+        if (isLyricsProShape && !meta.mode) {
+            meta.mode = "lyrics-pro";
+        }
 
         const lines = rawLines.map((entry, index) => {
             const fallbackLine = fallbackLines[index] || null;
             const rawWords = Array.isArray(entry?.words) ? entry.words : [];
             const words = rawWords
                 .map((word, wordIndex) => {
-                    const text = String(word?.text || word?.word || "").trim();
-                    const startTime = Number(word?.startTime ?? word?.timeMs ?? word?.startMs ?? word?.start ?? NaN);
-                    const endTime = Number(word?.endTime ?? word?.endMs ?? word?.end ?? NaN);
+                    const text = this.repairLyricText(word?.text || word?.word || word?.w || "").trim();
+                    const startTime = Number(word?.startTime ?? word?.timeMs ?? word?.startMs ?? word?.start ?? word?.s ?? NaN);
+                    const endTime = Number(word?.endTime ?? word?.endMs ?? word?.end ?? word?.e ?? NaN);
                     if (!text) {
                         return null;
                     }
@@ -458,18 +488,21 @@ class LyricsEngine {
                         startTime: Number.isFinite(startTime) ? startTime : null,
                         endTime: Number.isFinite(endTime) ? endTime : null,
                         timeMs: Number.isFinite(startTime) ? startTime : null,
+                        confidence: Number.isFinite(Number(word?.confidence)) ? Number(word.confidence) : (meta.mode === "lyrics-pro" ? 0.96 : null),
+                        sourceMode: meta.mode || null,
                         index: wordIndex
                     };
                 })
                 .filter(Boolean)
                 .sort((a, b) => (a.timeMs ?? Number.MAX_SAFE_INTEGER) - (b.timeMs ?? Number.MAX_SAFE_INTEGER));
-            const lineStartMs = Number(entry?.lineStartMs ?? entry?.timeMs ?? words[0]?.timeMs ?? fallbackLine?.timeMs ?? 0);
-            const text = String(entry?.text || words.map((word) => word.text).join(" ") || fallbackLine?.text || "").trim();
+            const lineStartMs = Number(entry?.lineStartMs ?? entry?.timeMs ?? entry?.startTimeMs ?? words[0]?.timeMs ?? fallbackLine?.timeMs ?? 0);
+            const text = this.repairLyricText(entry?.text || entry?.line || words.map((word) => word.text).join(" ") || fallbackLine?.text || "").trim();
 
             return {
                 lineStartMs: Number.isFinite(lineStartMs) ? lineStartMs : 0,
                 text: text || "...",
                 words,
+                sourceMode: meta.mode || null,
                 index
             };
         }).filter((line) => line.words.length > 0 || line.text);
@@ -491,16 +524,25 @@ class LyricsEngine {
                     : Number.isFinite(nextWord?.startTime)
                         ? nextWord.startTime
                         : fallbackEnd;
-                word.endTime = Math.max(resolvedEnd, (word.startTime ?? lineEntry.lineStartMs) + 80);
+                const minWordDuration = lineEntry.sourceMode === "lyrics-pro" || word.sourceMode === "lyrics-pro" ? 24 : 80;
+                const wordStart = Number.isFinite(word.startTime) ? word.startTime : lineEntry.lineStartMs;
+                const nextStart = Number.isFinite(nextWord?.startTime) ? nextWord.startTime : null;
+                const minimumEnd = Math.max(resolvedEnd, wordStart + minWordDuration);
+                word.endTime = (lineEntry.sourceMode === "lyrics-pro" || word.sourceMode === "lyrics-pro")
+                    && Number.isFinite(nextStart)
+                    && nextStart > wordStart
+                        ? Math.min(minimumEnd, nextStart)
+                        : minimumEnd;
                 word.timeMs = Number.isFinite(word.startTime) ? word.startTime : lineEntry.lineStartMs;
             });
         });
-        return { lines };
+        return { meta, lines };
     }
 
-    setKaraokeLines(lines = [], fallbackLines = []) {
+    setKaraokeLines(lines = [], fallbackLines = [], meta = {}) {
         this.karaokeLines = Array.isArray(lines) ? lines : [];
         this.karaokeLineMap = new Map();
+        this.karaokeMeta = meta && typeof meta === "object" ? meta : {};
 
         this.karaokeLines.forEach((line, index) => {
             if (!line || !Number.isFinite(line.lineStartMs)) {
@@ -508,18 +550,104 @@ class LyricsEngine {
             }
 
             const fallbackLine = fallbackLines[index] || null;
+            this.karaokeLineMap.set(this.getKaraokeLookupKey(line.lineStartMs), line);
             const key = this.getKaraokeLookupKey(fallbackLine?.timeMs ?? line.lineStartMs);
             this.karaokeLineMap.set(key, line);
         });
+    }
+
+    repairMojibakeText(value) {
+        const text = String(value ?? "");
+        if (!/[ÃÄÆáºá»]/.test(text)) {
+            return text;
+        }
+
+        try {
+            const bytes = Uint8Array.from(Array.from(text, (char) => char.charCodeAt(0) & 0xff));
+            const decoded = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
+            return decoded || text;
+        } catch (error) {
+            return text;
+        }
+    }
+
+    canUseCleanPhrase() {
+        if (!Array.isArray(this.karaokeLines) || this.karaokeLines.length === 0) {
+            return false;
+        }
+
+        const sourceMode = String(this.karaokeMeta?.mode || this.karaokeMeta?.sourceMode || "").toLowerCase();
+        return sourceMode === "lyrics-pro" || this.hasUsableWordTimingData(this.karaokeLines);
+    }
+
+    hasLyricsProTiming() {
+        return this.canUseCleanPhrase();
+    }
+
+    hasUsableWordTimingData(lines = []) {
+        if (!Array.isArray(lines) || lines.length === 0) {
+            return false;
+        }
+
+        let timedWordCount = 0;
+        for (const line of lines) {
+            const words = Array.isArray(line?.words) ? line.words : [];
+            for (const word of words) {
+                const startTime = Number(word?.startTime ?? word?.timeMs ?? word?.startMs ?? word?.start ?? word?.s ?? NaN);
+                const endTime = Number(word?.endTime ?? word?.endMs ?? word?.end ?? word?.e ?? NaN);
+                if (Number.isFinite(startTime) && Number.isFinite(endTime) && endTime >= startTime) {
+                    timedWordCount += 1;
+                    if (timedWordCount >= 2) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    repairLyricText(value) {
+        let text = String(value ?? "");
+        const suspiciousPattern = /(?:Ã|Â|Ä|Æ|áº|á»|�)/;
+        if (!suspiciousPattern.test(text)) {
+            return text;
+        }
+
+        for (let pass = 0; pass < 3; pass += 1) {
+            if (!suspiciousPattern.test(text)) {
+                break;
+            }
+
+            try {
+                const bytes = Uint8Array.from(Array.from(text, (char) => char.charCodeAt(0) & 0xff));
+                const decoded = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
+                if (!decoded || decoded === text) {
+                    break;
+                }
+                text = decoded;
+            } catch (error) {
+                break;
+            }
+        }
+
+        return text;
     }
 
     getKaraokeLookupKey(timeMs) {
         return String(Math.round(Number(timeMs) || 0));
     }
 
-    resolveKaraokeLine(currentLine, currentIndex = -1) {
+    resolveKaraokeLine(currentLine, currentIndex = -1, timeMs = null) {
         if (!currentLine || this.karaokeLines.length === 0) {
             return null;
+        }
+
+        if (this.hasLyricsProTiming() && Number.isFinite(Number(timeMs))) {
+            const timedLine = this.resolveKaraokeLineByTime(Number(timeMs));
+            if (timedLine) {
+                return timedLine;
+            }
         }
 
         if (currentIndex >= 0 && currentIndex < this.karaokeLines.length) {
@@ -542,17 +670,67 @@ class LyricsEngine {
         )) || null;
     }
 
+    resolveKaraokeLineByTime(timeMs) {
+        if (!Array.isArray(this.karaokeLines) || this.karaokeLines.length === 0) {
+            return null;
+        }
+
+        let activeLine = null;
+        for (let index = 0; index < this.karaokeLines.length; index += 1) {
+            const line = this.karaokeLines[index];
+            const lineStartMs = Number(line?.lineStartMs);
+            if (!Number.isFinite(lineStartMs)) {
+                continue;
+            }
+            if (lineStartMs <= timeMs) {
+                activeLine = line;
+                continue;
+            }
+            break;
+        }
+        return activeLine || this.karaokeLines[0] || null;
+    }
+
+    getKaraokeLineOffset(line, offset = 0) {
+        if (!line || !Array.isArray(this.karaokeLines) || this.karaokeLines.length === 0) {
+            return null;
+        }
+
+        const directIndex = this.karaokeLines.indexOf(line);
+        const lineIndex = directIndex >= 0
+            ? directIndex
+            : this.karaokeLines.findIndex((candidate) => (
+                Number(candidate?.lineStartMs) === Number(line?.lineStartMs)
+                || candidate?.text === line?.text
+            ));
+        const targetIndex = lineIndex + offset;
+        return targetIndex >= 0 && targetIndex < this.karaokeLines.length
+            ? this.karaokeLines[targetIndex]
+            : null;
+    }
+
+    toKaraokeTimelineLine(line) {
+        if (!line) {
+            return null;
+        }
+
+        return {
+            timeMs: Number.isFinite(Number(line.lineStartMs)) ? Number(line.lineStartMs) : 0,
+            text: line.text || ""
+        };
+    }
+
     normalizeTimedWords(rawWords = [], fallbackStartTime = 0, fallbackEndTime = null) {
         const normalizedWords = [];
         rawWords.forEach((rawWord) => {
-            const rawText = String(rawWord?.text || rawWord?.word || "").trim();
+            const rawText = this.repairLyricText(rawWord?.text || rawWord?.word || rawWord?.w || "").trim();
             if (!rawText) {
                 return;
             }
 
             const tokens = rawText.split(/\s+/).filter(Boolean);
-            const startTime = Number(rawWord?.startTime ?? rawWord?.timeMs ?? rawWord?.startMs ?? rawWord?.start ?? NaN);
-            const endTime = Number(rawWord?.endTime ?? rawWord?.endMs ?? rawWord?.end ?? NaN);
+            const startTime = Number(rawWord?.startTime ?? rawWord?.timeMs ?? rawWord?.startMs ?? rawWord?.start ?? rawWord?.s ?? NaN);
+            const endTime = Number(rawWord?.endTime ?? rawWord?.endMs ?? rawWord?.end ?? rawWord?.e ?? NaN);
             const safeStart = Number.isFinite(startTime) ? startTime : fallbackStartTime;
             const safeEnd = Number.isFinite(endTime) && endTime > safeStart
                 ? endTime
@@ -562,17 +740,23 @@ class LyricsEngine {
                         : safeStart + Math.max(tokens.length, 1) * 180
                 );
 
+            const sourceMode = rawWord?.sourceMode || null;
+            const minWordDuration = sourceMode === "lyrics-pro" ? 24 : 80;
+            const confidence = Number.isFinite(Number(rawWord?.confidence)) ? Number(rawWord.confidence) : null;
+
             if (tokens.length <= 1) {
                 normalizedWords.push({
                     text: rawText,
                     startTime: safeStart,
-                    endTime: Math.max(safeEnd, safeStart + 80),
-                    timeMs: safeStart
+                    endTime: Math.max(safeEnd, safeStart + minWordDuration),
+                    timeMs: safeStart,
+                    confidence,
+                    sourceMode
                 });
                 return;
             }
 
-            const segmentDuration = Math.max((safeEnd - safeStart) / tokens.length, 80);
+            const segmentDuration = Math.max((safeEnd - safeStart) / tokens.length, minWordDuration);
             tokens.forEach((token, tokenIndex) => {
                 const tokenStart = Math.round(safeStart + (segmentDuration * tokenIndex));
                 const tokenEnd = Math.round(
@@ -583,8 +767,10 @@ class LyricsEngine {
                 normalizedWords.push({
                     text: token,
                     startTime: tokenStart,
-                    endTime: Math.max(tokenEnd, tokenStart + 80),
-                    timeMs: tokenStart
+                    endTime: Math.max(tokenEnd, tokenStart + minWordDuration),
+                    timeMs: tokenStart,
+                    confidence,
+                    sourceMode
                 });
             });
         });
@@ -593,35 +779,6 @@ class LyricsEngine {
             ...word,
             index
         })).filter((word) => word.text);
-    }
-
-    looksSyntheticWordTiming(words = []) {
-        if (!Array.isArray(words) || words.length < 3) {
-            return false;
-        }
-
-        const gaps = [];
-        for (let index = 1; index < words.length; index += 1) {
-            const prevStart = Number(words[index - 1]?.startTime ?? words[index - 1]?.timeMs ?? NaN);
-            const currentStart = Number(words[index]?.startTime ?? words[index]?.timeMs ?? NaN);
-            if (Number.isFinite(prevStart) && Number.isFinite(currentStart)) {
-                gaps.push(Math.max(currentStart - prevStart, 0));
-            }
-        }
-
-        if (gaps.length < 2) {
-            return false;
-        }
-
-        const averageGap = gaps.reduce((sum, gap) => sum + gap, 0) / gaps.length;
-        if (averageGap <= 0) {
-            return false;
-        }
-
-        const variance = gaps.reduce((sum, gap) => sum + ((gap - averageGap) ** 2), 0) / gaps.length;
-        const deviation = Math.sqrt(variance);
-        const nearRepeatedGaps = gaps.filter((gap) => Math.abs(gap - averageGap) <= Math.max(averageGap * 0.08, 14)).length;
-        return deviation <= Math.max(averageGap * 0.12, 18) || nearRepeatedGaps >= Math.ceil(gaps.length * 0.68);
     }
 
     estimateCleanPhraseWordWeight(text = "", index = 0, totalWords = 1) {
@@ -692,144 +849,23 @@ class LyricsEngine {
         const entry = typeof entryOrDuration === "object" && entryOrDuration
             ? entryOrDuration
             : null;
+        const rawSpeedFactor = this.clampKineticSpeedFactor(this.displayState.kineticSpeedFactor);
         const safeDuration = Math.max(
             Number(entry?.endTime) - Number(entry?.startTime)
             || Number(entryOrDuration)
             || 0,
-            80
+            24
         );
-        const bass = this.clampAudioValue(this.audioReactiveState.bass);
-        const pulse = this.clampAudioValue(this.audioReactiveState.pulse);
-        const overall = this.clampAudioValue(this.audioReactiveState.overall);
-        const transient = this.clampAudioValue(this.audioReactiveState.transient);
-        const rawSpeedFactor = this.clampKineticSpeedFactor(this.displayState.kineticSpeedFactor);
-        const energy = this.clampAudioValue((bass * 0.28) + (pulse * 0.2) + (transient * 0.34) + (overall * 0.18));
-        const syntheticFactor = entry?.syntheticTiming ? 1 : 0;
-        const confidence = Number.isFinite(Number(entry?.confidence))
-            ? this.clampAudioValue(Number(entry.confidence))
-            : (syntheticFactor ? 0.26 : 0.78);
-        const stableTiming = !syntheticFactor && confidence >= 0.45;
-        const speedFactor = stableTiming
-            ? (1 + ((rawSpeedFactor - 1) * 0.18))
-            : rawSpeedFactor;
-        const edgeFactor = totalWords > 1 && (index === 0 || index === totalWords - 1) ? 1.06 : 1;
-        const slowWordFactor = this.clampAudioValue((safeDuration - 220) / 760);
-        const pauseBefore = Math.min(Math.max(Number(entry?.gapBeforeMs) || 0, 0), 240);
-        const pauseAfter = Math.min(Math.max(Number(entry?.gapAfterMs) || 0, 0), 260);
-        const pauseBias = stableTiming
-            ? Math.min((pauseBefore * 0.032) + (pauseAfter * 0.016), 7)
-            : Math.min((pauseBefore * 0.08) + (pauseAfter * 0.04), syntheticFactor ? 22 : 12);
-        const anticipationBase = syntheticFactor
-            ? Math.min(Math.max(safeDuration * (0.098 + (slowWordFactor * 0.052)), 36), 122)
-            : (
-                stableTiming
-                    ? Math.min(Math.max(safeDuration * (0.036 + (slowWordFactor * 0.014)), 16), 46)
-                    : Math.min(Math.max(safeDuration * (0.058 + (slowWordFactor * 0.032)), 18), 74)
-            );
-        const confidenceBias = (1 - confidence) * (syntheticFactor ? 24 : (stableTiming ? 3 : 10));
-        const audioBias = syntheticFactor
-            ? Math.min((transient * 18) + (pulse * 8) + (energy * 7), 26)
-            : (
-                stableTiming
-                    ? Math.min((transient * 2.6) + (pulse * 1.2) + (energy * 1.1), 3.8)
-                    : Math.min((transient * 5) + (pulse * 2) + (energy * 2), 7)
-            );
-        const speedLeadBoost = (speedFactor - 1) * Math.min(
-            Math.max(safeDuration * (stableTiming ? 0.04 : 0.11), stableTiming ? 4 : 8),
-            syntheticFactor ? 30 : (stableTiming ? 9 : 18)
-        );
-        const anticipationMs = Math.max(
-            0,
-            (anticipationBase + confidenceBias + pauseBias + audioBias + speedLeadBoost) * edgeFactor
-        );
-        const holdBase = syntheticFactor
-            ? Math.min(Math.max(safeDuration * (0.014 - (slowWordFactor * 0.006)), 0), 8)
-            : (
-                stableTiming
-                    ? Math.min(Math.max(safeDuration * (0.002 - (slowWordFactor * 0.0012)), 0), 2)
-                    : Math.min(Math.max(safeDuration * (0.006 - (slowWordFactor * 0.003)), 0), 4)
-            );
-        const holdAfterMs = Math.max(
-            0,
-            ((holdBase + (pauseAfter * (syntheticFactor ? 0.02 : (stableTiming ? 0.002 : 0.008)))) * (1 - (energy * 0.5) - (transient * (stableTiming ? 0.06 : 0.12))))
-            / Math.max(speedFactor, 0.72)
-        );
-        const progressFactor = syntheticFactor
-            ? (0.76 + (speedFactor * 0.24))
-            : (
-                stableTiming
-                    ? (0.98 + ((speedFactor - 1) * 0.08))
-                    : (0.9 + ((speedFactor - 1) * 0.22))
-            );
+        const speedLeadMs = rawSpeedFactor > 1
+            ? Math.min((rawSpeedFactor - 1) * 42, 34)
+            : Math.max((rawSpeedFactor - 1) * 18, -10);
+        const shortWordLeadMs = safeDuration < 90 ? 4 : 8;
 
         return {
-            anticipationMs,
-            holdAfterMs,
-            progressFactor
+            anticipationMs: Math.max(0, shortWordLeadMs + speedLeadMs),
+            holdAfterMs: 0,
+            progressFactor: Math.max(0.9, Math.min(rawSpeedFactor, 1.18))
         };
-    }
-
-    rebalanceCleanPhraseWords(words = [], lineStart = 0, lineEnd = null) {
-        if (!Array.isArray(words) || words.length === 0) {
-            return [];
-        }
-
-        const safeLineStart = Number.isFinite(lineStart)
-            ? lineStart
-            : Number(words[0]?.startTime ?? words[0]?.timeMs ?? 0) || 0;
-        const safeLineEnd = Number.isFinite(lineEnd) && lineEnd > safeLineStart
-            ? lineEnd
-            : safeLineStart + Math.max(words.length * 220, 1600);
-        const usableDuration = Math.max(safeLineEnd - safeLineStart, words.length * 120);
-        const holdBackMs = Math.min(Math.max(usableDuration * 0.09, 120), 320);
-        const activeDuration = Math.max(usableDuration - holdBackMs, words.length * 110);
-        const weights = words.map((word, index) => {
-            const text = String(word?.text || "");
-            const plain = text.replace(/[^\p{L}\p{N}]+/gu, "");
-            const charCount = Math.max(plain.length, 1);
-            const punctuationBoost = /[,.!?;:…]$/.test(text) ? 0.28 : 0;
-            const vowelBoost = /[aeiouyăâêôơưáàảãạắằẳẵặấầẩẫậéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵ]/i.test(text)
-                ? 0.08
-                : 0;
-            const endBoost = index === words.length - 1 ? 0.12 : 0;
-            return Math.min(3.1, 0.82 + (Math.min(charCount, 8) * 0.18) + punctuationBoost + vowelBoost + endBoost);
-        });
-        const rhythmWeights = words.map((word, index) => this.estimateCleanPhraseWordWeight(word?.text, index, words.length));
-        const pauseWeights = words.slice(0, -1).map((word, index) => this.estimateCleanPhrasePauseWeight(word, words[index + 1]));
-        const totalPauseWeight = pauseWeights.reduce((sum, weight) => sum + weight, 0);
-        const pauseBudget = words.length > 1
-            ? Math.min(
-                Math.max(usableDuration * 0.16, 90),
-                Math.max(140, Math.min(usableDuration * 0.28, 460))
-            )
-            : 0;
-        const wordDurationBudget = Math.max(activeDuration - pauseBudget, words.length * 95);
-        const totalWeight = rhythmWeights.reduce((sum, weight) => sum + weight, 0) || 1;
-        let cursor = safeLineStart;
-
-        return words.map((word, index) => {
-            const slice = Math.max(88, Math.round((wordDurationBudget * rhythmWeights[index]) / totalWeight));
-            const startTime = index === 0 ? safeLineStart : cursor;
-            const rawEndTime = index === words.length - 1
-                ? safeLineStart + activeDuration
-                : Math.max(startTime + 80, cursor + slice);
-            const boundaryPause = index < pauseWeights.length && totalPauseWeight > 0
-                ? Math.round((pauseBudget * pauseWeights[index]) / totalPauseWeight)
-                : 0;
-            const endTime = index === words.length - 1
-                ? safeLineEnd
-                : Math.max(rawEndTime, startTime + 80);
-            const remainingWords = Math.max(words.length - index - 1, 0);
-            const latestCursor = safeLineEnd - (remainingWords * 84);
-            cursor = Math.min(endTime + boundaryPause, latestCursor);
-
-            return {
-                ...word,
-                startTime,
-                endTime,
-                timeMs: startTime
-            };
-        });
     }
 
     mergeMicroCleanPhraseChunks(chunks = []) {
@@ -890,21 +926,18 @@ class LyricsEngine {
     }
 
     buildRefinedCleanPhraseChunks() {
-        const sourceLines = this.karaokeLines.length > 0
-            ? this.karaokeLines
-            : this.lines.map((line) => ({
-                lineStartMs: line.timeMs,
-                text: line.text,
-                words: Array.isArray(line.words) ? line.words : []
-            }));
+        if (!this.canUseCleanPhrase()) {
+            return [];
+        }
+
+        const sourceLines = this.karaokeLines;
         const chunks = [];
         const maxWordsSetting = this.clampKineticMaxWordsPerLine(this.displayState.kineticMaxWordsPerLine);
         const maxCharsSetting = this.clampKineticMaxCharsPerLine(this.displayState.kineticMaxCharsPerLine);
-        const maxWordsPerChunk = maxWordsSetting <= 0 ? 14 : Math.max(maxWordsSetting, 10);
-        const maxCharsPerChunk = maxCharsSetting <= 0 ? 58 : Math.max(maxCharsSetting, 36);
-        const gapThresholdMs = 620;
-        const maxChunkDurationMs = 3600;
-        const minChunkDurationMs = 1160;
+        const maxWordsPerChunk = maxWordsSetting <= 0 ? Number.POSITIVE_INFINITY : Math.max(maxWordsSetting, 3);
+        const maxCharsPerChunk = maxCharsSetting <= 0 ? Number.POSITIVE_INFINITY : Math.max(maxCharsSetting, 10);
+        const gapThresholdMs = 540;
+        const maxChunkDurationMs = 4200;
 
         sourceLines.forEach((line, lineIndex) => {
             const nextLine = sourceLines[lineIndex + 1] || null;
@@ -913,31 +946,7 @@ class LyricsEngine {
             let words = this.normalizeTimedWords(Array.isArray(line?.words) ? line.words : [], fallbackStart, fallbackEnd);
 
             if (words.length === 0) {
-                words = String(line?.text || "")
-                    .trim()
-                    .split(/\s+/)
-                    .filter(Boolean)
-                    .map((text, index, list) => {
-                        const sliceDuration = Math.max((fallbackEnd - fallbackStart) / Math.max(list.length, 1), 160);
-                        const startTime = Math.round(fallbackStart + (sliceDuration * index));
-                        const endTime = Math.round(
-                            index === list.length - 1
-                                ? fallbackEnd
-                                : fallbackStart + (sliceDuration * (index + 1))
-                        );
-                        return {
-                            text,
-                            startTime,
-                            endTime: Math.max(endTime, startTime + 80),
-                            timeMs: startTime,
-                            index
-                        };
-                    });
-            }
-
-            const syntheticTiming = this.looksSyntheticWordTiming(words);
-            if (syntheticTiming) {
-                words = this.rebalanceCleanPhraseWords(words, fallbackStart, fallbackEnd);
+                return;
             }
 
             let currentChunkWords = [];
@@ -955,7 +964,8 @@ class LyricsEngine {
                     words: chunkWords,
                     startTime: chunkWords[0].startTime,
                     endTime: chunkWords[chunkWords.length - 1].endTime,
-                    syntheticTiming,
+                    syntheticTiming: false,
+                    sourceMode: "lyrics-pro",
                     averageConfidence: chunkWords.reduce((sum, chunkWord) => (
                         sum + (
                             Number.isFinite(Number(chunkWord?.confidence))
@@ -985,14 +995,14 @@ class LyricsEngine {
                 const punctuationBreak = /[,.!?;:â€¦]$/.test(word.text || "");
                 const punctuationBreakStrong = punctuationBreak
                     && (
-                        currentChunkWords.length >= 5
-                        || currentChars >= Math.min(maxCharsPerChunk, 28)
-                        || gapToNext >= 180
+                        currentChunkWords.length >= 4
+                        || currentChars >= Math.min(maxCharsPerChunk, 24)
+                        || gapToNext >= 160
                     );
-                const hardWordLimit = currentChunkWords.length >= maxWordsPerChunk && chunkDuration >= minChunkDurationMs;
-                const hardCharLimit = currentChars >= maxCharsPerChunk && currentChunkWords.length >= 5 && chunkDuration >= (minChunkDurationMs * 0.7);
+                const hardWordLimit = currentChunkWords.length >= maxWordsPerChunk;
+                const hardCharLimit = currentChars >= maxCharsPerChunk && currentChunkWords.length >= 2;
                 const pauseBreak = gapToNext >= gapThresholdMs && currentChunkWords.length >= 3;
-                const longDurationBreak = chunkDuration >= maxChunkDurationMs && currentChunkWords.length >= 6;
+                const longDurationBreak = chunkDuration >= maxChunkDurationMs && currentChunkWords.length >= 4;
                 const isLastWord = index === words.length - 1;
 
                 if (
@@ -1009,96 +1019,6 @@ class LyricsEngine {
         });
 
         return this.mergeMicroCleanPhraseChunks(chunks);
-    }
-
-    buildCleanPhraseChunks() {
-        const sourceLines = this.karaokeLines.length > 0
-            ? this.karaokeLines
-            : this.lines.map((line) => ({
-                lineStartMs: line.timeMs,
-                text: line.text,
-                words: Array.isArray(line.words) ? line.words : []
-            }));
-        const chunks = [];
-        const maxWordsSetting = this.clampKineticMaxWordsPerLine(this.displayState.kineticMaxWordsPerLine);
-        const maxCharsSetting = this.clampKineticMaxCharsPerLine(this.displayState.kineticMaxCharsPerLine);
-        const maxWordsPerChunk = maxWordsSetting <= 0 ? Number.POSITIVE_INFINITY : maxWordsSetting;
-        const maxCharsPerChunk = maxCharsSetting <= 0 ? Number.POSITIVE_INFINITY : maxCharsSetting;
-        const gapThresholdMs = 340;
-
-        sourceLines.forEach((line, lineIndex) => {
-            const nextLine = sourceLines[lineIndex + 1] || null;
-            const fallbackStart = Number(line?.lineStartMs ?? line?.timeMs ?? 0);
-            const fallbackEnd = Number(nextLine?.lineStartMs ?? sourceLines[lineIndex + 1]?.timeMs ?? (fallbackStart + 2200));
-            let words = this.normalizeTimedWords(Array.isArray(line?.words) ? line.words : [], fallbackStart, fallbackEnd);
-
-            if (words.length === 0) {
-                const fallbackTextWords = String(line?.text || "")
-                    .trim()
-                    .split(/\s+/)
-                    .filter(Boolean)
-                    .map((text, index, list) => {
-                        const sliceDuration = Math.max((fallbackEnd - fallbackStart) / Math.max(list.length, 1), 160);
-                        const startTime = Math.round(fallbackStart + (sliceDuration * index));
-                        const endTime = Math.round(
-                            index === list.length - 1
-                                ? fallbackEnd
-                                : fallbackStart + (sliceDuration * (index + 1))
-                        );
-                        return {
-                            text,
-                            startTime,
-                            endTime: Math.max(endTime, startTime + 80),
-                            timeMs: startTime,
-                            index
-                        };
-                    });
-                words = fallbackTextWords;
-            }
-
-            let currentChunkWords = [];
-            let currentChars = 0;
-            const finalizeChunk = () => {
-                if (currentChunkWords.length === 0) {
-                    return;
-                }
-
-                const chunkWords = currentChunkWords.map((word) => ({ ...word }));
-                const startTime = chunkWords[0].startTime;
-                const endTime = chunkWords[chunkWords.length - 1].endTime;
-                chunks.push({
-                    id: `${lineIndex}:${chunks.length}`,
-                    lineIndex,
-                    text: chunkWords.map((word) => word.text).join(" "),
-                    words: chunkWords,
-                    startTime,
-                    endTime
-                });
-                currentChunkWords = [];
-                currentChars = 0;
-            };
-
-            words.forEach((word, index) => {
-                currentChunkWords.push(word);
-                currentChars += String(word.text || "").length;
-
-                const nextWord = words[index + 1] || null;
-                const gapToNext = nextWord
-                    ? Math.max((nextWord.startTime ?? nextWord.timeMs ?? 0) - (word.endTime ?? word.startTime ?? 0), 0)
-                    : 0;
-                const punctuationBreak = /[,.!?;:…]$/.test(word.text || "");
-                const hardWordLimit = currentChunkWords.length >= maxWordsPerChunk;
-                const hardCharLimit = currentChars >= maxCharsPerChunk && currentChunkWords.length >= 2;
-                const pauseBreak = gapToNext >= gapThresholdMs && currentChunkWords.length >= 2;
-                const isLastWord = index === words.length - 1;
-
-                if (punctuationBreak || hardWordLimit || hardCharLimit || pauseBreak || isLastWord) {
-                    finalizeChunk();
-                }
-            });
-        });
-
-        return chunks;
     }
 
     resolveCleanPhraseContext(timeMs) {
@@ -1153,9 +1073,9 @@ class LyricsEngine {
             return;
         }
 
-        this.cleanPhraseChunks = this.buildRefinedCleanPhraseChunks();
+        this.cleanPhraseChunks = this.canUseCleanPhrase() ? this.buildRefinedCleanPhraseChunks() : [];
         if (shouldRerender && this.displayState.kineticMode && this.displayState.kineticStyle === "clean-phrase") {
-            this.renderAtTime(this.audio.currentTime * 1000, true);
+            this.renderAtTime(this.getSyncedLyricTimeMs(), true);
         }
     }
 
@@ -1177,7 +1097,7 @@ class LyricsEngine {
     }
 
     handleSeeking() {
-        this.renderAtTime(this.audio.currentTime * 1000);
+        this.renderAtTime(this.getSyncedLyricTimeMs());
     }
 
     handleEnded() {
@@ -1211,8 +1131,17 @@ class LyricsEngine {
             return;
         }
 
-        this.renderAtTime(this.audio.currentTime * 1000);
+        this.renderAtTime(this.getSyncedLyricTimeMs());
         this.animationFrame = window.requestAnimationFrame(this.updateFromAudio);
+    }
+
+    getSyncedLyricTimeMs() {
+        const audioTimeMs = (this.audio?.currentTime || 0) * 1000;
+        return Math.max(0, audioTimeMs - this.getLyricDelayMs());
+    }
+
+    getLyricDelayMs() {
+        return this.clampLyricDelayMs(this.displayState?.lyricDelayMs ?? this.displayConfig.defaultLyricDelayMs ?? 0);
     }
 
     renderAtTime(timeMs, force = false) {
@@ -1241,11 +1170,20 @@ class LyricsEngine {
         const beforeFirstLine = !current && Boolean(firstLine) && timeMs < firstLine.timeMs;
         const activeLine = current || this.lines[0] || null;
         const followingLine = current ? next : (this.lines[1] || null);
-        const activeKaraokeLine = this.resolveKaraokeLine(activeLine, currentIndex >= 0 ? currentIndex : 0);
+        const activeKaraokeLine = this.resolveKaraokeLine(activeLine, currentIndex >= 0 ? currentIndex : 0, timeMs);
+        const nextKaraokeLine = activeKaraokeLine ? this.getKaraokeLineOffset(activeKaraokeLine, 1) : null;
+        const previousKaraokeLine = activeKaraokeLine ? this.getKaraokeLineOffset(activeKaraokeLine, -1) : null;
+        const activeKineticLine = this.toKaraokeTimelineLine(activeKaraokeLine) || activeLine;
+        const followingKineticLine = this.toKaraokeTimelineLine(nextKaraokeLine) || followingLine;
+        const previousKineticLine = this.toKaraokeTimelineLine(previousKaraokeLine) || previous;
         const nextPreviousText = previous?.text || "";
         const nextCurrentText = current?.text || this.lines[0]?.text || "";
         const nextUpcomingText = next?.text || "";
         const nextMetaText = current ? `${this.formatMs(current.timeMs)} synced` : "";
+        const kineticCurrentText = activeKaraokeLine?.text || nextCurrentText;
+        const kineticLineKey = Number.isFinite(Number(activeKaraokeLine?.lineStartMs))
+            ? Number(activeKaraokeLine.lineStartMs)
+            : (activeLine?.timeMs ?? -1);
         const renderSignature = this.displayState.kineticMode
             ? (
                 this.displayState.kineticStyle === "clean-phrase"
@@ -1257,7 +1195,7 @@ class LyricsEngine {
                     : (
                         beforeFirstLine && !this.audio.paused
                             ? `kinetic:preroll:${firstLine?.timeMs ?? -1}:${this.displayState.kineticMaxWordsPerLine}:${this.displayState.kineticMaxCharsPerLine}`
-                            : `kinetic:line:${activeLine?.timeMs ?? -1}:${this.displayState.kineticMaxWordsPerLine}:${this.displayState.kineticMaxCharsPerLine}`
+                            : `kinetic:line:${kineticLineKey}:${this.displayState.kineticStyle}:${this.displayState.kineticMaxWordsPerLine}:${this.displayState.kineticMaxCharsPerLine}`
                     )
             )
             : `classic:${previous?.timeMs ?? -1}:${activeLine?.timeMs ?? -1}:${next?.timeMs ?? -1}`;
@@ -1294,14 +1232,14 @@ class LyricsEngine {
                     this.previousLine.textContent = "";
                     this.nextLine.textContent = "";
                     const kineticTiming = this.resolveKineticTiming(
-                        activeLine,
-                        followingLine,
-                        previous,
-                        this.countKineticWords(nextCurrentText, activeKaraokeLine),
+                        activeKineticLine,
+                        followingKineticLine,
+                        previousKineticLine,
+                        this.countKineticWords(kineticCurrentText, activeKaraokeLine),
                         activeKaraokeLine
                     );
                     this.renderKineticCurrentLine(
-                        nextCurrentText,
+                        kineticCurrentText,
                         kineticTiming,
                         activeKaraokeLine
                     );
@@ -1333,10 +1271,10 @@ class LyricsEngine {
             && !beforeFirstLine
         ) {
             const kineticTiming = this.resolveKineticTiming(
-                activeLine,
-                followingLine,
-                previous,
-                this.countKineticWords(nextCurrentText, activeKaraokeLine),
+                activeKineticLine,
+                followingKineticLine,
+                previousKineticLine,
+                this.countKineticWords(kineticCurrentText, activeKaraokeLine),
                 activeKaraokeLine
             );
             this.syncKineticProgress(timeMs, kineticTiming);
@@ -1491,17 +1429,28 @@ class LyricsEngine {
     resolveKineticTiming(currentLine, nextLine, previousLine, wordCount, karaokeLine = null) {
         const availableMs = this.resolveKineticLineDuration(currentLine, nextLine, previousLine);
         const availableSeconds = availableMs / 1000;
+        const hasLyricsProTiming = String(karaokeLine?.sourceMode || "").toLowerCase() === "lyrics-pro"
+            || String(this.karaokeMeta?.mode || this.karaokeMeta?.sourceMode || "").toLowerCase() === "lyrics-pro"
+            || (
+                Array.isArray(karaokeLine?.words)
+                && karaokeLine.words.some((word) => Number.isFinite(Number(word?.startTime ?? word?.timeMs)))
+            );
         const usableSeconds = Math.max(
             0.2,
-            Math.min(availableSeconds * 0.68, Math.max(availableSeconds - 0.14, 0.2))
+            Math.min(availableSeconds * 0.96, Math.max(availableSeconds - 0.06, 0.2))
         );
         const safeWordCount = Math.max(1, Number.isFinite(wordCount) ? wordCount : 1);
         const speedFactor = this.clampKineticSpeedFactor(this.displayState.kineticSpeedFactor);
-        const staggerSeconds = Math.min(0.85, Math.max(0.02, (usableSeconds / safeWordCount) / speedFactor));
-        const entryLeadSeconds = Math.min(
-            Math.max(staggerSeconds * 0.72, 0.1),
-            Math.max(staggerSeconds * 0.96, 0.12)
+        const staggerSeconds = Math.min(
+            0.85,
+            Math.max(0.02, (usableSeconds / safeWordCount) / (hasLyricsProTiming ? 1 : speedFactor))
         );
+        const entryLeadSeconds = hasLyricsProTiming
+            ? 0
+            : Math.min(
+                Math.max(staggerSeconds * 0.42, 0.045),
+                Math.max(staggerSeconds * 0.68, 0.08)
+            );
 
         return {
             lineStartMs: Number.isFinite(karaokeLine?.lineStartMs)
@@ -1516,6 +1465,7 @@ class LyricsEngine {
             staggerSeconds,
             speedFactor,
             entryLeadSeconds,
+            hasLyricsProTiming,
             wordTimeMsList: Array.isArray(karaokeLine?.words)
                 ? karaokeLine.words
                     .map((word) => Number(word?.timeMs))
@@ -1530,6 +1480,8 @@ class LyricsEngine {
                 .map((word, index) => ({
                     text: String(word?.text || "").trim(),
                     timeMs: Number.isFinite(Number(word?.timeMs)) ? Number(word.timeMs) : null,
+                    startTime: Number.isFinite(Number(word?.startTime ?? word?.timeMs)) ? Number(word.startTime ?? word.timeMs) : null,
+                    endTime: Number.isFinite(Number(word?.endTime)) ? Number(word.endTime) : null,
                     leadMs: Number.isFinite(Number(word?.leadMs)) ? Number(word.leadMs) : null,
                     entryMs: Number.isFinite(Number(word?.entryMs)) ? Number(word.entryMs) : null,
                     slideMs: Number.isFinite(Number(word?.slideMs)) ? Number(word.slideMs) : null,
@@ -1546,6 +1498,8 @@ class LyricsEngine {
             .map((word, index) => ({
                 text: word,
                 timeMs: null,
+                startTime: null,
+                endTime: null,
                 leadMs: null,
                 entryMs: null,
                 slideMs: null,
@@ -1562,6 +1516,8 @@ class LyricsEngine {
         return [{
             text: "...",
             timeMs: Number.isFinite(karaokeLine?.lineStartMs) ? karaokeLine.lineStartMs : null,
+            startTime: Number.isFinite(karaokeLine?.lineStartMs) ? karaokeLine.lineStartMs : null,
+            endTime: null,
             leadMs: null,
             entryMs: null,
             slideMs: null,
@@ -1601,6 +1557,9 @@ class LyricsEngine {
             const currentTimeMs = Number.isFinite(word?.timeMs)
                 ? Number(word.timeMs)
                 : Math.round(lineStartMs + (fallbackGapMs * index));
+            const startTime = Number.isFinite(word?.startTime)
+                ? Number(word.startTime)
+                : currentTimeMs;
             const nextWord = words.slice(index + 1).find((candidate) => Number.isFinite(candidate?.timeMs)) || null;
             const previousWord = index > 0 ? words[index - 1] : null;
             const nextGapMs = Number.isFinite(nextWord?.timeMs)
@@ -1647,6 +1606,8 @@ class LyricsEngine {
             return {
                 ...word,
                 timeMs: currentTimeMs,
+                startTime,
+                endTime: Number.isFinite(word?.endTime) ? Number(word.endTime) : currentTimeMs + safeGapMs,
                 leadMs,
                 entryMs,
                 slideMs,
@@ -1766,20 +1727,27 @@ class LyricsEngine {
             node.textContent = word.text;
             node.dataset.token = word.text;
             node.style.setProperty("--clean-phrase-order", String(index));
+            const minWordDuration = word?.sourceMode === "lyrics-pro" ? 24 : 80;
+            const minimumEnd = Math.max(resolvedEnd, startTime + minWordDuration);
+            const nextStart = Number.isFinite(nextWord?.startTime) ? nextWord.startTime : null;
+            const entryEndTime = word?.sourceMode === "lyrics-pro" && Number.isFinite(nextStart) && nextStart > startTime
+                ? Math.min(minimumEnd, nextStart)
+                : minimumEnd;
 
             return {
                 node,
                 startTime,
-                endTime: Math.max(resolvedEnd, startTime + 80),
+                endTime: entryEndTime,
                 confidence: Number.isFinite(Number(word?.confidence))
                     ? Number(word.confidence)
                     : averageConfidence,
                 syntheticTiming,
+                sourceMode: word?.sourceMode || null,
                 gapBeforeMs: Number.isFinite(previousWord?.endTime)
                     ? Math.max(startTime - previousWord.endTime, 0)
                     : 0,
                 gapAfterMs: Number.isFinite(nextWord?.startTime)
-                    ? Math.max(nextWord.startTime - Math.max(resolvedEnd, startTime + 80), 0)
+                    ? Math.max(nextWord.startTime - entryEndTime, 0)
                     : 0,
                 state: "future",
                 progressValue: -1,
@@ -1935,34 +1903,33 @@ class LyricsEngine {
         state.entries.forEach((entry, index) => {
             const startTime = Number.isFinite(entry.startTime) ? entry.startTime : 0;
             const endTime = Number.isFinite(entry.endTime) ? entry.endTime : startTime + 220;
-            const wordDuration = Math.max(endTime - startTime, 80);
-            const { anticipationMs, holdAfterMs, progressFactor } = this.resolveCleanPhraseAudioTiming(
+            const nextEntry = state.entries[index + 1] || null;
+            const nextStartTime = Number.isFinite(nextEntry?.startTime) ? nextEntry.startTime : null;
+            const wordDuration = Math.max(endTime - startTime, 24);
+            const { anticipationMs, progressFactor } = this.resolveCleanPhraseAudioTiming(
                 entry,
                 index,
                 state.entries.length
             );
             const perceivedTimeMs = timeMs + anticipationMs;
-            const heldEndTime = endTime + holdAfterMs;
             const rawProgress = ((perceivedTimeMs - startTime) / wordDuration) * progressFactor;
             let nextState = "future";
             let progress = 0;
 
-            if (perceivedTimeMs >= heldEndTime) {
+            if (perceivedTimeMs >= endTime || (Number.isFinite(nextStartTime) && perceivedTimeMs >= nextStartTime)) {
                 nextState = "sung";
                 progress = 1;
             } else if (perceivedTimeMs >= startTime) {
                 nextState = "active";
-                progress = perceivedTimeMs >= endTime
-                    ? 1
-                    : Math.min(Math.max(rawProgress, 0), 1);
+                progress = Math.min(Math.max(rawProgress, 0), 1);
                 activeWordIndex = index;
             }
 
             const easedProgress = nextState === "active"
-                ? 0.5 - (Math.cos(Math.min(Math.max(progress, 0), 1) * Math.PI) / 2)
+                ? 1 - Math.pow(1 - Math.min(Math.max(progress, 0), 1), 3)
                 : progress;
             const progressValue = nextState === "active"
-                ? Math.round(easedProgress * 1000) / 1000
+                ? Math.round(easedProgress * 1200) / 1200
                 : (nextState === "sung" ? 1 : 0);
 
             if (
@@ -2028,12 +1995,14 @@ class LyricsEngine {
             frameStates,
             activeFrameIndex: -1,
             renderedWordCount: 0,
+            scheduledWordCount: 0,
             totalWordCount,
             wordScheduleMs: frameStates.flatMap((frameState) => (
                 frameState.entries.map((entry) => (
                     Number.isFinite(entry.scheduleMs) ? entry.scheduleMs : entry.timeMs
                 ))
             )),
+            wordEntries: frameStates.flatMap((frameState) => frameState.entries),
             hasWordTimings: frameStates.some((frameState) => (
                 frameState.entries.some((entry) => Number.isFinite(entry.timeMs))
             )),
@@ -2043,8 +2012,20 @@ class LyricsEngine {
             kineticStyle: this.displayState.kineticStyle,
             energy,
             pulse,
-            timing: kineticTiming
+            timing: kineticTiming,
+            pendingWordQueue: [],
+            queueFlushRaf: null,
+            maxWordsPerFlush: this.resolveKineticWordsPerFlush()
         };
+    }
+
+    resolveKineticWordsPerFlush() {
+        const style = this.displayState.kineticStyle;
+        const hasWordTiming = this.hasLyricsProTiming();
+        if (style === "soft-drift") {
+            return hasWordTiming ? 2 : 1;
+        }
+        return hasWordTiming ? 3 : 2;
     }
 
     createKineticRows(rowGroups = []) {
@@ -2065,9 +2046,9 @@ class LyricsEngine {
                     row,
                     isRowTail: indexWithinRow === group.length - 1,
                     timeMs: Number.isFinite(word.timeMs) ? word.timeMs : null,
-                    scheduleMs: Number.isFinite(word.timeMs)
-                        ? word.timeMs - Math.max(Number(word.leadMs) || 0, 0)
-                        : null,
+                    scheduleMs: Number.isFinite(word.timeMs) ? word.timeMs : null,
+                    startTime: Number.isFinite(word.startTime) ? word.startTime : (Number.isFinite(word.timeMs) ? word.timeMs : null),
+                    endTime: Number.isFinite(word.endTime) ? word.endTime : null,
                     leadMs: Number.isFinite(word.leadMs) ? word.leadMs : null,
                     entryMs: Number.isFinite(word.entryMs) ? word.entryMs : null,
                     slideMs: Number.isFinite(word.slideMs) ? word.slideMs : null,
@@ -2115,32 +2096,34 @@ class LyricsEngine {
                         : 0
             ) * 1000
         );
-        const speedFactor = Math.max(
-            0.25,
-            Number.isFinite(kineticTiming?.speedFactor)
-                ? kineticTiming.speedFactor
-                : Number.isFinite(state.timing?.speedFactor)
-                    ? state.timing.speedFactor
-                    : 1
-        );
-        const elapsedMs = Math.max(0, (timeMs - lineStartMs) * speedFactor + entryLeadMs);
         let targetWordCount;
         if (state.hasWordTimings) {
-            const targetMomentMs = lineStartMs + elapsedMs;
-            targetWordCount = Math.min(
-                state.totalWordCount,
-                state.wordScheduleMs.reduce((count, wordTimeMs) => (
-                    Number.isFinite(wordTimeMs) && wordTimeMs <= targetMomentMs ? count + 1 : count
-                ), 0)
-            );
+            targetWordCount = this.resolveTimedKineticWordCount(state, timeMs);
         } else {
+            const speedFactor = Math.max(
+                0.25,
+                Number.isFinite(kineticTiming?.speedFactor)
+                    ? kineticTiming.speedFactor
+                    : Number.isFinite(state.timing?.speedFactor)
+                        ? state.timing.speedFactor
+                        : 1
+            );
+            const elapsedMs = Math.max(0, (timeMs - lineStartMs) * speedFactor + entryLeadMs);
             targetWordCount = Math.min(
                 state.totalWordCount,
                 Math.max(0, Math.floor(elapsedMs / staggerMs) + 1)
             );
         }
 
-        if (targetWordCount < state.renderedWordCount) {
+        const effectiveRenderedCount = Math.max(
+            state.renderedWordCount || 0,
+            state.scheduledWordCount || 0
+        );
+        if (targetWordCount < effectiveRenderedCount) {
+            if (state.queueFlushRaf) {
+                cancelAnimationFrame(state.queueFlushRaf);
+                state.queueFlushRaf = null;
+            }
             this.renderKineticCurrentLine(
                 this.currentLine.dataset.renderedText || "",
                 kineticTiming || state.timing,
@@ -2154,8 +2137,8 @@ class LyricsEngine {
             return;
         }
 
-        while (state.renderedWordCount < targetWordCount) {
-            const nextWordIndex = state.renderedWordCount + 1;
+        while (state.scheduledWordCount < targetWordCount) {
+            const nextWordIndex = state.scheduledWordCount + 1;
             const targetFrameIndex = state.frameStates.findIndex((frameState) => nextWordIndex <= frameState.endWordIndex);
             if (targetFrameIndex === -1) {
                 break;
@@ -2164,7 +2147,13 @@ class LyricsEngine {
             const frameState = state.frameStates[targetFrameIndex];
             if (state.activeFrameIndex !== targetFrameIndex) {
                 state.activeFrameIndex = targetFrameIndex;
+                state.pendingWordQueue.length = 0;
                 this.mountKineticFrame(state.stackNode, frameState.rows);
+                const priorEndIndex = targetFrameIndex > 0
+                    ? state.frameStates[targetFrameIndex - 1].endWordIndex
+                    : 0;
+                state.renderedWordCount = priorEndIndex;
+                state.scheduledWordCount = Math.max(state.scheduledWordCount, priorEndIndex);
             }
 
             const priorEndIndex = targetFrameIndex > 0
@@ -2175,7 +2164,14 @@ class LyricsEngine {
                 break;
             }
 
-            this.appendKineticWord(entry.node, entry.row, {
+            const previousScheduleMs = state.wordScheduleMs[nextWordIndex - 2];
+            const currentScheduleMs = state.wordScheduleMs[nextWordIndex - 1];
+            const closeToPrevious = Number.isFinite(previousScheduleMs)
+                && Number.isFinite(currentScheduleMs)
+                && Math.abs(currentScheduleMs - previousScheduleMs) < 86;
+            state.pendingWordQueue.push({
+                wordIndex: nextWordIndex,
+                entry,
                 entryDuration: Number.isFinite(entry.entryMs)
                     ? Math.max(entry.entryMs / 1000, 0.08)
                     : state.entryDuration,
@@ -2187,17 +2183,179 @@ class LyricsEngine {
                 pulse: state.pulse,
                 emphasis: Number.isFinite(entry.emphasis) ? entry.emphasis : 0,
                 styleHint: entry.styleHint,
-                tailBurst: Boolean(this.displayState.kineticTailBurst && entry.isRowTail)
+                tailBurst: Boolean(this.displayState.kineticTailBurst && entry.isRowTail),
+                closeToPrevious
             });
-            state.renderedWordCount = nextWordIndex;
+            state.scheduledWordCount = nextWordIndex;
         }
 
-        if (state.renderedWordCount >= state.totalWordCount) {
+        this.flushKineticWordQueue(state);
+
+        if (state.renderedWordCount >= state.totalWordCount && state.pendingWordQueue.length === 0) {
+            this.kineticPhase = "line-hold";
+        }
+    }
+
+    resolveTimedKineticWordCount(state, timeMs) {
+        if (!state || !Array.isArray(state.wordScheduleMs) || state.wordScheduleMs.length === 0) {
+            return 0;
+        }
+
+        let count = 0;
+        while (
+            count < state.totalWordCount
+            && Number.isFinite(state.wordScheduleMs[count])
+            && state.wordScheduleMs[count] <= timeMs
+        ) {
+            count += 1;
+        }
+
+        while (count < state.totalWordCount && this.shouldBatchTimedKineticWord(state, count, timeMs)) {
+            count += 1;
+        }
+
+        return Math.min(state.totalWordCount, count);
+    }
+
+    shouldBatchTimedKineticWord(state, nextIndex, timeMs) {
+        const entries = Array.isArray(state?.wordEntries) ? state.wordEntries : [];
+        const previousEntry = entries[nextIndex - 1] || null;
+        const nextEntry = entries[nextIndex] || null;
+        const previousTime = state?.wordScheduleMs?.[nextIndex - 1];
+        const nextTime = state?.wordScheduleMs?.[nextIndex];
+
+        if (!previousEntry || !nextEntry || !Number.isFinite(previousTime) || !Number.isFinite(nextTime)) {
+            return false;
+        }
+
+        const gapMs = nextTime - previousTime;
+        if (gapMs < 0 || gapMs > 82 || nextTime - timeMs > 48) {
+            return false;
+        }
+
+        const previousDuration = Number.isFinite(previousEntry.endTime) && Number.isFinite(previousEntry.startTime)
+            ? previousEntry.endTime - previousEntry.startTime
+            : gapMs;
+        const previousEmphasis = Number.isFinite(previousEntry.emphasis) ? previousEntry.emphasis : 0;
+        const previousText = String(previousEntry.node?.textContent || previousEntry.text || "").trim();
+
+        if (previousDuration >= 320 || previousEmphasis >= 0.48 || /[,.!?;:…]$/.test(previousText)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    flushKineticWordQueue(state = this.kineticRenderState, forceAll = false) {
+        if (!state || !Array.isArray(state.pendingWordQueue) || state.pendingWordQueue.length === 0) {
+            return;
+        }
+
+        const baseLimit = Math.max(1, Number(state.maxWordsPerFlush) || 1);
+        const catchUpLimit = state.pendingWordQueue.length > 8
+            ? Math.min(baseLimit + 2, state.kineticStyle === "soft-drift" ? 3 : 5)
+            : baseLimit;
+        const flushCount = forceAll
+            ? state.pendingWordQueue.length
+            : Math.min(state.pendingWordQueue.length, catchUpLimit);
+        const reduceExistingMotion = flushCount > 1
+            || state.pendingWordQueue.slice(0, flushCount).some((item) => item.closeToPrevious);
+        const gsap = window.gsap;
+        const batchItems = state.pendingWordQueue.slice(0, flushCount);
+        const trackedNodes = reduceExistingMotion
+            ? Array.from(new Set(batchItems.flatMap((item) => (
+                item?.entry?.row
+                    ? Array.from(item.entry.row.querySelectorAll(".kinetic-word"))
+                    : []
+            ))))
+            : [];
+        const beforeRects = trackedNodes.length > 0
+            ? new Map(trackedNodes.map((node) => [node, node.getBoundingClientRect()]))
+            : null;
+        const batchSlideDuration = batchItems.reduce((maxDuration, item) => (
+            Math.max(maxDuration, Number(item?.slideDuration) || 0)
+        ), 0.2);
+
+        for (let index = 0; index < flushCount; index += 1) {
+            const item = state.pendingWordQueue.shift();
+            if (!item?.entry) {
+                continue;
+            }
+
+            this.appendKineticWord(item.entry.node, item.entry.row, {
+                entryDuration: item.entryDuration,
+                slideDuration: item.slideDuration,
+                kineticStyle: item.kineticStyle,
+                energy: item.energy,
+                pulse: item.pulse,
+                emphasis: item.emphasis,
+                styleHint: item.styleHint,
+                tailBurst: item.tailBurst,
+                reduceExistingMotion,
+                deferPresentation: true,
+                deferLayout: true,
+                microDelay: Math.min(index * 0.014, 0.042)
+            });
+            state.renderedWordCount = Math.max(state.renderedWordCount, item.wordIndex);
+        }
+
+        this.applyCurrentTextPresentation();
+
+        if (gsap && beforeRects && trackedNodes.length > 0) {
+            const pixelSnap = this.isPixelGameStyle()
+                ? { snap: { x: 1, y: 1, z: 1 } }
+                : {};
+            trackedNodes.forEach((node) => {
+                const before = beforeRects.get(node);
+                const after = node.getBoundingClientRect();
+                if (!before || !after) {
+                    return;
+                }
+
+                const deltaX = before.left - after.left;
+                const deltaY = before.top - after.top;
+                if (Math.abs(deltaX) < 0.5 && Math.abs(deltaY) < 0.5) {
+                    return;
+                }
+
+                gsap.fromTo(node, {
+                    x: deltaX,
+                    y: deltaY,
+                    z: 0,
+                    force3D: true
+                }, {
+                    x: 0,
+                    y: 0,
+                    z: 0,
+                    duration: Math.min(Math.max(batchSlideDuration * 1.1, 0.18), 0.34),
+                    ease: state.kineticStyle === "soft-drift" ? "sine.out" : "expo.out",
+                    force3D: true,
+                    ...pixelSnap,
+                    overwrite: "auto"
+                });
+            });
+        }
+
+        this.scheduleOverflowLayout();
+
+        if (state.pendingWordQueue.length > 0 && !state.queueFlushRaf) {
+            state.queueFlushRaf = requestAnimationFrame(() => {
+                state.queueFlushRaf = null;
+                this.flushKineticWordQueue(state);
+            });
+        }
+
+        if (state.renderedWordCount >= state.totalWordCount && state.pendingWordQueue.length === 0) {
             this.kineticPhase = "line-hold";
         }
     }
 
     mountKineticFrame(stackNode, rowEntries = []) {
+        if (this.kineticRenderState?.queueFlushRaf) {
+            cancelAnimationFrame(this.kineticRenderState.queueFlushRaf);
+            this.kineticRenderState.queueFlushRaf = null;
+        }
+
         if (window.gsap) {
             window.gsap.killTweensOf(".kinetic-word");
         }
@@ -2220,7 +2378,11 @@ class LyricsEngine {
             pulse = 0,
             emphasis = 0,
             styleHint = "soft",
-            tailBurst = false
+            tailBurst = false,
+            reduceExistingMotion = false,
+            deferPresentation = false,
+            deferLayout = false,
+            microDelay = 0
         } = options;
         const randomBetween = (min, max, step = 0.01) => {
             if (gsap.utils?.random) {
@@ -2240,8 +2402,8 @@ class LyricsEngine {
             ? { snap: { x: 1, y: 1, z: 1 } }
             : {};
         const existingWords = Array.from(rowNode.querySelectorAll(".kinetic-word"));
-        const shouldAnimateExistingWords = kineticStyle === "soft-drift" || existingWords.length <= 4;
-        const shouldEmitAccent = kineticStyle === "soft-drift" || existingWords.length <= 5;
+        const shouldAnimateExistingWords = !reduceExistingMotion && (kineticStyle === "soft-drift" || existingWords.length <= 4);
+        const shouldEmitAccent = !reduceExistingMotion && (kineticStyle === "soft-drift" || existingWords.length <= 5);
         const beforeRects = shouldAnimateExistingWords
             ? new Map(existingWords.map((node) => [node, node.getBoundingClientRect()]))
             : null;
@@ -2250,8 +2412,12 @@ class LyricsEngine {
         wordNode.style.filter = "blur(12px)";
         wordNode.style.transformOrigin = "50% 50% -50px";
         rowNode.appendChild(wordNode);
-        this.applyCurrentTextPresentation();
-        this.scheduleOverflowLayout();
+        if (!deferPresentation) {
+            this.applyCurrentTextPresentation();
+        }
+        if (!deferLayout) {
+            this.scheduleOverflowLayout();
+        }
 
         if (shouldAnimateExistingWords && beforeRects) {
             const afterRects = new Map(
@@ -2349,6 +2515,7 @@ class LyricsEngine {
             });
 
             const driftTimeline = gsap.timeline({
+                delay: Math.max(0, Number(microDelay) || 0),
                 defaults: {
                     overwrite: "auto",
                     force3D: true
@@ -2448,13 +2615,14 @@ class LyricsEngine {
             rotationX: 0,
             filter: "brightness(1) blur(0px)",
             duration: Math.max(entryDuration * 0.82, 0.18),
+            delay: Math.max(0, Number(microDelay) || 0),
             ease: "expo.out",
             force3D: true,
             ...pixelSnap,
             overwrite: "auto",
             clearProps: "opacity,filter,transform"
         });
-        gsap.delayedCall(0.02, () => {
+        gsap.delayedCall(0.02 + Math.max(0, Number(microDelay) || 0), () => {
             if (shouldEmitAccent) {
                 this.createParticles(wordNode, {
                     count: 3,
@@ -2464,7 +2632,7 @@ class LyricsEngine {
             this.animateWordColorFlow(wordNode, Math.min(accentDuration, 0.24));
         });
         if (tailBurst) {
-            gsap.delayedCall(Math.max(entryDuration * 0.72, 0.12), () => {
+            gsap.delayedCall(Math.max(entryDuration * 0.72, 0.12) + Math.max(0, Number(microDelay) || 0), () => {
                 this.triggerKineticTailBurst(wordNode, {
                     kineticStyle,
                     burstStyle: this.displayState.kineticTailBurstStyle,
@@ -2541,6 +2709,50 @@ class LyricsEngine {
                     ringScale: 1.46,
                     particleSize: 0.48,
                     spread: 1.42
+                };
+            case "nova":
+                return {
+                    style: "nova",
+                    particleCount: 54,
+                    radiusBoost: 32,
+                    durationBoost: 0.18,
+                    flashScale: 1.34,
+                    ringScale: 2.35,
+                    particleSize: 0.62,
+                    spread: 1.36
+                };
+            case "comet":
+                return {
+                    style: "comet",
+                    particleCount: 42,
+                    radiusBoost: 26,
+                    durationBoost: 0.2,
+                    flashScale: 1.1,
+                    ringScale: 1.72,
+                    particleSize: 0.48,
+                    spread: 1.62
+                };
+            case "spark-rain":
+                return {
+                    style: "spark-rain",
+                    particleCount: 46,
+                    radiusBoost: 18,
+                    durationBoost: 0.24,
+                    flashScale: 1.08,
+                    ringScale: 1.46,
+                    particleSize: 0.44,
+                    spread: 1.08
+                };
+            case "glitch-shards":
+                return {
+                    style: "glitch-shards",
+                    particleCount: 38,
+                    radiusBoost: 22,
+                    durationBoost: 0.1,
+                    flashScale: 0.92,
+                    ringScale: 1.28,
+                    particleSize: 0.56,
+                    spread: 1.88
                 };
             default:
                 return {
@@ -2685,16 +2897,22 @@ class LyricsEngine {
         const burstStrength = this.clampKineticTailBurstStrength(
             options.strength ?? this.displayState.kineticTailBurstStrength
         );
+        const particleSetting = this.clampKineticTailBurstParticles(this.displayState.kineticTailBurstParticles);
+        const spreadSetting = this.clampKineticTailBurstSpread(this.displayState.kineticTailBurstSpread);
+        const gravitySetting = this.clampKineticTailBurstGravity(this.displayState.kineticTailBurstGravity);
+        const durationSetting = this.clampKineticTailBurstDuration(this.displayState.kineticTailBurstDuration);
         const palette = this.resolveTailBurstPalette();
-        const particleCount = Math.max(
-            6,
-            Math.round(
-                (burstSpec.particleCount * (0.78 + burstStrength * 0.64))
-                + (emphasis * 5)
-                + (pulse * 3)
-                + (isSoftDrift ? 2 : 0)
-            )
-        );
+        const particleCount = particleSetting <= 0
+            ? 0
+            : Math.max(
+                0,
+                Math.round(
+                    (particleSetting * (0.58 + burstStrength * 0.42))
+                    + (emphasis * 5)
+                    + (pulse * 3)
+                    + (isSoftDrift ? 2 : 0)
+                )
+            );
         burst.dataset.burstStyle = burstSpec.style;
         burst.style.setProperty("--kinetic-burst-core-color", palette[2]);
         burst.style.setProperty("--kinetic-burst-glow-color", this.mixCssColors(palette[0], palette[1], 0.45));
@@ -2704,55 +2922,22 @@ class LyricsEngine {
         burst.style.setProperty("--kinetic-burst-ring-size", `${(1.42 * burstSpec.ringScale * (0.84 + burstStrength * 0.44)).toFixed(3)}rem`);
 
         burstLayer.appendChild(burst);
-        const particles = Array.from({ length: particleCount }, (_, index) => {
-            const particle = document.createElement("span");
-            particle.className = "kinetic-burst-particle";
-            particle.style.setProperty("--kinetic-burst-index", String(index));
-            const particleColor = palette[index % palette.length];
-            particle.style.background = particleColor;
-            particle.style.boxShadow = `0 0 ${(0.78 + burstStrength * 0.56).toFixed(2)}rem ${particleColor}`;
-            particle.style.width = `${(burstSpec.particleSize * (0.84 + burstStrength * 0.34)).toFixed(3)}rem`;
-            particle.style.height = `${(burstSpec.particleSize * (0.84 + burstStrength * 0.34)).toFixed(3)}rem`;
-            if (burstSpec.style === "shatter") {
-                particle.style.borderRadius = `${0.12 + Math.random() * 0.1}rem`;
-            }
-            burst.appendChild(particle);
-            return particle;
-        });
-
-        particles.forEach((particle, index) => {
-            const ratio = particleCount <= 1 ? 0 : index / particleCount;
-            const angle = ((Math.PI * 2) * ratio) + ((Math.random() - 0.5) * 0.45);
-            const radius = (34 + burstSpec.radiusBoost + (energy * 24) + (emphasis * 18) + (Math.random() * 34))
-                * (0.84 + burstStrength * 0.36);
-            const lift = (Math.random() - 0.5) * (burstSpec.style === "firework" ? 26 : 18);
-            const targetX = Math.cos(angle) * radius * burstSpec.spread;
-            const targetY = ((Math.sin(angle) * radius * 0.78) + lift) * (burstSpec.style === "shatter" ? 0.72 : 1);
-            const targetScale = (0.34 + (Math.random() * (burstSpec.style === "firework" ? 0.86 : 0.66))) * (0.88 + burstStrength * 0.2);
-            const targetRotation = burstSpec.style === "shatter"
-                ? -60 + (Math.random() * 120)
-                : -24 + (Math.random() * 48);
-
-            gsap.fromTo(particle, {
-                x: 0,
-                y: 0,
-                scale: burstSpec.style === "firework" ? 0.26 : 0.18,
-                opacity: 1,
-                rotation: 0,
-                filter: "blur(0px)",
-                force3D: true
-            }, {
-                x: targetX,
-                y: targetY,
-                scale: targetScale,
-                opacity: 0,
-                rotation: targetRotation,
-                filter: `blur(${((3.2 + Math.random() * (burstSpec.style === "firework" ? 6.2 : 4.4)) * (0.88 + burstStrength * 0.2)).toFixed(1)}px)`,
-                duration: (0.58 + burstSpec.durationBoost + (Math.random() * 0.22) + (isSoftDrift ? 0.08 : 0)) * (0.9 + burstStrength * 0.14),
-                ease: "expo.out",
-                force3D: true,
-                overwrite: "auto"
-            });
+        const rootRect = this.root.getBoundingClientRect();
+        const canvasX = wordRect.left - rootRect.left + wordRect.width * 0.9;
+        const canvasY = wordRect.top - rootRect.top + wordRect.height * 0.5;
+        this.gpuBurstRenderer?.burst({
+            x: canvasX,
+            y: canvasY,
+            style: burstSpec.style,
+            colors: palette,
+            count: particleCount,
+            spread: burstSpec.spread * spreadSetting * (0.9 + burstStrength * 0.28),
+            gravity: gravitySetting,
+            duration: (durationSetting + burstSpec.durationBoost + (isSoftDrift ? 0.08 : 0)) * (0.9 + burstStrength * 0.12),
+            radius: 42 + burstSpec.radiusBoost + (energy * 24) + (emphasis * 18),
+            size: burstSpec.particleSize * 18 * (0.8 + burstStrength * 0.36),
+            pulse,
+            emphasis
         });
 
         gsap.fromTo(burst, {
@@ -2761,7 +2946,7 @@ class LyricsEngine {
         }, {
             opacity: 0,
             scale: (1.18 + (pulse * 0.14) + (burstSpec.style === "firework" ? 0.12 : 0)) * (0.92 + burstStrength * 0.16),
-            duration: (0.82 + burstSpec.durationBoost) * (0.92 + burstStrength * 0.14),
+            duration: Math.min((0.34 + burstSpec.durationBoost) * (0.92 + burstStrength * 0.14), durationSetting),
             ease: "expo.out",
             overwrite: "auto",
             onComplete: () => {
@@ -2910,6 +3095,11 @@ class LyricsEngine {
     }
 
     clearKineticLine() {
+        if (this.kineticRenderState?.queueFlushRaf) {
+            cancelAnimationFrame(this.kineticRenderState.queueFlushRaf);
+            this.kineticRenderState.queueFlushRaf = null;
+        }
+
         if (window.gsap) {
             window.gsap.killTweensOf(".kinetic-word");
             window.gsap.killTweensOf(".clean-phrase-word");
@@ -3018,13 +3208,19 @@ class LyricsEngine {
             kineticMaxWordsPerLine: this.clampKineticMaxWordsPerLine(this.displayConfig.defaultKineticMaxWordsPerLine ?? 5),
             kineticMaxCharsPerLine: this.clampKineticMaxCharsPerLine(this.displayConfig.defaultKineticMaxCharsPerLine ?? 20),
             kineticSpeedFactor: this.clampKineticSpeedFactor(this.displayConfig.defaultKineticSpeedFactor ?? 1),
+            lyricDelayMs: this.clampLyricDelayMs(this.displayConfig.defaultLyricDelayMs ?? 0),
+            smoothMode: Boolean(this.displayConfig.defaultSmoothMode ?? true),
             kineticStyle: this.clampKineticStyle(this.displayConfig.defaultKineticStyle ?? "center-build"),
             kineticTailBurst: Boolean(this.displayConfig.defaultKineticTailBurst),
             kineticTailBurstStyle: this.clampTailBurstStyle(this.displayConfig.defaultKineticTailBurstStyle ?? "glow-burst"),
             kineticTailBurstColorA: this.clampPrimaryColor(this.displayConfig.defaultKineticTailBurstColorA ?? "#7ef8ff"),
             kineticTailBurstColorB: this.clampPrimaryColor(this.displayConfig.defaultKineticTailBurstColorB ?? "#4d8cff"),
             kineticTailBurstColorCore: this.clampPrimaryColor(this.displayConfig.defaultKineticTailBurstColorCore ?? "#fff8ff"),
-            kineticTailBurstStrength: this.clampKineticTailBurstStrength(this.displayConfig.defaultKineticTailBurstStrength ?? 1)
+            kineticTailBurstStrength: this.clampKineticTailBurstStrength(this.displayConfig.defaultKineticTailBurstStrength ?? 1),
+            kineticTailBurstParticles: this.clampKineticTailBurstParticles(this.displayConfig.defaultKineticTailBurstParticles ?? 48),
+            kineticTailBurstSpread: this.clampKineticTailBurstSpread(this.displayConfig.defaultKineticTailBurstSpread ?? 1),
+            kineticTailBurstGravity: this.clampKineticTailBurstGravity(this.displayConfig.defaultKineticTailBurstGravity ?? 0.65),
+            kineticTailBurstDuration: this.clampKineticTailBurstDuration(this.displayConfig.defaultKineticTailBurstDuration ?? 0.8)
         };
     }
 
@@ -3045,7 +3241,7 @@ class LyricsEngine {
         this.focusButton.addEventListener("click", () => this.toggleFocusMode());
         this.revealButton?.addEventListener("click", () => this.applyOverlayVisibility(false));
         this.pureRevealButton?.addEventListener("click", () => this.setPureMode(false, true, true));
-        this.dragHandle.addEventListener("pointerdown", this.handleDragStart);
+        this.root.addEventListener("pointerdown", this.handleDragStart, { capture: true });
 
         this.scaleRange.addEventListener("input", (event) => {
             this.setTextScale(Number(event.target.value) / 100, false, false);
@@ -3125,6 +3321,15 @@ class LyricsEngine {
         this.kineticSpeedRange?.addEventListener("change", (event) => {
             this.setKineticSpeedFactor(Number(event.target.value) / 100, true, true);
         });
+        this.lyricDelayRange?.addEventListener("input", (event) => {
+            this.setLyricDelayMs(Number(event.target.value), false, false);
+        });
+        this.lyricDelayRange?.addEventListener("change", (event) => {
+            this.setLyricDelayMs(Number(event.target.value), true, true);
+        });
+        this.smoothModeToggle?.addEventListener("change", (event) => {
+            this.setSmoothMode(Boolean(event.target.checked), true, true);
+        });
         this.kineticStyleSelect?.addEventListener("change", (event) => {
             this.setKineticStyle(event.target.value, true, true);
         });
@@ -3157,6 +3362,30 @@ class LyricsEngine {
         });
         this.tailBurstStrengthRange?.addEventListener("change", (event) => {
             this.setKineticTailBurstStrength(Number(event.target.value) / 100, true, true);
+        });
+        this.tailBurstParticlesRange?.addEventListener("input", (event) => {
+            this.setKineticTailBurstParticles(Number(event.target.value), false, false);
+        });
+        this.tailBurstParticlesRange?.addEventListener("change", (event) => {
+            this.setKineticTailBurstParticles(Number(event.target.value), true, true);
+        });
+        this.tailBurstSpreadRange?.addEventListener("input", (event) => {
+            this.setKineticTailBurstSpread(Number(event.target.value) / 100, false, false);
+        });
+        this.tailBurstSpreadRange?.addEventListener("change", (event) => {
+            this.setKineticTailBurstSpread(Number(event.target.value) / 100, true, true);
+        });
+        this.tailBurstGravityRange?.addEventListener("input", (event) => {
+            this.setKineticTailBurstGravity(Number(event.target.value) / 100, false, false);
+        });
+        this.tailBurstGravityRange?.addEventListener("change", (event) => {
+            this.setKineticTailBurstGravity(Number(event.target.value) / 100, true, true);
+        });
+        this.tailBurstDurationRange?.addEventListener("input", (event) => {
+            this.setKineticTailBurstDuration(Number(event.target.value) / 100, false, false);
+        });
+        this.tailBurstDurationRange?.addEventListener("change", (event) => {
+            this.setKineticTailBurstDuration(Number(event.target.value) / 100, true, true);
         });
         this.resizeHandles.forEach((handle) => {
             handle.addEventListener("pointerdown", this.handleResizeStart);
@@ -3266,6 +3495,15 @@ class LyricsEngine {
                     ?? stored.kineticSpeed
                     ?? defaults.kineticSpeedFactor
                 );
+                this.displayState.lyricDelayMs = this.clampLyricDelayMs(
+                    stored.lyricDelayMs
+                    ?? stored.lyricsDelayMs
+                    ?? stored.delayMs
+                    ?? defaults.lyricDelayMs
+                );
+                this.displayState.smoothMode = typeof stored.smoothMode === "boolean"
+                    ? stored.smoothMode
+                    : defaults.smoothMode;
                 this.displayState.kineticStyle = this.clampKineticStyle(
                     stored.kineticStyle
                     ?? defaults.kineticStyle
@@ -3292,6 +3530,22 @@ class LyricsEngine {
                 this.displayState.kineticTailBurstStrength = this.clampKineticTailBurstStrength(
                     stored.kineticTailBurstStrength
                     ?? defaults.kineticTailBurstStrength
+                );
+                this.displayState.kineticTailBurstParticles = this.clampKineticTailBurstParticles(
+                    stored.kineticTailBurstParticles
+                    ?? defaults.kineticTailBurstParticles
+                );
+                this.displayState.kineticTailBurstSpread = this.clampKineticTailBurstSpread(
+                    stored.kineticTailBurstSpread
+                    ?? defaults.kineticTailBurstSpread
+                );
+                this.displayState.kineticTailBurstGravity = this.clampKineticTailBurstGravity(
+                    stored.kineticTailBurstGravity
+                    ?? defaults.kineticTailBurstGravity
+                );
+                this.displayState.kineticTailBurstDuration = this.clampKineticTailBurstDuration(
+                    stored.kineticTailBurstDuration
+                    ?? defaults.kineticTailBurstDuration
                 );
             }
         } catch (error) {
@@ -3720,7 +3974,7 @@ class LyricsEngine {
 
         this.displayState.kineticMode = nextValue;
         this.applyDisplayState();
-        this.renderAtTime(this.audio.currentTime * 1000, true);
+        this.renderAtTime(this.getSyncedLyricTimeMs(), true);
 
         if (persist) {
             this.persistDisplayState();
@@ -3744,7 +3998,7 @@ class LyricsEngine {
         this.displayState.kineticMaxWordsPerLine = nextValue;
         this.applyDisplayState();
         this.rebuildCleanPhraseChunks(false);
-        this.renderAtTime(this.audio.currentTime * 1000, true);
+        this.renderAtTime(this.getSyncedLyricTimeMs(), true);
 
         if (persist) {
             this.persistDisplayState();
@@ -3768,7 +4022,7 @@ class LyricsEngine {
         this.displayState.kineticMaxCharsPerLine = nextValue;
         this.applyDisplayState();
         this.rebuildCleanPhraseChunks(false);
-        this.renderAtTime(this.audio.currentTime * 1000, true);
+        this.renderAtTime(this.getSyncedLyricTimeMs(), true);
 
         if (persist) {
             this.persistDisplayState();
@@ -3792,7 +4046,7 @@ class LyricsEngine {
         this.displayState.kineticSpeedFactor = nextValue;
         this.applyDisplayState();
         if (this.displayState.kineticMode) {
-            this.renderAtTime(this.audio.currentTime * 1000, true);
+            this.renderAtTime(this.getSyncedLyricTimeMs(), true);
         }
 
         if (persist) {
@@ -3804,8 +4058,56 @@ class LyricsEngine {
         }
     }
 
+    setLyricDelayMs(value, persist = true, announce = true) {
+        const nextValue = this.clampLyricDelayMs(value);
+        if (nextValue === this.displayState.lyricDelayMs) {
+            return;
+        }
+
+        this.displayState.lyricDelayMs = nextValue;
+        this.applyDisplayState();
+        if (this.isLoaded) {
+            this.renderAtTime(this.getSyncedLyricTimeMs(), true);
+        }
+
+        if (persist) {
+            this.persistDisplayState();
+        }
+
+        if (announce) {
+            this.setStatus(`Lyric delay ${Math.round(nextValue)}ms.`);
+        }
+    }
+
+    setSmoothMode(enabled, persist = true, announce = true) {
+        const nextValue = Boolean(enabled);
+        if (nextValue === this.displayState.smoothMode) {
+            return;
+        }
+
+        this.displayState.smoothMode = nextValue;
+        this.applyDisplayState();
+
+        if (persist) {
+            this.persistDisplayState();
+        }
+
+        if (announce) {
+            this.setStatus(nextValue ? "Smooth lyric mode enabled." : "Smooth lyric mode disabled.");
+        }
+    }
+
     setKineticStyle(value, persist = true, announce = true) {
         const nextValue = this.clampKineticStyle(value);
+        if (nextValue === "clean-phrase" && !this.canUseCleanPhrase()) {
+            if (announce) {
+                this.setStatus("Clean Phrase needs a word-timing file such as lyrics_pro.json for this track.");
+            }
+            if (this.kineticStyleSelect) {
+                this.kineticStyleSelect.value = this.displayState.kineticStyle;
+            }
+            return;
+        }
         if (nextValue === this.displayState.kineticStyle) {
             return;
         }
@@ -3816,7 +4118,7 @@ class LyricsEngine {
         }
         this.applyDisplayState();
         if (this.displayState.kineticMode) {
-            this.renderAtTime(this.audio.currentTime * 1000, true);
+            this.renderAtTime(this.getSyncedLyricTimeMs(), true);
         }
 
         if (persist) {
@@ -3837,7 +4139,7 @@ class LyricsEngine {
         this.displayState.kineticTailBurst = nextValue;
         this.applyDisplayState();
         if (this.displayState.kineticMode) {
-            this.renderAtTime(this.audio.currentTime * 1000, true);
+            this.renderAtTime(this.getSyncedLyricTimeMs(), true);
         }
 
         if (persist) {
@@ -3862,7 +4164,7 @@ class LyricsEngine {
         this.displayState.kineticTailBurstStyle = nextValue;
         this.applyDisplayState();
         if (this.displayState.kineticMode && this.displayState.kineticTailBurst) {
-            this.renderAtTime(this.audio.currentTime * 1000, true);
+            this.renderAtTime(this.getSyncedLyricTimeMs(), true);
         }
 
         if (persist) {
@@ -3903,7 +4205,7 @@ class LyricsEngine {
         this.displayState[key] = normalized;
         this.applyDisplayState();
         if (this.displayState.kineticMode && this.displayState.kineticTailBurst) {
-            this.renderAtTime(this.audio.currentTime * 1000, true);
+            this.renderAtTime(this.getSyncedLyricTimeMs(), true);
         }
 
         if (persist) {
@@ -3924,7 +4226,7 @@ class LyricsEngine {
         this.displayState.kineticTailBurstStrength = nextValue;
         this.applyDisplayState();
         if (this.displayState.kineticMode && this.displayState.kineticTailBurst) {
-            this.renderAtTime(this.audio.currentTime * 1000, true);
+            this.renderAtTime(this.getSyncedLyricTimeMs(), true);
         }
 
         if (persist) {
@@ -3933,6 +4235,43 @@ class LyricsEngine {
 
         if (announce) {
             this.setStatus(`Tail burst strength ${nextValue.toFixed(2)}x.`);
+        }
+    }
+
+    setKineticTailBurstParticles(value, persist = true, announce = true) {
+        this.setKineticTailBurstScalar("kineticTailBurstParticles", value, this.clampKineticTailBurstParticles.bind(this), persist, announce, "Tail burst particles", "");
+    }
+
+    setKineticTailBurstSpread(value, persist = true, announce = true) {
+        this.setKineticTailBurstScalar("kineticTailBurstSpread", value, this.clampKineticTailBurstSpread.bind(this), persist, announce, "Tail burst spread", "x");
+    }
+
+    setKineticTailBurstGravity(value, persist = true, announce = true) {
+        this.setKineticTailBurstScalar("kineticTailBurstGravity", value, this.clampKineticTailBurstGravity.bind(this), persist, announce, "Tail burst gravity", "x");
+    }
+
+    setKineticTailBurstDuration(value, persist = true, announce = true) {
+        this.setKineticTailBurstScalar("kineticTailBurstDuration", value, this.clampKineticTailBurstDuration.bind(this), persist, announce, "Tail burst duration", "s");
+    }
+
+    setKineticTailBurstScalar(key, value, clampFn, persist = true, announce = true, label = "Tail burst", suffix = "") {
+        const nextValue = clampFn(value);
+        if (nextValue === this.displayState[key]) {
+            return;
+        }
+
+        this.displayState[key] = nextValue;
+        this.applyDisplayState();
+
+        if (persist) {
+            this.persistDisplayState();
+        }
+
+        if (announce) {
+            const formatted = key === "kineticTailBurstParticles"
+                ? String(nextValue)
+                : `${nextValue.toFixed(2)}${suffix}`;
+            this.setStatus(`${label} ${formatted}.`);
         }
     }
 
@@ -3960,7 +4299,7 @@ class LyricsEngine {
         this.applyDisplayState();
         this.keepOverlayInViewport();
         this.applyDisplayState();
-        this.renderAtTime(this.audio.currentTime * 1000, true);
+        this.renderAtTime(this.getSyncedLyricTimeMs(), true);
         this.persistDisplayState();
         this.setStatus("Lyrics overlay reset to default box, font, size, and position.");
     }
@@ -4045,6 +4384,10 @@ class LyricsEngine {
         this.root.style.setProperty("--lyrics-tail-burst-b", this.displayState.kineticTailBurstColorB);
         this.root.style.setProperty("--lyrics-tail-burst-core", this.displayState.kineticTailBurstColorCore);
         this.root.style.setProperty("--lyrics-tail-burst-strength", this.displayState.kineticTailBurstStrength.toFixed(2));
+        this.root.style.setProperty("--lyrics-tail-burst-particles", String(this.displayState.kineticTailBurstParticles));
+        this.root.style.setProperty("--lyrics-tail-burst-spread", this.displayState.kineticTailBurstSpread.toFixed(2));
+        this.root.style.setProperty("--lyrics-tail-burst-gravity", this.displayState.kineticTailBurstGravity.toFixed(2));
+        this.root.style.setProperty("--lyrics-tail-burst-duration", `${this.displayState.kineticTailBurstDuration.toFixed(2)}s`);
         const boxHaze = this.clampBoxHaze(this.displayState.boxHaze);
         const boxHazeRatio = boxHaze / 100;
         this.root.style.setProperty("--lyrics-box-haze", `${boxHazeRatio.toFixed(3)}`);
@@ -4093,6 +4436,7 @@ class LyricsEngine {
         this.root.dataset.kineticMode = this.displayState.kineticMode ? "true" : "false";
         this.root.classList.toggle("is-pure", this.displayState.pureMode);
         this.root.classList.toggle("is-kinetic", this.displayState.kineticMode);
+        this.root.classList.toggle("is-lyrics-performance", Boolean(this.displayState.smoothMode));
         this.root.classList.remove("is-side-lines-hidden", "is-current-fit");
 
         this.scaleRange.value = String(Math.round(this.displayState.textScale * 100));
@@ -4173,7 +4517,26 @@ class LyricsEngine {
         if (this.kineticSpeedValue) {
             this.kineticSpeedValue.textContent = `${this.displayState.kineticSpeedFactor.toFixed(2)}x`;
         }
+        if (this.lyricDelayRange) {
+            this.lyricDelayRange.min = String(this.displayConfig.minLyricDelayMs ?? 0);
+            this.lyricDelayRange.max = String(this.displayConfig.maxLyricDelayMs ?? 900);
+            this.lyricDelayRange.step = String(this.displayConfig.lyricDelayStepMs ?? 25);
+            this.lyricDelayRange.value = String(this.displayState.lyricDelayMs);
+        }
+        if (this.lyricDelayValue) {
+            this.lyricDelayValue.textContent = `${Math.round(this.displayState.lyricDelayMs)}ms`;
+        }
+        if (this.smoothModeToggle) {
+            this.smoothModeToggle.checked = Boolean(this.displayState.smoothMode);
+        }
         if (this.kineticStyleSelect) {
+            const cleanPhraseOption = this.kineticStyleSelect.querySelector('option[value="clean-phrase"]');
+            if (cleanPhraseOption) {
+                cleanPhraseOption.disabled = !this.canUseCleanPhrase();
+                cleanPhraseOption.textContent = this.canUseCleanPhrase()
+                    ? "Clean Phrase"
+                    : "Clean Phrase (needs word timing)";
+            }
             this.kineticStyleSelect.value = this.displayState.kineticStyle;
         }
         if (this.tailBurstToggle) {
@@ -4199,6 +4562,42 @@ class LyricsEngine {
         }
         if (this.tailBurstStrengthValue) {
             this.tailBurstStrengthValue.textContent = `${this.displayState.kineticTailBurstStrength.toFixed(2)}x`;
+        }
+        if (this.tailBurstParticlesRange) {
+            this.tailBurstParticlesRange.min = String(this.displayConfig.minKineticTailBurstParticles ?? 0);
+            this.tailBurstParticlesRange.max = String(this.displayConfig.maxKineticTailBurstParticles ?? 180);
+            this.tailBurstParticlesRange.step = String(this.displayConfig.kineticTailBurstParticlesStep ?? 4);
+            this.tailBurstParticlesRange.value = String(this.displayState.kineticTailBurstParticles);
+        }
+        if (this.tailBurstParticlesValue) {
+            this.tailBurstParticlesValue.textContent = String(this.displayState.kineticTailBurstParticles);
+        }
+        if (this.tailBurstSpreadRange) {
+            this.tailBurstSpreadRange.min = String(Math.round((this.displayConfig.minKineticTailBurstSpread ?? 0.2) * 100));
+            this.tailBurstSpreadRange.max = String(Math.round((this.displayConfig.maxKineticTailBurstSpread ?? 2.2) * 100));
+            this.tailBurstSpreadRange.step = String(Math.round((this.displayConfig.kineticTailBurstSpreadStep ?? 0.05) * 100));
+            this.tailBurstSpreadRange.value = String(Math.round(this.displayState.kineticTailBurstSpread * 100));
+        }
+        if (this.tailBurstSpreadValue) {
+            this.tailBurstSpreadValue.textContent = `${this.displayState.kineticTailBurstSpread.toFixed(2)}x`;
+        }
+        if (this.tailBurstGravityRange) {
+            this.tailBurstGravityRange.min = String(Math.round((this.displayConfig.minKineticTailBurstGravity ?? -1) * 100));
+            this.tailBurstGravityRange.max = String(Math.round((this.displayConfig.maxKineticTailBurstGravity ?? 2) * 100));
+            this.tailBurstGravityRange.step = String(Math.round((this.displayConfig.kineticTailBurstGravityStep ?? 0.05) * 100));
+            this.tailBurstGravityRange.value = String(Math.round(this.displayState.kineticTailBurstGravity * 100));
+        }
+        if (this.tailBurstGravityValue) {
+            this.tailBurstGravityValue.textContent = `${this.displayState.kineticTailBurstGravity.toFixed(2)}x`;
+        }
+        if (this.tailBurstDurationRange) {
+            this.tailBurstDurationRange.min = String(Math.round((this.displayConfig.minKineticTailBurstDuration ?? 0.2) * 100));
+            this.tailBurstDurationRange.max = String(Math.round((this.displayConfig.maxKineticTailBurstDuration ?? 1.8) * 100));
+            this.tailBurstDurationRange.step = String(Math.round((this.displayConfig.kineticTailBurstDurationStep ?? 0.05) * 100));
+            this.tailBurstDurationRange.value = String(Math.round(this.displayState.kineticTailBurstDuration * 100));
+        }
+        if (this.tailBurstDurationValue) {
+            this.tailBurstDurationValue.textContent = `${this.displayState.kineticTailBurstDuration.toFixed(2)}s`;
         }
         if (this.boxButton) {
             const isBoxed = this.displayState.chromeMode === "boxed";
@@ -4771,7 +5170,7 @@ class LyricsEngine {
         }
 
         if (this.isLoaded) {
-            this.renderAtTime(this.audio.currentTime * 1000, true);
+            this.renderAtTime(this.getSyncedLyricTimeMs(), true);
             return;
         }
 
@@ -4785,6 +5184,17 @@ class LyricsEngine {
         const step = this.displayConfig.kineticSpeedStep ?? 0.05;
         const numericValue = Number(value);
         const fallback = this.displayConfig.defaultKineticSpeedFactor ?? 1;
+        const resolved = Number.isFinite(numericValue) ? numericValue : fallback;
+        const clamped = Math.min(Math.max(resolved, min), max);
+        return Math.round(clamped / step) * step;
+    }
+
+    clampLyricDelayMs(value) {
+        const min = this.displayConfig.minLyricDelayMs ?? 0;
+        const max = this.displayConfig.maxLyricDelayMs ?? 900;
+        const step = this.displayConfig.lyricDelayStepMs ?? 25;
+        const numericValue = Number(value);
+        const fallback = this.displayConfig.defaultLyricDelayMs ?? 0;
         const resolved = Number.isFinite(numericValue) ? numericValue : fallback;
         const clamped = Math.min(Math.max(resolved, min), max);
         return Math.round(clamped / step) * step;
@@ -4804,6 +5214,50 @@ class LyricsEngine {
         const step = this.displayConfig.kineticTailBurstStrengthStep ?? 0.05;
         const numericValue = Number(value);
         const fallback = this.displayConfig.defaultKineticTailBurstStrength ?? 1;
+        const resolved = Number.isFinite(numericValue) ? numericValue : fallback;
+        const clamped = Math.min(Math.max(resolved, min), max);
+        return Math.round(clamped / step) * step;
+    }
+
+    clampKineticTailBurstParticles(value) {
+        const min = this.displayConfig.minKineticTailBurstParticles ?? 0;
+        const max = this.displayConfig.maxKineticTailBurstParticles ?? 180;
+        const step = this.displayConfig.kineticTailBurstParticlesStep ?? 4;
+        const numericValue = Number(value);
+        const fallback = this.displayConfig.defaultKineticTailBurstParticles ?? 48;
+        const resolved = Number.isFinite(numericValue) ? numericValue : fallback;
+        const clamped = Math.min(Math.max(resolved, min), max);
+        return Math.round(clamped / step) * step;
+    }
+
+    clampKineticTailBurstSpread(value) {
+        const min = this.displayConfig.minKineticTailBurstSpread ?? 0.2;
+        const max = this.displayConfig.maxKineticTailBurstSpread ?? 2.2;
+        const step = this.displayConfig.kineticTailBurstSpreadStep ?? 0.05;
+        const numericValue = Number(value);
+        const fallback = this.displayConfig.defaultKineticTailBurstSpread ?? 1;
+        const resolved = Number.isFinite(numericValue) ? numericValue : fallback;
+        const clamped = Math.min(Math.max(resolved, min), max);
+        return Math.round(clamped / step) * step;
+    }
+
+    clampKineticTailBurstGravity(value) {
+        const min = this.displayConfig.minKineticTailBurstGravity ?? -1;
+        const max = this.displayConfig.maxKineticTailBurstGravity ?? 2;
+        const step = this.displayConfig.kineticTailBurstGravityStep ?? 0.05;
+        const numericValue = Number(value);
+        const fallback = this.displayConfig.defaultKineticTailBurstGravity ?? 0.65;
+        const resolved = Number.isFinite(numericValue) ? numericValue : fallback;
+        const clamped = Math.min(Math.max(resolved, min), max);
+        return Math.round(clamped / step) * step;
+    }
+
+    clampKineticTailBurstDuration(value) {
+        const min = this.displayConfig.minKineticTailBurstDuration ?? 0.2;
+        const max = this.displayConfig.maxKineticTailBurstDuration ?? 1.8;
+        const step = this.displayConfig.kineticTailBurstDurationStep ?? 0.05;
+        const numericValue = Number(value);
+        const fallback = this.displayConfig.defaultKineticTailBurstDuration ?? 0.8;
         const resolved = Number.isFinite(numericValue) ? numericValue : fallback;
         const clamped = Math.min(Math.max(resolved, min), max);
         return Math.round(clamped / step) * step;
@@ -4998,14 +5452,19 @@ class LyricsEngine {
 
     handleDragStart(event) {
         if (
-            this.displayState.pureMode
+            this.dragState
+            || this.displayState.pureMode
             || event.button !== 0
-            || event.target.closest(".lyrics-controls, .lyrics-settings, .lyrics-resize-handle")
+            || event.target.closest(
+                ".lyrics-controls, .lyrics-settings, .lyrics-resize-handle, button, input, select, textarea, a, label"
+            )
+            || !event.target.closest?.(".lyrics-shell")
         ) {
             return;
         }
 
         event.preventDefault();
+        this.root.setPointerCapture?.(event.pointerId);
         const rect = this.root.getBoundingClientRect();
         this.dragState = {
             startClientX: event.clientX,
@@ -5204,6 +5663,282 @@ class LyricsEngine {
 
     clampAudioValue(value) {
         return Math.min(Math.max(Number(value) || 0, 0), 1);
+    }
+}
+
+class LyricsGpuBurstRenderer {
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.gl = canvas.getContext("webgl", {
+            alpha: true,
+            antialias: false,
+            depth: false,
+            stencil: false,
+            premultipliedAlpha: true
+        });
+        this.bursts = [];
+        this.raf = null;
+        this.program = null;
+        this.buffer = null;
+        this.lastWidth = 0;
+        this.lastHeight = 0;
+
+        if (this.gl) {
+            this.init();
+        }
+    }
+
+    init() {
+        const vertexSource = `
+            attribute vec2 a_position;
+            attribute vec2 a_velocity;
+            attribute vec4 a_color;
+            attribute float a_size;
+            attribute float a_birth;
+            attribute float a_life;
+            uniform float u_time;
+            uniform vec2 u_resolution;
+            uniform float u_gravity;
+            varying vec4 v_color;
+            varying float v_alpha;
+            void main() {
+                float age = max(u_time - a_birth, 0.0);
+                float progress = clamp(age / max(a_life, 0.001), 0.0, 1.0);
+                vec2 position = a_position + (a_velocity * age);
+                position.y += u_gravity * age * age;
+                vec2 clip = (position / u_resolution) * 2.0 - 1.0;
+                gl_Position = vec4(clip.x, -clip.y, 0.0, 1.0);
+                gl_PointSize = max(a_size * (1.0 - progress * 0.42), 1.0);
+                v_color = a_color;
+                v_alpha = (1.0 - smoothstep(0.18, 1.0, progress)) * a_color.a;
+            }
+        `;
+        const fragmentSource = `
+            precision mediump float;
+            varying vec4 v_color;
+            varying float v_alpha;
+            void main() {
+                vec2 point = gl_PointCoord - vec2(0.5);
+                float dist = length(point);
+                float glow = smoothstep(0.5, 0.0, dist);
+                float core = smoothstep(0.22, 0.0, dist);
+                gl_FragColor = vec4(v_color.rgb, v_alpha * (glow * 0.62 + core * 0.72));
+            }
+        `;
+        const gl = this.gl;
+        const vertex = this.createShader(gl.VERTEX_SHADER, vertexSource);
+        const fragment = this.createShader(gl.FRAGMENT_SHADER, fragmentSource);
+        if (!vertex || !fragment) {
+            this.gl = null;
+            return;
+        }
+
+        this.program = gl.createProgram();
+        gl.attachShader(this.program, vertex);
+        gl.attachShader(this.program, fragment);
+        gl.linkProgram(this.program);
+
+        if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) {
+            this.gl = null;
+            return;
+        }
+
+        this.buffer = gl.createBuffer();
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    }
+
+    createShader(type, source) {
+        const shader = this.gl.createShader(type);
+        this.gl.shaderSource(shader, source);
+        this.gl.compileShader(shader);
+        return this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS) ? shader : null;
+    }
+
+    burst(options = {}) {
+        if (!this.gl || !this.program || !this.buffer) {
+            return;
+        }
+
+        this.resize();
+        const now = performance.now() / 1000;
+        const count = Math.max(0, Math.min(240, Math.round(options.count ?? 48)));
+        if (count <= 0) {
+            return;
+        }
+
+        const style = String(options.style || "glow-burst");
+        const colors = Array.isArray(options.colors) && options.colors.length > 0
+            ? options.colors
+            : ["#7ef8ff", "#4d8cff", "#fff8ff"];
+        const spread = Number(options.spread) || 1;
+        const radius = Math.max(18, Number(options.radius) || 52);
+        const life = Math.max(0.18, Number(options.duration) || 0.8);
+        const gravity = (Number(options.gravity) || 0) * 120;
+        const size = Math.max(2, Number(options.size) || 9);
+        const particles = [];
+
+        for (let index = 0; index < count; index += 1) {
+            const ratio = count <= 1 ? 0 : index / count;
+            const angle = this.resolveAngle(style, ratio);
+            const speed = radius * (0.72 + Math.random() * 0.92) * spread;
+            const velocity = this.resolveVelocity(style, angle, speed, gravity);
+            particles.push({
+                x: Number(options.x) || 0,
+                y: Number(options.y) || 0,
+                vx: velocity.x,
+                vy: velocity.y,
+                color: this.parseColor(colors[index % colors.length]),
+                size: size * (0.72 + Math.random() * 0.86),
+                birth: now + this.resolveBirthOffset(style, index, count),
+                life: life * (0.78 + Math.random() * 0.34),
+                gravity
+            });
+        }
+
+        this.bursts.push({ particles, gravity, expiresAt: now + life + 0.4 });
+        this.start();
+    }
+
+    resolveAngle(style, ratio) {
+        if (style === "spark-rain") {
+            return (Math.PI * 0.45) + ((Math.random() - 0.5) * 0.92);
+        }
+        if (style === "comet") {
+            return (-Math.PI * 0.08) + ((Math.random() - 0.5) * 0.42);
+        }
+        if (style === "glitch-shards") {
+            const lane = Math.floor(Math.random() * 4) / 4;
+            return (Math.PI * 2 * lane) + ((Math.random() - 0.5) * 0.28);
+        }
+        return (Math.PI * 2 * ratio) + ((Math.random() - 0.5) * (style === "nova" ? 0.28 : 0.58));
+    }
+
+    resolveVelocity(style, angle, speed, gravity) {
+        if (style === "spark-rain") {
+            return { x: Math.cos(angle) * speed * 0.52, y: Math.abs(Math.sin(angle) * speed) * 0.28 - Math.abs(gravity) * 0.12 };
+        }
+        if (style === "comet") {
+            return { x: Math.cos(angle) * speed * 1.4, y: Math.sin(angle) * speed * 0.46 };
+        }
+        if (style === "glitch-shards") {
+            return { x: Math.cos(angle) * speed * 1.15, y: Math.sin(angle) * speed * 0.5 };
+        }
+        return { x: Math.cos(angle) * speed, y: Math.sin(angle) * speed * 0.78 };
+    }
+
+    resolveBirthOffset(style, index, count) {
+        if (style === "comet") {
+            return (index / Math.max(count, 1)) * 0.1;
+        }
+        if (style === "spark-rain") {
+            return Math.random() * 0.12;
+        }
+        if (style === "glitch-shards") {
+            return Math.floor(index % 4) * 0.012;
+        }
+        return 0;
+    }
+
+    parseColor(value) {
+        const hex = String(value || "#ffffff").trim();
+        if (/^#[0-9a-f]{6}$/i.test(hex)) {
+            return [
+                parseInt(hex.slice(1, 3), 16) / 255,
+                parseInt(hex.slice(3, 5), 16) / 255,
+                parseInt(hex.slice(5, 7), 16) / 255,
+                1
+            ];
+        }
+        return [1, 1, 1, 1];
+    }
+
+    start() {
+        if (this.raf) {
+            return;
+        }
+        this.raf = requestAnimationFrame(() => this.render());
+    }
+
+    resize() {
+        const rect = this.canvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const width = Math.max(1, Math.round(rect.width * dpr));
+        const height = Math.max(1, Math.round(rect.height * dpr));
+        if (width === this.lastWidth && height === this.lastHeight) {
+            return;
+        }
+        this.lastWidth = width;
+        this.lastHeight = height;
+        this.canvas.width = width;
+        this.canvas.height = height;
+        this.gl.viewport(0, 0, width, height);
+    }
+
+    render() {
+        this.raf = null;
+        if (!this.gl || this.bursts.length === 0) {
+            return;
+        }
+
+        this.resize();
+        const gl = this.gl;
+        const now = performance.now() / 1000;
+        this.bursts = this.bursts.filter((burst) => burst.expiresAt > now);
+        const particles = this.bursts.flatMap((burst) => burst.particles.filter((particle) => particle.birth + particle.life > now));
+
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        if (particles.length === 0) {
+            this.bursts.length = 0;
+            return;
+        }
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const stride = 11;
+        const data = new Float32Array(particles.length * stride);
+        particles.forEach((particle, index) => {
+            const offset = index * stride;
+            data[offset] = particle.x * dpr;
+            data[offset + 1] = particle.y * dpr;
+            data[offset + 2] = particle.vx * dpr;
+            data[offset + 3] = particle.vy * dpr;
+            data[offset + 4] = particle.color[0];
+            data[offset + 5] = particle.color[1];
+            data[offset + 6] = particle.color[2];
+            data[offset + 7] = particle.color[3];
+            data[offset + 8] = particle.size * dpr;
+            data[offset + 9] = particle.birth;
+            data[offset + 10] = particle.life;
+        });
+
+        gl.useProgram(this.program);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW);
+
+        const bytes = Float32Array.BYTES_PER_ELEMENT;
+        this.bindAttribute("a_position", 2, stride, 0);
+        this.bindAttribute("a_velocity", 2, stride, 2 * bytes);
+        this.bindAttribute("a_color", 4, stride, 4 * bytes);
+        this.bindAttribute("a_size", 1, stride, 8 * bytes);
+        this.bindAttribute("a_birth", 1, stride, 9 * bytes);
+        this.bindAttribute("a_life", 1, stride, 10 * bytes);
+
+        gl.uniform1f(gl.getUniformLocation(this.program, "u_time"), now);
+        gl.uniform2f(gl.getUniformLocation(this.program, "u_resolution"), this.lastWidth, this.lastHeight);
+        gl.uniform1f(gl.getUniformLocation(this.program, "u_gravity"), Math.max(...particles.map((particle) => particle.gravity)) * dpr);
+        gl.drawArrays(gl.POINTS, 0, particles.length);
+        this.start();
+    }
+
+    bindAttribute(name, size, stride, offset) {
+        const location = this.gl.getAttribLocation(this.program, name);
+        if (location < 0) {
+            return;
+        }
+        this.gl.enableVertexAttribArray(location);
+        this.gl.vertexAttribPointer(location, size, this.gl.FLOAT, false, stride * Float32Array.BYTES_PER_ELEMENT, offset);
     }
 }
 

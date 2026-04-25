@@ -67,6 +67,40 @@
     pointer-events: auto;
 }
 
+.lyrics-burst-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 18;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: screen;
+    transition: opacity 120ms ease;
+}
+
+.lyrics-overlay.is-kinetic .lyrics-burst-canvas {
+    opacity: 1;
+}
+
+.app-shell.is-gpu-accelerated .lyrics-overlay {
+    backface-visibility: hidden;
+    transform: translate3d(
+        calc(-50% + var(--lyrics-offset-x)),
+        var(--lyrics-offset-y),
+        0
+    );
+}
+
+.app-shell.is-gpu-accelerated .lyrics-shell {
+    backface-visibility: hidden;
+    transform: translate3d(
+        0,
+        calc(var(--lyrics-audio-pulse) * -0.12rem),
+        0
+    );
+}
+
 .lyrics-overlay.is-collapsed {
     opacity: 0;
     pointer-events: none;
@@ -92,6 +126,8 @@
         0 0 calc(2rem + (var(--lyrics-audio-level) * 1.5rem)) rgb(70 145 255 / calc(var(--lyrics-box-glow-alpha) + (var(--lyrics-audio-level) * 0.12)));
     overflow: visible;
     pointer-events: auto;
+    cursor: grab;
+    touch-action: none;
     transform: translateY(calc(var(--lyrics-audio-pulse) * -0.12rem));
     transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
 }
@@ -130,6 +166,12 @@
     transform: none;
 }
 
+.app-shell.is-gpu-accelerated .lyrics-overlay.is-dragging .lyrics-shell,
+.app-shell.is-gpu-accelerated .lyrics-overlay.is-resizing .lyrics-shell,
+.app-shell.is-gpu-accelerated .lyrics-overlay.is-adjusting .lyrics-shell {
+    transform: none;
+}
+
 .lyrics-header,
 .lyrics-body,
 .lyrics-meta {
@@ -163,6 +205,18 @@
 
 .lyrics-shell.is-dragging .lyrics-header {
     cursor: grabbing;
+}
+
+.lyrics-shell.is-dragging {
+    cursor: grabbing;
+}
+
+.lyrics-shell button,
+.lyrics-shell input,
+.lyrics-shell select,
+.lyrics-shell textarea,
+.lyrics-shell label {
+    cursor: auto;
 }
 
 .lyrics-header-copy {
@@ -1434,6 +1488,9 @@
     align-items: center;
     justify-content: center;
     overflow: visible;
+    contain: layout style;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .kinetic-stack {
@@ -1446,6 +1503,9 @@
     align-items: center;
     gap: clamp(0.52rem, 1vw, 0.98rem);
     overflow: visible;
+    contain: layout style;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .kinetic-row {
@@ -1460,6 +1520,9 @@
     margin: 0;
     text-align: center;
     overflow: visible;
+    contain: layout style;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .lyrics-overlay[data-text-align="left"] .kinetic-stage,
@@ -1630,11 +1693,14 @@
     line-height: 1.08;
     letter-spacing: calc(0em + var(--lyrics-letter-spacing-adjust));
     backface-visibility: hidden;
-    will-change: opacity, color, background-position, filter, transform;
+    will-change: opacity, color, transform;
     transform: translateZ(0);
     white-space: nowrap;
     text-shadow: 0 0.14rem 0.46rem rgba(0, 0, 0, 0.08);
-    transition: opacity 32ms linear, color 32ms linear, transform 40ms ease-out, text-shadow 56ms ease-out, filter 40ms ease-out, background-position 32ms linear;
+    transition:
+        opacity 110ms ease,
+        color 110ms ease,
+        transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .clean-phrase-word.is-active {
@@ -1662,6 +1728,26 @@
     text-shadow:
         0 0 0.38rem rgba(255, 255, 255, 0.06),
         0 0 0.62rem rgba(146, 211, 255, 0.04);
+}
+
+.lyrics-overlay.is-lyrics-performance .clean-phrase-word {
+    will-change: opacity, transform, background-position;
+    transition:
+        opacity 90ms ease,
+        color 90ms ease,
+        transform 110ms cubic-bezier(0.22, 1, 0.36, 1),
+        background-position 34ms linear;
+}
+
+.lyrics-overlay.is-lyrics-performance .kinetic-word,
+.lyrics-overlay.is-lyrics-performance .kinetic-word--soft {
+    will-change: transform, opacity;
+    filter: none !important;
+}
+
+.lyrics-overlay.is-lyrics-performance .kinetic-accent-particle,
+.lyrics-overlay.is-lyrics-performance .kinetic-burst-particle {
+    display: none;
 }
 
 .lyrics-overlay.is-kinetic[data-text-align="left"] .lyrics-shell:not(.is-placeholder) .lyrics-line--current,
@@ -1756,7 +1842,7 @@
     line-height: inherit;
     white-space: nowrap;
     backface-visibility: hidden;
-    will-change: transform, opacity;
+    will-change: transform, opacity, filter;
     transform: translateZ(0);
     text-rendering: geometricPrecision;
     -webkit-font-smoothing: antialiased;

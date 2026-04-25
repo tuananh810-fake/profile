@@ -18,6 +18,7 @@ class CustomizerPanel {
         this.trackArtist = document.getElementById("customTrackArtist");
         this.audioFile = document.getElementById("customAudioFile");
         this.lyricsFile = document.getElementById("customLyricsFile");
+        this.lyricsProFile = document.getElementById("customLyricsProFile");
         this.applyTrackButton = document.getElementById("applyCustomTrackBtn");
         this.clearTrackButton = document.getElementById("clearCustomTrackBtn");
         this.cancelTrackEditButton = document.getElementById("cancelTrackEditBtn");
@@ -156,7 +157,7 @@ class CustomizerPanel {
             this.resetTrackForm();
             this.updateTrackProcessingState({
                 step: "Track editor reset.",
-                detail: "Choose another saved track to edit, or add a new MP3 and .lrc file.",
+                detail: "Choose another saved track to edit, or add a new MP3, .lrc, and optional word-timing .json file.",
                 tone: "idle"
             });
         });
@@ -473,24 +474,19 @@ class CustomizerPanel {
             this.updateTrackProcessingState({
                 step: "Preparing lyric sync…",
                 detail: lyricsData
-                    ? "Parsing .lrc file and generating fallback word timing for Kinetic mode."
+                    ? "Parsing .lrc as line-level lyrics. Word-level Clean Phrase now requires lyrics_pro.json."
                     : "No .lrc file supplied. The track will load without custom lyric timing.",
                 tone: "busy"
             });
 
-            const karaokeData = lyricsData
-                ? this.buildInterpolatedKaraokeData(lyricsData, {
-                    title: derivedTitle,
-                    artist: derivedArtist
-                })
-                : (hasNewAudio ? null : (currentTrack?.karaokeData || null));
-            const fallbackLineCount = karaokeData?.lines?.length || 0;
-            const fallbackWordCount = this.countKaraokeWords(karaokeData);
+            const karaokeData = hasNewAudio
+                ? null
+                : (currentTrack?.karaokeData?.source?.mode === "lyrics-pro" ? currentTrack.karaokeData : null);
 
             this.updateTrackProcessingState({
                 step: "Applying custom track…",
                 detail: lyricsData
-                    ? `Prepared ${fallbackLineCount} lyric lines and ${fallbackWordCount} timed words.`
+                    ? "Line-level lyrics loaded. Upload lyrics_pro.json for Clean Phrase word timing."
                     : "Applying the audio track with the current lyric settings.",
                 tone: "busy"
             });
@@ -500,21 +496,21 @@ class CustomizerPanel {
                 title: derivedTitle,
                 artist: derivedArtist,
                 note: lyricsData
-                    ? "Loaded from the customizer panel with automatic lyric timing."
+                    ? "Loaded from the customizer panel with line-level lyrics."
                     : "Loaded from the customizer panel.",
                 file,
                 artwork: currentTrack?.artwork || null,
                 lyrics: lyricsData ? null : (hasNewAudio ? null : (currentTrack?.lyrics || null)),
                 lyricsData,
-                karaoke: karaokeData ? null : (hasNewAudio ? null : (currentTrack?.karaoke || null)),
+                karaoke: null,
                 karaokeData
             }, true);
 
             this.updateTrackProcessingState({
                 step: `Ready: ${derivedTitle}`,
                 detail: lyricsData
-                    ? "MP3, lyric text, and fallback word timing were loaded automatically."
-                    : "MP3 loaded. Add a .lrc file next time if you want lyric sync and kinetic timing.",
+                    ? "MP3 and .lrc loaded. Clean Phrase stays locked until a lyrics_pro.json is attached."
+                    : "MP3 loaded. Add .lrc for line lyrics or lyrics_pro.json for Clean Phrase.",
                 tone: "success"
             });
 
@@ -534,15 +530,16 @@ class CustomizerPanel {
     async applyCustomTrackPersistent() {
         const audioFile = this.audioFile.files?.[0] || null;
         const lyricsFile = this.lyricsFile.files?.[0] || null;
+        const lyricsProFile = this.lyricsProFile.files?.[0] || null;
         const editingRecord = this.editingTrackId
             ? await this.trackLibrary.get(this.editingTrackId)
             : null;
         const isEditing = Boolean(editingRecord);
 
-        if (!audioFile && !lyricsFile && !isEditing) {
+        if (!audioFile && !lyricsFile && !lyricsProFile && !isEditing) {
             this.updateTrackProcessingState({
                 step: "No local media selected.",
-                detail: "Choose an MP3 file first. Add a .lrc file too if you want lyric sync.",
+                detail: "Choose an MP3 file first. Add a .lrc file and optional word-timing .json if you want better lyric sync.",
                 tone: "error"
             });
             this.shell.setStatus("Choose an audio file or start editing an existing saved track.");
@@ -565,8 +562,8 @@ class CustomizerPanel {
             this.updateTrackProcessingState({
                 step: "Reading local media...",
                 detail: audioFile
-                    ? `Loading ${audioFile.name}${lyricsFile ? ` and ${lyricsFile.name}` : ""}.`
-                    : `Updating the saved track${lyricsFile ? ` with ${lyricsFile.name}` : ""}.`,
+                    ? `Loading ${audioFile.name}${lyricsFile ? `, ${lyricsFile.name}` : ""}${lyricsProFile ? `, ${lyricsProFile.name}` : ""}.`
+                    : `Updating the saved track${lyricsFile ? ` with ${lyricsFile.name}` : ""}${lyricsProFile ? `${lyricsFile ? " and" : " with"} ${lyricsProFile.name}` : ""}.`,
                 tone: "busy"
             });
 
@@ -583,21 +580,27 @@ class CustomizerPanel {
                 ? await lyricsFile.text()
                 : (typeof editingRecord?.lyricsText === "string" ? editingRecord.lyricsText : null);
             const lyricsText = lyricsTextRaw && lyricsTextRaw.trim() ? lyricsTextRaw : null;
+            const lyricsProTextRaw = lyricsProFile
+                ? await lyricsProFile.text()
+                : (typeof editingRecord?.lyricsProText === "string" ? editingRecord.lyricsProText : null);
+            const lyricsProText = lyricsProTextRaw && lyricsProTextRaw.trim() ? lyricsProTextRaw : null;
 
             this.updateTrackProcessingState({
                 step: "Preparing lyric sync...",
-                detail: lyricsText
-                    ? "Parsing .lrc and generating fallback word timing for Kinetic mode."
-                    : "No .lrc file supplied. The saved track will keep playing without synced lyrics.",
+                detail: lyricsProText
+                    ? "Mapping the uploaded word-timing JSON into the current lyric engine."
+                    : lyricsText
+                        ? "Parsing .lrc as line-level lyrics. Clean Phrase uses lyrics_pro.json only."
+                        : "No lyric file supplied. The saved track will keep playing without synced lyrics.",
                 tone: "busy"
             });
 
-            const karaokeData = lyricsText
-                ? this.buildInterpolatedKaraokeData(lyricsText, {
+            const karaokeData = lyricsProText
+                ? this.parseLyricsProData(lyricsProText, {
                     title: nextTitle,
                     artist: nextArtist
                 })
-                : null;
+                : (editingRecord?.karaokeData?.source?.mode === "lyrics-pro" ? editingRecord.karaokeData : null);
             const fallbackLineCount = karaokeData?.lines?.length || 0;
             const fallbackWordCount = this.countKaraokeWords(karaokeData);
             const timestamp = Date.now();
@@ -606,13 +609,14 @@ class CustomizerPanel {
                 title: nextTitle,
                 artist: nextArtist,
                 note: lyricsText
-                    ? "Saved in this browser with automatic lyric timing."
+                    ? "Saved in this browser with line-level lyrics."
                     : "Saved in this browser without custom lyric timing.",
                 artwork: editingRecord?.artwork || null,
                 audioBlob,
                 audioName,
                 audioType,
                 lyricsText,
+                lyricsProText,
                 karaokeData,
                 createdAt: editingRecord?.createdAt || timestamp,
                 updatedAt: timestamp
@@ -631,9 +635,11 @@ class CustomizerPanel {
 
             this.updateTrackProcessingState({
                 step: isEditing ? `Updated: ${nextTitle}` : `Saved: ${nextTitle}`,
-                detail: lyricsText
-                    ? `Prepared ${fallbackLineCount} lyric lines and ${fallbackWordCount} timed words.`
-                    : "Track saved. Add a .lrc file later if you want lyric sync and kinetic timing.",
+                detail: lyricsProText
+                    ? `Mapped ${fallbackLineCount} lyric lines and ${fallbackWordCount} word timestamps from lyrics_pro.json.`
+                    : lyricsText
+                        ? "Saved .lrc for line-level lyrics. Attach lyrics_pro.json to unlock Clean Phrase."
+                        : "Track saved. Add a .lrc or word-timing .json later if you want lyric sync and Clean Phrase.",
                 tone: "success"
             });
             this.shell.setStatus(
@@ -676,14 +682,19 @@ class CustomizerPanel {
         const lyricsData = typeof record.lyricsText === "string" && record.lyricsText.trim()
             ? record.lyricsText
             : null;
-        const karaokeData = Array.isArray(record.karaokeData?.lines)
+        let karaokeData = this.isCleanPhraseReadyRecord(record)
             ? record.karaokeData
-            : (lyricsData
-                ? this.buildInterpolatedKaraokeData(lyricsData, {
+            : null;
+        if (!karaokeData && typeof record.lyricsProText === "string" && record.lyricsProText.trim()) {
+            try {
+                karaokeData = this.parseLyricsProData(record.lyricsProText, {
                     title: record.title,
                     artist: record.artist
-                })
-                : null);
+                });
+            } catch (error) {
+                console.warn("Saved lyrics_pro.json could not be parsed for Clean Phrase.", error);
+            }
+        }
 
         return {
             id: record.id,
@@ -696,8 +707,36 @@ class CustomizerPanel {
             lyrics: null,
             lyricsData,
             karaoke: null,
-            karaokeData
+            karaokeData,
+            cleanPhraseReady: this.isCleanPhraseReadyRecord({ ...record, karaokeData })
         };
+    }
+
+    hasWordTimingJson(record) {
+        return Boolean(
+            (typeof record?.lyricsProText === "string" && record.lyricsProText.trim())
+            || this.isCleanPhraseReadyRecord(record)
+        );
+    }
+
+    isCleanPhraseReadyRecord(record) {
+        const karaokeData = record?.karaokeData;
+        if (!Array.isArray(karaokeData?.lines) || karaokeData.lines.length === 0) {
+            return false;
+        }
+
+        if (karaokeData?.source?.mode === "lyrics-pro") {
+            return true;
+        }
+
+        return karaokeData.lines.some((line) => (
+            Array.isArray(line?.words)
+            && line.words.some((word) => {
+                const startTime = Number(word?.startTime ?? word?.timeMs ?? word?.startMs ?? word?.start ?? word?.s ?? NaN);
+                const endTime = Number(word?.endTime ?? word?.endMs ?? word?.end ?? word?.e ?? NaN);
+                return Number.isFinite(startTime) && Number.isFinite(endTime) && endTime >= startTime;
+            })
+        ));
     }
 
     renderSavedTrackLibrary() {
@@ -723,8 +762,13 @@ class CustomizerPanel {
 
         this.savedTrackLibraryList.replaceChildren(
             ...this.trackLibraryRecords.map((record) => {
+                const hasWordTimingJson = this.hasWordTimingJson(record);
+                const cleanPhraseReady = this.isCleanPhraseReadyRecord(record);
                 const item = document.createElement("article");
                 item.className = "customizer-library-item";
+                if (cleanPhraseReady) {
+                    item.classList.add("is-clean-phrase-ready");
+                }
 
                 const main = document.createElement("div");
                 main.className = "customizer-library-main";
@@ -737,10 +781,31 @@ class CustomizerPanel {
                 meta.className = "customizer-library-meta";
                 meta.textContent = [
                     record.artist || "Unknown artist",
-                    record.lyricsText ? "saved lyrics" : "no lyrics"
-                ].join(" • ");
+                    hasWordTimingJson ? "word-timing JSON attached" : (record.lyricsText ? "saved .lrc lyrics" : "no lyrics")
+                ].join(" - ");
 
                 main.append(title, meta);
+
+                const badges = document.createElement("div");
+                badges.className = "customizer-library-badges";
+
+                if (hasWordTimingJson) {
+                    const wordTimingBadge = document.createElement("span");
+                    wordTimingBadge.className = "customizer-library-badge customizer-library-badge--json";
+                    wordTimingBadge.textContent = "Word Timing JSON";
+                    badges.append(wordTimingBadge);
+                }
+
+                if (cleanPhraseReady) {
+                    const readyBadge = document.createElement("span");
+                    readyBadge.className = "customizer-library-badge customizer-library-badge--ready";
+                    readyBadge.textContent = "Clean Phrase Ready";
+                    badges.append(readyBadge);
+                }
+
+                if (badges.children.length) {
+                    main.append(badges);
+                }
 
                 const actions = document.createElement("div");
                 actions.className = "customizer-library-actions";
@@ -783,6 +848,9 @@ class CustomizerPanel {
         if (this.lyricsFile) {
             this.lyricsFile.value = "";
         }
+        if (this.lyricsProFile) {
+            this.lyricsProFile.value = "";
+        }
         this.syncTrackFormMode();
     }
 
@@ -802,10 +870,13 @@ class CustomizerPanel {
             if (this.lyricsFile) {
                 this.lyricsFile.value = "";
             }
+            if (this.lyricsProFile) {
+                this.lyricsProFile.value = "";
+            }
             this.syncTrackFormMode();
             this.updateTrackProcessingState({
                 step: `Editing: ${record.title}`,
-                detail: "Leave audio or lyrics empty to keep the saved files. Pick a new file only for the part you want to replace.",
+                detail: "Leave audio, .lrc, or word-timing .json empty to keep the saved files. Pick a new file only for the part you want to replace.",
                 tone: "idle"
             });
             this.shell.setStatus(`Editing saved track: ${record.title}.`);
@@ -1036,7 +1107,120 @@ class CustomizerPanel {
         this.trackStatus.classList.toggle("is-success", tone === "success");
         this.trackStatus.classList.toggle("is-error", tone === "error");
         this.trackStatusStep.textContent = step || "Waiting for local media.";
-        this.trackStatusDetail.textContent = detail || "Add an MP3 and optional .lrc file. The player will prepare lyric timing automatically.";
+        this.trackStatusDetail.textContent = detail || "Add an MP3, optional .lrc file, and optional word-timing .json. The player will prepare lyric timing automatically.";
+    }
+
+    repairMojibakeText(value) {
+        const text = String(value ?? "");
+        if (!/[ÃÄÆáºá»]/.test(text)) {
+            return text;
+        }
+
+        try {
+            const bytes = Uint8Array.from(Array.from(text, (char) => char.charCodeAt(0) & 0xff));
+            const decoded = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
+            return decoded || text;
+        } catch (error) {
+            return text;
+        }
+    }
+
+    repairLyricText(value) {
+        let text = String(value ?? "");
+        const suspiciousPattern = /(?:Ã|Â|Ä|Æ|áº|á»|�)/;
+        if (!suspiciousPattern.test(text)) {
+            return text;
+        }
+
+        for (let pass = 0; pass < 3; pass += 1) {
+            if (!suspiciousPattern.test(text)) {
+                break;
+            }
+
+            try {
+                const bytes = Uint8Array.from(Array.from(text, (char) => char.charCodeAt(0) & 0xff));
+                const decoded = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
+                if (!decoded || decoded === text) {
+                    break;
+                }
+                text = decoded;
+            } catch (error) {
+                break;
+            }
+        }
+
+        return text;
+    }
+
+    parseLyricsProData(source, meta = {}) {
+        const parsedSource = typeof source === "string"
+            ? JSON.parse(source)
+            : source;
+        const rawLines = Array.isArray(parsedSource?.data) ? parsedSource.data : [];
+        const lines = rawLines.map((entry, lineIndex) => {
+            const rawWords = Array.isArray(entry?.words) ? entry.words : [];
+            const words = rawWords.map((word, wordIndex) => {
+                const text = this.repairLyricText(word?.w || word?.text || word?.word || "").trim();
+                const startTime = Number(word?.s ?? word?.startTime ?? word?.start ?? NaN);
+                const endTime = Number(word?.e ?? word?.endTime ?? word?.end ?? NaN);
+                if (!text) {
+                    return null;
+                }
+
+                return {
+                    text,
+                    startTime: Number.isFinite(startTime) ? startTime : null,
+                    endTime: Number.isFinite(endTime) ? endTime : null,
+                    timeMs: Number.isFinite(startTime) ? startTime : null,
+                    confidence: 0.96,
+                    sourceMode: "lyrics-pro",
+                    index: wordIndex
+                };
+            }).filter(Boolean);
+            const lineStartMs = Number(entry?.startTimeMs ?? entry?.start ?? words[0]?.timeMs ?? 0);
+            const text = this.repairLyricText(entry?.line || words.map((word) => word.text).join(" ")).trim();
+
+            return {
+                lineStartMs: Number.isFinite(lineStartMs) ? lineStartMs : 0,
+                text: text || "...",
+                words,
+                sourceMode: "lyrics-pro",
+                index: lineIndex
+            };
+        }).filter((line) => line.words.length > 0 || line.text);
+
+        lines.sort((left, right) => left.lineStartMs - right.lineStartMs);
+        lines.forEach((line, index) => {
+            const nextLine = lines[index + 1] || null;
+            const fallbackEnd = Number.isFinite(nextLine?.lineStartMs)
+                ? nextLine.lineStartMs
+                : line.lineStartMs + 420;
+            line.words.forEach((word, wordIndex) => {
+                const nextWord = line.words[wordIndex + 1] || null;
+                const resolvedEnd = Number.isFinite(word.endTime)
+                    ? word.endTime
+                    : Number.isFinite(nextWord?.startTime)
+                        ? nextWord.startTime
+                        : fallbackEnd;
+                const wordStart = Number.isFinite(word.startTime) ? word.startTime : line.lineStartMs;
+                const nextStart = Number.isFinite(nextWord?.startTime) ? nextWord.startTime : null;
+                const minimumEnd = Math.max(resolvedEnd, wordStart + 24);
+                word.endTime = Number.isFinite(nextStart) && nextStart > wordStart
+                    ? Math.min(minimumEnd, nextStart)
+                    : minimumEnd;
+                word.timeMs = Number.isFinite(word.startTime) ? word.startTime : line.lineStartMs;
+            });
+        });
+
+        return {
+            generatedAt: new Date().toISOString(),
+            source: {
+                mode: "lyrics-pro",
+                title: meta.title || parsedSource?.song || null,
+                artist: meta.artist || null
+            },
+            lines
+        };
     }
 
     parseLrc(text) {
@@ -1072,56 +1256,6 @@ class CustomizerPanel {
             });
 
         return lines.sort((a, b) => a.timeMs - b.timeMs);
-    }
-
-    resolveInterpolatedLineEnd(lines, index) {
-        const current = lines[index];
-        const next = index + 1 < lines.length ? lines[index + 1] : null;
-        const previous = index > 0 ? lines[index - 1] : null;
-
-        if (next?.timeMs > current?.timeMs) {
-            return next.timeMs;
-        }
-
-        if (previous?.timeMs < current?.timeMs) {
-            return current.timeMs + Math.min(Math.max(current.timeMs - previous.timeMs, 900), 5000);
-        }
-
-        return current.timeMs + 2200;
-    }
-
-    buildInterpolatedKaraokeData(text, meta = {}) {
-        const lines = this.parseLrc(text);
-        const karaokeLines = lines.map((line, index) => {
-            const words = String(line.text || "")
-                .trim()
-                .split(/\s+/)
-                .filter(Boolean);
-            const safeWords = words.length > 0 ? words : ["..."];
-            const lineEndMs = this.resolveInterpolatedLineEnd(lines, index);
-            const availableMs = Math.max(lineEndMs - line.timeMs, 300);
-        const usableMs = availableMs;
-        const staggerMs = usableMs / Math.max(safeWords.length, 1);
-
-            return {
-                lineStartMs: line.timeMs,
-                text: line.text,
-                words: safeWords.map((word, wordIndex) => ({
-                    text: word,
-                    timeMs: Math.round(line.timeMs + staggerMs * wordIndex)
-                }))
-            };
-        });
-
-        return {
-            generatedAt: new Date().toISOString(),
-            source: {
-                mode: "customizer-interpolate",
-                title: meta.title || null,
-                artist: meta.artist || null
-            },
-            lines: karaokeLines
-        };
     }
 
     countKaraokeWords(karaokeData) {
