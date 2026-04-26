@@ -1,3 +1,5 @@
+import "./phase3LegacyPanelMount.js";
+
 (() => {
   const ENHANCER_FLAG = "__dashboardUiEnhancerLoaded";
   if (window[ENHANCER_FLAG]) return;
