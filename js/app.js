@@ -5,7 +5,7 @@ import CenterCard from "./modules/centerCard.js";
 import ClockWidget from "./modules/clockWidget.js";
 import CreativeTextWidget from "./modules/creativeTextWidget.js";
 import CustomizerPanel from "./modules/customizerPanel.js";
-import LifeAtWorkspace from "./modules/lifeatWorkspace.js";
+import LifeAtWorkspace from "./modules/lifeatWorkspaceV2.js";
 import LyricsGpuBurstRenderer from "./modules/lyricsGpuBurstRenderer.js";
 import applyLyricsKineticHotfix from "./modules/lyricsKineticHotfix.js";
 import LyricsEngine from "./modules/lyricsEngine.js";
