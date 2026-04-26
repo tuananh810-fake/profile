@@ -1,5 +1,6 @@
 import "./dashboardLegacyBridge.js";
 import "./phase4WindowUxPatch.js";
+import "./phase5SmoothLyricsFix.js";
 
 class LyricsGpuBurstRenderer {
     constructor(canvas) {
